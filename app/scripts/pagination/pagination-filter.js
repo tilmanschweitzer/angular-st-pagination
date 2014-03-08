@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('stPagination').filter('pagination', function () {
+angular.module('stPagination').filter('pagination', function (Pagination) {
   return function (collection) {
     if (!collection) {
       return;
     }
-    collection.pagination = {};
+    collection.pagination = new Pagination(collection);
   };
 });

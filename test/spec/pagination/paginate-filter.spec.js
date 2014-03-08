@@ -5,6 +5,19 @@ describe('Filter: pagination', function () {
   // load the controller's module
   beforeEach(module('stPagination'));
 
+  beforeEach(function() {
+    this.addMatchers({
+      toBeInstanceOf: function(expectedInstance) {
+        var actual = this.actual;
+        var notText = this.isNot ? " not" : "";
+        this.message = function() {
+          return "Expected " + actual.constructor.name + notText + " is instance of " + expectedInstance.name;
+        };
+        return actual instanceof expectedInstance;
+      }
+    });
+  });
+
   var mainController,
       $scope;
 
@@ -19,7 +32,23 @@ describe('Filter: pagination', function () {
     expect(someCollection.pagination).not.toBe(undefined);
   }));
 
-  it('should create a persistent pagination property through a usage in ng-repeat', inject(function ($compile) {
+  it('should create a pagination property with the Pagination type', inject(function ($filter, Pagination) {
+    var someCollection = [];
+    $filter("pagination")(someCollection);
+    expect(someCollection.pagination).toBeInstanceOf(Pagination);
+  }));
+
+  it('should link the created pagination with the collection', inject(function ($filter, Pagination) {
+    var someCollection = [];
+    $filter("pagination")(someCollection);
+    expect(someCollection.pagination.collection).toBe(someCollection);
+  }));
+
+  it('should ignore undefined inputs', inject(function ($filter) {
+    expect($filter("pagination")(undefined)).toBe(undefined);
+  }));
+
+  it('should work correctly with ng-repeat an keep the pagination', inject(function ($compile) {
     $scope.collection = [1,2,3];
     var element = $compile('<li ng-repeat="element in collection | pagination">{{element}}</li>')($scope);
     $scope.$apply();
@@ -27,9 +56,5 @@ describe('Filter: pagination', function () {
     $scope.$apply();
 
     expect($scope.collection.pagination).not.toBe(undefined);
-  }));
-
-  it('should ignore undefined inputs', inject(function ($filter) {
-    expect($filter("pagination")(undefined)).toBe(undefined);
   }));
 });

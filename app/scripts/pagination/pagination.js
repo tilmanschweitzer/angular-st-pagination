@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('stPagination').service("Pagination", function () {
-  function Pagination() {
+  function Pagination(collection) {
+    this.collection = collection;
   }
 
   angular.extend(Pagination.prototype, {
