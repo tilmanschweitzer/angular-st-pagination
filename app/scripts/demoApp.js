@@ -26,7 +26,24 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
         hash: lineTokens[0],
         comment: lineTokens.slice(1).join(" ")
       };
-    })
+    });
+
+    $scope.functionNames = [
+      "limit",
+      "start",
+      "stop",
+      "page",
+      "displayPage",
+      "lastPage",
+      "totalPages",
+      "onFirstPage",
+      "onLastPage",
+      "length"
+    ];
+
+    $scope.getResult = function (functionName, object) {
+      return object[functionName]();
+    }
 
     $scope.commits = commits;
   })

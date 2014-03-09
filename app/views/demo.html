@@ -54,6 +54,13 @@
       </li>
     </ul>
 
+    <hr>
+    <h4>Api</h4>
+    <ul class="list-unstyled">
+      <li ng-repeat="functionName in functionNames">
+        <kbd>{{ functionName }}()</kbd> : {{ getResult(functionName, commits.pagination) }}
+      </li>
+    </ul>
   </div>
 </div>
 <div class="footer">
