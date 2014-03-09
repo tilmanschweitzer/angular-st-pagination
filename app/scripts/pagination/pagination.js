@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('stPagination').service("Pagination", function () {
+angular.module('stPagination').service("Pagination", function (indexUtil) {
 
   function Pagination(inputCollection) {
     this.$inputCollection = inputCollection;
     this.$limit = 10;
     this.$page = 0;
+    this.$cachedReducedIndices = {};
   }
 
   angular.extend(Pagination.prototype, {
@@ -77,7 +78,25 @@ angular.module('stPagination').service("Pagination", function () {
       return this.totalPages() - 1;
     },
     indices: function () {
-      return Array.apply(null, new Array(this.totalPages())).map(function (_, i) {return i;});
+      return indexUtil.range(this.totalPages());
+    },
+    reducedIndices: function () {
+      var delta = 3;
+      var indexCacheKey = this.indexCacheKey(delta);
+      if (this.$cachedReducedIndices[indexCacheKey]) {
+        return this.$cachedReducedIndices[indexCacheKey];
+      } else {
+        var page = this.page();
+        var indices = indexUtil.rangeBuilder(this.totalPages()).foldFixedLengthForIndex(page, delta).build();
+        this.$cachedReducedIndices[indexCacheKey] = indices;
+        return indices;
+      }
+    },
+    indexCacheKey: function (delta) {
+      return this.page() + "-" + this.limit() + "-" + this.length() + "-" + delta;
+    },
+    isIndex: function (index) {
+      return angular.isNumber(index);
     }
   });
 
