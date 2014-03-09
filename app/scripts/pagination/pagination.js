@@ -70,8 +70,14 @@ angular.module('stPagination').service("Pagination", function () {
     onLastPage: function () {
       return this.page() === this.lastPage();
     },
+    onPage: function (page) {
+      return this.page() === page;
+    },
     lastPage: function () {
       return this.totalPages() - 1;
+    },
+    indices: function () {
+      return Array.apply(null, Array(this.totalPages())).map(function (_, i) {return i;});
     }
   });
 

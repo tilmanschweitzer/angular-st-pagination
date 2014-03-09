@@ -37,6 +37,9 @@
       <li ng-class="{disabled: commits.pagination.onFirstPage()}">
         <a ng-click="commits.pagination.prev()">&laquo;</a>
       </li>
+      <li ng-class="{active: commits.pagination.onPage(index)}" ng-repeat="index in commits.pagination.indices()">
+        <a ng-click="commits.pagination.setPage(index)">{{ index+1 }}</a>
+      </li>
       <li ng-class="{disabled: commits.pagination.onLastPage()}">
         <a ng-click="commits.pagination.next()">&raquo;</a>
       </li>
