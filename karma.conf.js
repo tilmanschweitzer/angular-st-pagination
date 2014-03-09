@@ -51,6 +51,16 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: false,
+
+    reporters: ['progress', 'coverage'],
+
+    preprocessors : {
+      'app/scripts/pagination/*.js': 'coverage'
+    },
+
+    //coverageReporter : { type : 'html', dir : 'tmp/coverage/'}
+    coverageReporter : { type : 'text' }
+
   });
 };
