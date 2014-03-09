@@ -13,12 +13,16 @@ angular.module('stPagination').service("Pagination", function () {
       this.$inputCollection = inputCollection;
     },
     paginatedInputCollection: function () {
-      var start = this.offset();
-      var stop = this.offset() + this.limit();
-      return this.$inputCollection.slice(start, stop);
+      return this.$inputCollection.slice(this.start(), this.stop());
     },
     inputCollection: function () {
       return this.$inputCollection
+    },
+    start: function () {
+      return this.offset();
+    },
+    stop: function () {
+      return this.offset() + this.limit();
     },
     length: function () {
       return this.$inputCollection.length;
