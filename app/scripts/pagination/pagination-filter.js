@@ -40,7 +40,7 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
     }
     var pagination = collectionWithPaginationHandle.pagination;
     pagination.setInputCollection(inputCollection);
-    return pagination.getPaginatedInputCollection();
+    return pagination.paginatedInputCollection();
   };
 });
 

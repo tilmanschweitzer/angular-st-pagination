@@ -24,18 +24,24 @@
 <div>
   <div ng-controller="demoController">
     <h4>AngularJS Commit History</h4>
+
+    <div>On page {{ commits.pagination.displayPage() }}</div>
+    <div>{{ commits.pagination.length() }} commits on {{ commits.pagination.totalPages() }} pages.</div>
+    <ul class="pagination">
+      <li ng-class="{disabled: commits.pagination.onFirstPage()}">
+        <a ng-click="commits.pagination.prev()">&laquo;</a>
+      </li>
+      <li ng-class="{disabled: commits.pagination.onLastPage()}">
+        <a ng-click="commits.pagination.next()">&raquo;</a>
+      </li>
+    </ul>
+
     <ul class="list-unstyled">
       <li ng-hide="commits">Loading commits...</li>
-      <li ng-repeat="commit in commits | pagination">
+      <li ng-repeat="commit in commits | limitTo:31 | pagination:commits">
         <code>{{ commit.hash }}</code>
         {{ commit.comment }}
       </li>
-      <div>On page {{ commits.pagination.displayPage() }}</div>
-      <div>{{ commits.length }} commits on {{ commits.pagination.totalPages() }} pages.</div>
-      <ul class="pagination">
-        <li><a ng-click="commits.pagination.prev()">&laquo;</a></li>
-        <li><a ng-click="commits.pagination.next()">&raquo;</a></li>
-      </ul>
     </ul>
   </div>
 </div>

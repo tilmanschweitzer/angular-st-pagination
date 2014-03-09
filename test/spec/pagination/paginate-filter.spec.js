@@ -41,7 +41,7 @@ describe('Filter: pagination', function () {
   it('should link the created pagination with the collection', inject(function ($filter, Pagination) {
     var someCollection = [];
     $filter("pagination")(someCollection);
-    expect(someCollection.pagination.inputCollection).toBe(someCollection);
+    expect(someCollection.pagination.$inputCollection).toBe(someCollection);
   }));
 
   it('should ignore undefined inputs', inject(function ($filter) {
@@ -62,7 +62,7 @@ describe('Filter: pagination', function () {
     var paginationAfterSecondApply = $scope.collection.pagination;
 
     expect(paginationAfterFirstApply).toBe(paginationAfterSecondApply);
-    expect(paginationAfterSecondApply.inputCollection).toBe($scope.collection);
+    expect(paginationAfterSecondApply.$inputCollection).toBe($scope.collection);
   }));
 
   it('should use a default limit of 10', inject(function ($filter) {

@@ -44,7 +44,7 @@ describe('Type: Pagination', function () {
   it('should limit setPage to total pages as maximum.', inject(function (Pagination) {
     var pagination = new Pagination(new Array(20));
     pagination.setPage(99);
-    expect(pagination.page()).toBe(pagination.totalPages());
+    expect(pagination.page()).toBe(pagination.lastPage());
   }));
 
   it('should limit setPage to 0 as minimum.', inject(function (Pagination) {
@@ -76,17 +76,17 @@ describe('Type: Pagination', function () {
     pagination.next();
     pagination.next();
 
-    expect(pagination.page()).toBe(pagination.totalPages());
+    expect(pagination.page()).toBe(0);
   }));
 
   it('should return the correct parts after navigation', inject(function (Pagination) {
     var pagination = new Pagination([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]);
 
-    var firstPage = pagination.getPaginatedInputCollection();
+    var firstPage = pagination.paginatedInputCollection();
     pagination.next();
-    var secondPage = pagination.getPaginatedInputCollection();
+    var secondPage = pagination.paginatedInputCollection();
     pagination.next();
-    var thirdPage = pagination.getPaginatedInputCollection();
+    var thirdPage = pagination.paginatedInputCollection();
 
 
     expect(firstPage).toEqual([1,2,3,4,5,6,7,8,9,10]);
