@@ -90,4 +90,13 @@ describe('Filter: pagination', function () {
     expect($scope.collection.pagination).toBeInstanceOf(Pagination)
   }));
 
+  it('should use a default limit of 10', inject(function ($filter) {
+    var array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    $filter("pagination")(array);
+    array.pagination.setLimit(20);
+    var result =  $filter("pagination")(array);
+
+    expect(result.length).toBe(20);
+    expect(result).toEqual(array.slice(0, 20));
+  }));
 });
