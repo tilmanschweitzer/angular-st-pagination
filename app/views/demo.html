@@ -27,6 +27,12 @@
 
     <div>On page {{ commits.pagination.displayPage() }}</div>
     <div>{{ commits.pagination.length() }} commits on {{ commits.pagination.totalPages() }} pages.</div>
+
+    <div>
+      Limit:
+      <select ng-options="limit for limit in [10,20,50]" ng-model="commits.pagination.$limit"></select>
+    </div>
+
     <ul class="pagination">
       <li ng-class="{disabled: commits.pagination.onFirstPage()}">
         <a ng-click="commits.pagination.prev()">&laquo;</a>
@@ -38,11 +44,12 @@
 
     <ul class="list-unstyled">
       <li ng-hide="commits">Loading commits...</li>
-      <li ng-repeat="commit in commits | limitTo:31 | pagination:commits">
+      <li ng-repeat="commit in commits  | pagination:commits">
         <code>{{ commit.hash }}</code>
         {{ commit.comment }}
       </li>
     </ul>
+
   </div>
 </div>
 <div class="footer">
