@@ -6,6 +6,9 @@ angular.module('stPagination').service("Pagination", function () {
   }
 
   angular.extend(Pagination.prototype, {
+    setCollection: function (collection) {
+      this.collection = collection;
+    }
   });
 
   return Pagination;

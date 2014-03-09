@@ -48,13 +48,21 @@ describe('Filter: pagination', function () {
     expect($filter("pagination")(undefined)).toBe(undefined);
   }));
 
-  it('should work correctly with ng-repeat an keep the pagination', inject(function ($compile) {
+
+  it('should work correctly with ng-repeat and keep the pagination', inject(function ($compile) {
     $scope.collection = [1,2,3];
     var element = $compile('<li ng-repeat="element in collection | pagination">{{element}}</li>')($scope);
     $scope.$apply();
+
+    var paginationAfterFirstApply = $scope.collection.pagination;
+
     $scope.collection = [4,5,6];
     $scope.$apply();
 
-    expect($scope.collection.pagination).not.toBe(undefined);
+    var paginationAfterSecondApply = $scope.collection.pagination;
+
+    expect(paginationAfterFirstApply).toBe(paginationAfterSecondApply);
+    expect(paginationAfterSecondApply.collection).toBe($scope.collection);
+
   }));
 });
