@@ -42,9 +42,13 @@
       </li>
     </ul>
 
+    <div>
+      Comment filter: <input type="text" ng-model="commentFilter" class="input"/>
+    </div>
+
     <ul class="list-unstyled">
       <li ng-hide="commits">Loading commits...</li>
-      <li ng-repeat="commit in commits  | pagination:commits">
+      <li ng-repeat="commit in commits | filter:{comment: commentFilter} | pagination:commits">
         <code>{{ commit.hash }}</code>
         {{ commit.comment }}
       </li>
