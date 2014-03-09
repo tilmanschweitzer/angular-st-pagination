@@ -18,8 +18,7 @@ describe('Filter: pagination', function () {
     });
   });
 
-  var mainController,
-      $scope;
+  var $scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
@@ -38,7 +37,7 @@ describe('Filter: pagination', function () {
     expect(someCollection.pagination).toBeInstanceOf(Pagination);
   }));
 
-  it('should link the created pagination with the collection', inject(function ($filter, Pagination) {
+  it('should link the created pagination with the collection', inject(function ($filter) {
     var someCollection = [];
     $filter("pagination")(someCollection);
     expect(someCollection.pagination.$inputCollection).toBe(someCollection);
@@ -51,7 +50,7 @@ describe('Filter: pagination', function () {
 
   it('should work correctly with ng-repeat and keep the pagination', inject(function ($compile) {
     $scope.collection = [1, 2, 3];
-    var element = $compile('<li ng-repeat="element in collection | pagination">{{element}}</li>')($scope);
+    $compile('<li ng-repeat="element in collection | pagination">{{element}}</li>')($scope);
     $scope.$apply();
 
     var paginationAfterFirstApply = $scope.collection.pagination;
@@ -74,9 +73,9 @@ describe('Filter: pagination', function () {
 
   it('should throw an error if the collection is passed indirectly to the filter', inject(function ($compile) {
     $scope.collection = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(function (number) {
-      return {number: number}
+      return {number: number};
     });
-    var element = $compile('<li ng-repeat="element in collection | orderBy:\'number\' | pagination">{{element}}</li>')($scope);
+    $compile('<li ng-repeat="element in collection | orderBy:\'number\' | pagination">{{element}}</li>')($scope);
 
     expect(function () {
       $scope.$apply();
@@ -85,9 +84,9 @@ describe('Filter: pagination', function () {
 
   it('should work with directly passed collections', inject(function ($compile, Pagination) {
     $scope.collection = [1, 2, 3];
-    var element = $compile('<li ng-repeat="element in collection | orderBy:\'number\' | pagination:collection">{{element}}</li>')($scope);
+    $compile('<li ng-repeat="element in collection | orderBy:\'number\' | pagination:collection">{{element}}</li>')($scope);
     $scope.$apply();
-    expect($scope.collection.pagination).toBeInstanceOf(Pagination)
+    expect($scope.collection.pagination).toBeInstanceOf(Pagination);
   }));
 
   it('should use a default limit of 10', inject(function ($filter) {

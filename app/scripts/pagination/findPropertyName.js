@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("stPagination").factory("findPropertyName", function ($parse) {
+angular.module("stPagination").factory("findPropertyName", function () {
 
   function findPropertyName(property, object) {
 

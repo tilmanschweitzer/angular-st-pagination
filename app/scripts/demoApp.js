@@ -43,9 +43,9 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
 
     $scope.getResult = function (functionName, object) {
       return object[functionName]();
-    }
+    };
 
     $scope.commits = commits;
-  })
+  });
 });
 

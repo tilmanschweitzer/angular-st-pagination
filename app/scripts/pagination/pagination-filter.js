@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('stPagination').filter('pagination', function (Pagination, findPropertyName, $log) {
+angular.module('stPagination').filter('pagination', function (Pagination, findPropertyName) {
 
   function hasPagination(collection) {
     return collection && collection.pagination instanceof Pagination;

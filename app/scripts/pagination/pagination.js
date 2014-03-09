@@ -16,7 +16,7 @@ angular.module('stPagination').service("Pagination", function () {
       return this.$inputCollection.slice(this.start(), this.stop());
     },
     inputCollection: function () {
-      return this.$inputCollection
+      return this.$inputCollection;
     },
     start: function () {
       return this.offset();
@@ -77,7 +77,7 @@ angular.module('stPagination').service("Pagination", function () {
       return this.totalPages() - 1;
     },
     indices: function () {
-      return Array.apply(null, Array(this.totalPages())).map(function (_, i) {return i;});
+      return Array.apply(null, new Array(this.totalPages())).map(function (_, i) {return i;});
     }
   });
 
