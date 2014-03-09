@@ -52,7 +52,12 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
       return this.$limit;
     },
     setPage: function (page) {
-      this.$page = page;
+      if (!angular.isArray(page)) {
+        this.$page = page;
+      } else {
+        var middleIndex = Math.floor((page.length / 2));
+        this.$page = page[middleIndex];
+      }
       this.checkPageLimits();
     },
     checkPageLimits: function () {
