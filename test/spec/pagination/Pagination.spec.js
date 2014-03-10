@@ -94,4 +94,12 @@ describe('Type: Pagination', function () {
     expect(thirdPage).toEqual([21]);
 
   }));
+
+  it('should correct the pagination if the input size changes', inject(function (Pagination) {
+    var pagination = new Pagination(new Array(100));
+    pagination.setPage(pagination.lastPage());
+    expect(pagination.page()).toBe(9);
+    pagination.setInputCollection(new Array(50));
+    expect(pagination.page()).toBe(4);
+  }));
 });

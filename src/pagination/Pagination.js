@@ -12,6 +12,7 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
   angular.extend(Pagination.prototype, {
     setInputCollection: function (inputCollection) {
       this.$inputCollection = inputCollection;
+      this.checkPageLimits();
     },
     paginatedInputCollection: function () {
       return this.$inputCollection.slice(this.start(), this.stop());
