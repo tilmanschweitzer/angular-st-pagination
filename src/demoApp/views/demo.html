@@ -30,7 +30,7 @@
 
     <div>
       Limit:
-      <select ng-options="limit for limit in [10,20,50]" ng-model="commits.pagination.$limit"></select>
+      <pagination-limit collection="commits" limits="[5,10,20,50,100]"></pagination-limit>
     </div>
 
     <ul class="pagination">

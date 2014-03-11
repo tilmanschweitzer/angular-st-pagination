@@ -9,6 +9,12 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
     this.$cachedReducedIndices = {};
   }
 
+  function hasPagination(collection) {
+    return collection && collection.pagination instanceof Pagination;
+  }
+
+  Pagination.hasPagination = hasPagination;
+
   angular.extend(Pagination.prototype, {
     setInputCollection: function (inputCollection) {
       this.$inputCollection = inputCollection;

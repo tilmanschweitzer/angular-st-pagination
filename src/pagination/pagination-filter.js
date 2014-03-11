@@ -2,10 +2,6 @@
 
 angular.module('stPagination').filter('pagination', function (Pagination, findPropertyName) {
 
-  function hasPagination(collection) {
-    return collection && collection.pagination instanceof Pagination;
-  }
-
   return function (inputCollection, originalCollection) {
     var collectionWithPaginationHandle;
 
@@ -19,7 +15,7 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
       collectionWithPaginationHandle = inputCollection;
     }
 
-    if (!(hasPagination(collectionWithPaginationHandle))) {
+    if (!(Pagination.hasPagination(collectionWithPaginationHandle))) {
       collectionWithPaginationHandle.pagination = new Pagination(inputCollection);
 
       if (this && this.$watch) {
@@ -27,7 +23,7 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
 
         if (collectionName) {
           this.$watch(collectionName, function (newCollection, oldCollection) {
-            if (hasPagination(oldCollection)) {
+            if (Pagination.hasPagination(oldCollection)) {
               newCollection.pagination = oldCollection.pagination;
             }
           });
