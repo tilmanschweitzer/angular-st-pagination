@@ -20,6 +20,7 @@ module.exports = function(config) {
       'src/pagination/stPagination-module.js',
       'src/pagination/*.js',
       'test/mock/**/*.js',
+      'test/spec/customMatchers.js',
       'test/spec/**/*.js'
     ],
 
