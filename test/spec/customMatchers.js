@@ -17,5 +17,26 @@ window.customJasmineMatchers = {
         return result;
       }
     };
+  },
+  toHaveAnIsolatedScope: function () {
+    return {
+      compare: function (actual) {
+        if (!actual.isolateScope) {
+          return {
+            pass: false,
+            message: "Expected " + actual + " to have an isolated scope, but it seems not to be a scope."
+          };
+        } else if (actual.isolateScope() === undefined){
+          return {
+            pass: false,
+            message: "Expected " + actual + " to have an isolated scope."
+          };
+        } else {
+          return {
+            pass: true
+          };
+        }
+      }
+    };
   }
 };
