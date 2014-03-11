@@ -1,6 +1,6 @@
 'use strict';
 
-var customJasmineMatchers = {
+window.customJasmineMatchers = {
   toBeInstanceOf: function () {
     return {
       compare: function (actual, expected) {
