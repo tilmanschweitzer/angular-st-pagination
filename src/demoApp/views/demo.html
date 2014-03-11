@@ -40,19 +40,7 @@
       <pagination-limit collection="commits" limits="[5,10,20,50,100]"></pagination-limit>
     </div>
 
-    <ul class="pagination">
-      <li ng-class="{disabled: commits.pagination.onFirstPage()}">
-        <a ng-click="commits.pagination.prev()">&laquo;</a>
-      </li>
-      <li ng-class="{active: commits.pagination.onPage(index)}" ng-repeat="index in commits.pagination.reducedIndices()">
-        <a ng-click="commits.pagination.setPage(index)">
-          {{ index | displayPaginationIndex }}
-        </a>
-      </li>
-      <li ng-class="{disabled: commits.pagination.onLastPage()}">
-        <a ng-click="commits.pagination.next()">&raquo;</a>
-      </li>
-    </ul>
+    <pagination collection="commits"></pagination>
 
     <div>
       Comment filter: <input type="text" ng-model="commentFilter" class="input"/>
