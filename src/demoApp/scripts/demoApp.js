@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('paginationDemo', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
   'ngRoute',
   'stPagination'
 ])
