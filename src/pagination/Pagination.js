@@ -30,7 +30,12 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
       return this.offset();
     },
     stop: function () {
-      return this.offset() + this.limit();
+      var stop = this.offset() + this.limit();
+      if (stop < this.length()) {
+        return stop;
+      } else {
+        return this.length();
+      }
     },
     length: function () {
       return this.$inputCollection.length;
@@ -74,9 +79,6 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
         this.$page = this.lastPage();
       }
     },
-    displayPage: function () {
-      return this.page() + 1;
-    },
     onFirstPage: function () {
       return this.page() === 0;
     },
@@ -109,6 +111,12 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
     },
     isIndex: function (index) {
       return angular.isNumber(index);
+    },
+    displayPage: function () {
+      return this.page() + 1;
+    },
+    displayStart: function () {
+      return this.start() + 1;
     }
   });
 
