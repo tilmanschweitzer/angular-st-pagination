@@ -7,7 +7,7 @@ angular.module('stPagination').directive('pagination', function (Pagination, $lo
         '<li ng-class="{disabled: pagination.onFirstPage()}">' +
           '<a ng-click="pagination.prev()">&laquo;</a>' +
         '</li>' +
-        '<li ng-class="{active: pagination.onPage(index)}" ng-repeat="index in pagination.reducedIndices()">' +
+        '<li ng-class="{active: pagination.onPage(index)}" ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
           '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' +
         '</li>' +
         '<li ng-class="{disabled: pagination.onLastPage()}">' +
@@ -19,7 +19,9 @@ angular.module('stPagination').directive('pagination', function (Pagination, $lo
     restrict: "E",
     replace: true,
     scope: {
-      collection: "="
+      collection: "=",
+      edgeRange: "=",
+      midRange: "="
     },
     template: paginationTemplate,
     link: function ($scope, $element, attributes) {

@@ -41,15 +41,18 @@ angular.module('stPagination').factory('indexUtil', function () {
       return this;
     },
     foldFixedLengthForIndex: function (index, length) {
-      var firstFoldStart = 0 + length;
-      var firstFoldStop = index - length;
-      var secondFoldStart = index + length;
-      var secondFoldStop = this.lastIndex - length;
-      if (index <= length * 2) {
-        firstFoldStart = length * 3;
+      return this.foldWithMidAndEdgeRangeForIndex(index, length, length);
+    },
+    foldWithMidAndEdgeRangeForIndex: function (index, midRange, edgeRange) {
+      var firstFoldStart = 0 + edgeRange;
+      var firstFoldStop = index - midRange;
+      var secondFoldStart = index + midRange;
+      var secondFoldStop = this.lastIndex - edgeRange;
+      if (index <= edgeRange + midRange) {
+        firstFoldStart = edgeRange + midRange * 2;
         return this.foldRange(firstFoldStart,  secondFoldStop);
-      } else if (index >= (this.lastIndex - length * 2)) {
-        secondFoldStop = this.lastIndex - (length * 3);
+      } else if (index >= (this.lastIndex - (edgeRange + midRange))) {
+        secondFoldStop = this.lastIndex - (edgeRange + midRange * 2);
         return this.foldRange(firstFoldStart,  secondFoldStop);
       } else {
         return this.foldRange(firstFoldStart, firstFoldStop).foldRange(secondFoldStart, secondFoldStop);

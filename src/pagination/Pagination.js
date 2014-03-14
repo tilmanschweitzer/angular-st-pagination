@@ -13,6 +13,10 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
     return collection && collection.pagination instanceof Pagination;
   }
 
+  function isNumberOrDefault(number, defaultValue) {
+    return angular.isNumber(number) ? number : defaultValue;
+  }
+
   Pagination.hasPagination = hasPagination;
 
   angular.extend(Pagination.prototype, {
@@ -94,20 +98,24 @@ angular.module('stPagination').service("Pagination", function (indexUtil) {
     indices: function () {
       return indexUtil.range(this.totalPages());
     },
-    reducedIndices: function () {
-      var delta = 3;
-      var indexCacheKey = this.indexCacheKey(delta);
+    reducedIndices: function (midRange, edgeRange) {
+      midRange = isNumberOrDefault(midRange, 3);
+      edgeRange = isNumberOrDefault(edgeRange, 3);
+
+      var indexCacheKey = this.indexCacheKey(midRange, edgeRange);
       if (this.$cachedReducedIndices[indexCacheKey]) {
         return this.$cachedReducedIndices[indexCacheKey];
       } else {
         var page = this.page();
-        var indices = indexUtil.rangeBuilder(this.totalPages()).foldFixedLengthForIndex(page, delta).build();
+        var total = this.totalPages();
+        var rangeBuilder = indexUtil.rangeBuilder(total).foldWithMidAndEdgeRangeForIndex(page, midRange, edgeRange);
+        var indices = rangeBuilder.build();
         this.$cachedReducedIndices[indexCacheKey] = indices;
         return indices;
       }
     },
-    indexCacheKey: function (delta) {
-      return this.page() + "-" + this.limit() + "-" + this.length() + "-" + delta;
+    indexCacheKey: function (midRange, edgeRange) {
+      return this.page() + "-" + this.limit() + "-" + this.length() + "-" + midRange + "-" + edgeRange;
     },
     isIndex: function (index) {
       return angular.isNumber(index);
