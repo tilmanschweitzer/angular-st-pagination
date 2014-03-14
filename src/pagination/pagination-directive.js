@@ -3,9 +3,9 @@
 angular.module('stPagination').directive('pagination', function (Pagination, $log) {
 
   var paginationTemplate = '' +
-      '<ul class="pagination"><a></a>' +
+      '<ul class="pagination">' +
         '<li ng-class="{disabled: pagination.onFirstPage()}">' +
-          '<a class="prev" ng-click="pagination.prev()">&laquo;</a>' +
+          '<a ng-click="pagination.prev()">&laquo;</a>' +
         '</li>' +
         '<li ng-class="{active: pagination.onPage(index)}" ng-repeat="index in pagination.reducedIndices()">' +
           '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' +
