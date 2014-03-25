@@ -57,7 +57,12 @@ module.exports = function(config) {
     },
 
     //coverageReporter : { type : 'html', dir : 'tmp/coverage/'}
-    coverageReporter : { type : 'text', dir : 'logs/coverage/' }
+    coverageReporter : {
+      reporters: [
+        { type : 'text' },
+        { type : 'lcov', dir : 'coverage/' }
+      ]
+    }
 
   });
 };

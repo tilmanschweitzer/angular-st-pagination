@@ -7,3 +7,4 @@ src/bower_components
 *~
 .*~
 logs
+coverage/

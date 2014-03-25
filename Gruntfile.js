@@ -1,4 +1,6 @@
 // Generated on 2014-03-08 using generator-angular 0.7.1
+/* jshint camelcase: false */
+
 'use strict';
 
 // # Globbing
@@ -291,6 +293,15 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      }
+    },
+
+    coveralls: {
+      options: {
+        debug: true,
+        dryRun: true,
+        coverage_dir: 'coverage',
+        force: true
       }
     }
   });
