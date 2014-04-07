@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('stPagination').service("Pagination", function (indexUtil) {
+angular.module('stPagination').factory("Pagination", function (indexUtil) {
 
   function Pagination(inputCollection) {
     this.$inputCollection = inputCollection;
