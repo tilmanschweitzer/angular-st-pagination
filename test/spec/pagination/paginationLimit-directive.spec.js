@@ -35,14 +35,14 @@ describe('Directive: paginationLimit', function () {
     $scope.commits = [];
     var $element = $compile('<pagination-limit collection="commits"></pagination-limit>')($scope);
     var $directiveScope = $element.isolateScope();
-    expect($directiveScope.limits).toEqual([10,20,50]);
+    expect($directiveScope.limits()).toEqual([10,20,50]);
   }));
 
   it('should allow to set the limits to different value', inject(function ($compile) {
     $scope.commits = [];
     var $element = $compile('<pagination-limit collection="commits" limits="[10,20,50,100]"></pagination-limit>')($scope);
     var $directiveScope = $element.isolateScope();
-    expect($directiveScope.limits).toEqual([10,20,50,100]);
+    expect($directiveScope.limits()).toEqual([10,20,50,100]);
   }));
 
   it('should extract pagination object correctly from the collection', inject(function ($compile, $filter, Pagination) {

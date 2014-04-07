@@ -7,13 +7,16 @@ angular.module('stPagination').directive('paginationLimit', function (Pagination
   return {
     restrict: "E",
     replace: true,
-    template: '<select ng-options="limit for limit in limits" ng-model="pagination.$limit"></select>',
+    template: '<select ng-options="limit for limit in limits()" ng-model="pagination.$limit"></select>',
     scope: {
-      collection: "=?",
-      limits: "=?"
+      collection: "=",
+      getLimits: "&limits"
     },
     link: function ($scope) {
-      $scope.limits = $scope.limits || DEFAULT_LIMITS;
+      $scope.limits = function () {
+        return $scope.getLimits() || DEFAULT_LIMITS;
+      };
+
       $scope.$watch("collection", function(collection) {
         if (Pagination.hasPagination(collection)) {
           $scope.pagination = collection.pagination;
