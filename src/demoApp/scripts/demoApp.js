@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('paginationDemo', [
-  'ngRoute',
   'stPagination'
 ])
   .config(function ($routeProvider) {
@@ -60,6 +59,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     };
 
     $scope.commits = commits;
+    $scope.commentFilter = "";
   });
 });
 
