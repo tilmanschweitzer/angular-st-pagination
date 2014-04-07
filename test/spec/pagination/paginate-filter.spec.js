@@ -6,7 +6,7 @@ describe('Filter: pagination', function () {
   beforeEach(module('stPagination'));
 
   beforeEach(function () {
-    jasmine.addMatchers(customJasmineMatchers);
+    this.addMatchers(customJasmineMatchers);
   });
 
   var $scope;

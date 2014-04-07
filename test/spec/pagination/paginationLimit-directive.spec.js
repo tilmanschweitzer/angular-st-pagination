@@ -6,7 +6,7 @@ describe('Directive: paginationLimit', function () {
   beforeEach(module('stPagination'));
 
   beforeEach(function () {
-    jasmine.addMatchers(customJasmineMatchers);
+    this.addMatchers(customJasmineMatchers);
   });
 
   var $scope;

@@ -1,6 +1,6 @@
 'use strict';
 
-window.customJasmineMatchers = {
+window.customJasmine20Matchers = {
   toBeInstanceOf: function () {
     return {
       compare: function (actual, expected) {
@@ -21,12 +21,13 @@ window.customJasmineMatchers = {
   toHaveAnIsolatedScope: function () {
     return {
       compare: function (actual) {
-        if (!actual.isolateScope) {
+        var scope = actual.scope();
+        if (!scope.$parent) {
           return {
             pass: false,
             message: "Expected " + actual + " to have an isolated scope, but it seems not to be a scope."
           };
-        } else if (actual.isolateScope() === undefined){
+        } else if (Object.getPrototypeOf(scope) === scope.$parent) {
           return {
             pass: false,
             message: "Expected " + actual + " to have an isolated scope."
@@ -40,3 +41,19 @@ window.customJasmineMatchers = {
     };
   }
 };
+
+function create10CompatipleJasmineMatcher (jasmine20Matcher) {
+  return function (expected) {
+    var actual = this.actual;
+    var result = jasmine20Matcher().compare.call(undefined, actual, expected);
+    this.message = result.message + "\n";
+    return result.pass;
+  };
+}
+
+window.customJasmineMatchers = {};
+
+["toBeInstanceOf", "toHaveAnIsolatedScope"].forEach(function (customMatcherName) {
+  var jasmine20Matcher = window.customJasmine20Matchers[customMatcherName];
+  window.customJasmineMatchers[customMatcherName] = create10CompatipleJasmineMatcher(jasmine20Matcher);
+});
