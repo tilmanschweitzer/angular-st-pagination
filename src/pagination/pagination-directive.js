@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('stPagination').directive('pagination', function (Pagination, $log) {
+angular.module('stPagination').directive('stPagination', function (Pagination, $log) {
 
   var paginationTemplate = '' +
       '<ul class="pagination">' +

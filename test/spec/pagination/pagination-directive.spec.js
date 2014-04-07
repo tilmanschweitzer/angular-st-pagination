@@ -16,7 +16,7 @@ describe('Directive: pagination', function () {
     $scope = $rootScope.$new().$new();
     $scope.commits = [];
     $filter("pagination")($scope.commits);
-    $simplePagination = $compile('<pagination collection="commits"></pagination>')($scope);
+    $simplePagination = $compile('<st-pagination collection="commits"></st-pagination>')($scope);
     $scope.$apply();
   }));
 
@@ -39,13 +39,13 @@ describe('Directive: pagination', function () {
   it('should throw an error if the collection has no pagination', inject(function ($compile) {
     $scope.otherCommits = [];
     expect(function () {
-      $compile('<pagination collection="otherCommits"></pagination>')($scope);
+      $compile('<st-pagination collection="otherCommits"></st-pagination>')($scope);
       $scope.$apply();
     }).toThrow(new Error("Collection 'otherCommits' in the pagination directive is not used with a neccessary pagination filter."));
   }));
 
   it('should accept an not defined collection without errors', inject(function ($compile) {
-    $compile('<pagination collection="undefinedCollection"></pagination>')($scope);
+    $compile('<st-pagination collection="undefinedCollection"></st-pagination>')($scope);
     $scope.$apply();
   }));
 
