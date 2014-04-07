@@ -5,10 +5,6 @@ describe('Filter: pageInfo', function () {
   // load the controller's module
   beforeEach(module('stPagination'));
 
-  beforeEach(function () {
-    jasmine.addMatchers(customJasmineMatchers);
-  });
-
   var $scope;
 
   // Initialize the controller and a mock scope
