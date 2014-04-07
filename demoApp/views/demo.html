@@ -53,14 +53,14 @@
       </li>
     </ul>
     </p>
-    <pagination collection="commits"></pagination>
+    <st-pagination collection="commits"></st-pagination>
     <div>
       Commits {{ commits | pageInfo:'startIndex' }} - {{ commits | pageInfo:'stopIndex' }}
       |
       Total {{ (commits | filter:{comment:commentFilter}).length  }}
       |
       Commits per page
-      <pagination-limit collection="commits" limits="[5,10,20,50,100]"></pagination-limit>
+      <st-pagination-limit collection="commits" limits="[5,10,20,50,100]"></st-pagination-limit>
     </div>
 
   </div>
@@ -102,10 +102,10 @@
   </p>
   <p>
     <code>
-      &lt;pagination collection="commits"&gt;&lt;/pagination&gt;
+      &lt;st-pagination collection="commits"&gt;&lt;/pagination&gt;
     </code>
   </p>
-  <pagination collection="commits"></pagination>
+  <st-pagination collection="commits"></st-pagination>
 
   <h4>Configure displayed ranges</h4>
   <p>
@@ -116,7 +116,7 @@
   </p>
   <p>
     <code>
-      &lt;pagination collection="commits" mid-range="{{midRange}}" edge-range="{{edgeRange}}"&gt;&lt;/pagination&gt;
+      &lt;st-pagination collection="commits" mid-range="{{midRange}}" edge-range="{{edgeRange}}"&gt;&lt;/pagination&gt;
     </code>
   </p>
   <p ng-init="midRange = 2">
@@ -127,7 +127,7 @@
     <select ng-options="r for r in [1,2,3,4,5]" ng-model="edgeRange"></select>
     edgeRange - range at the start and end of all indices
   </p>
-  <pagination collection="commits" mid-range="midRange" edge-range="edgeRange"></pagination>
+  <st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange"></st-pagination>
 
   <h3>Limit directive</h3>
   <p>
@@ -135,11 +135,11 @@
   </p>
   <p>
     <code>
-      &lt;pagination-limit collection="commits" limits="[5,10,20,50,100]"&gt&lt;/pagination-limit&gt
+      &lt;st-pagination-limit collection="commits" limits="[5,10,20,50,100]"&gt&lt;/pagination-limit&gt
     </code>
   </p>
   <p>
-    <pagination-limit collection="commits" limits="[5,10,20,50,100]"></pagination-limit>
+    <st-pagination-limit collection="commits" limits="[5,10,20,50,100]"></st-pagination-limit>
   </p>
 
   <h3>Pagination info</h3>
