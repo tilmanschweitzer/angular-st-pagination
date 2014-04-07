@@ -6,7 +6,8 @@ angular.module('stPagination').filter('pageInfo', function (Pagination) {
     totalPages: "totalPages",
     currentPage: "displayPage",
     startIndex: "displayStart",
-    stopIndex: "stop"
+    stopIndex: "stop",
+    total: "length"
   };
 
   return function (inputCollection, propertyName) {

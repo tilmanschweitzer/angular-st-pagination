@@ -48,7 +48,7 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
       this.$limit = limit;
     },
     totalPages: function () {
-      return Math.ceil(this.$inputCollection.length / this.limit()) || 1;
+      return Math.ceil(this.length() / this.limit()) || 1;
     },
     offset: function () {
       return this.$page * this.$limit;

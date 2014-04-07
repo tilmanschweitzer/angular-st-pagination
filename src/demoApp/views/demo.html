@@ -95,7 +95,42 @@
     <code>commit in commits | filter:{comment:commentFilter} | pagination:commits</code>
   </p>
 
+  <h3>Serverside pagination</h3>
 
+  <div ng-controller="serverPaginationController">
+  <pre>{{serverCommits|json}}</pre>
+    <ul class="list-unstyled commits">
+      <li ng-show="!serverCommits">Loading commits...</li>
+
+      <li ng-repeat="commit in serverCommits | serverPagination:paginationConfig">
+        <code>{{ commit.hash }}</code>
+        <span style="text-wrap: none">{{ commit.comment }}</span>
+      </li>
+    </ul>
+    <st-pagination collection="serverCommits"></st-pagination>
+    <div>
+      Commits {{ serverCommits | pageInfo:'startIndex' }} - {{ serverCommits | pageInfo:'stopIndex' }}
+      |
+      Total {{ serverCommits | pageInfo:'total' }}
+      |
+      Commits per page
+      <st-pagination-limit collection="serverCommits" limits="[5,10,20,50,100]"></st-pagination-limit>
+    </div>
+
+  </div>
+
+<pre><code>paginationService(
+  url: "/commits/:start/:end",
+
+})</code></pre>
+<pre><code>{
+  total: 4444,
+  from: 0,
+  until: 10
+  items: ["Zero", "One, "Two, "Three, "Four", "Five", "Six", "Seven", "Eight", "Nine"]
+}</code></pre>
+
+  <!-- pagination-directive --->
   <h3>Pagination directive</h3>
   <p>
     A collection with a attached pagination object can be used with the pagination directive.

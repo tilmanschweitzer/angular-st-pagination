@@ -7,7 +7,7 @@ angular.module('stPagination').directive('stPaginationLimit', function (Paginati
   return {
     restrict: "E",
     replace: true,
-    template: '<select ng-options="limit for limit in limits()" ng-model="pagination.$limit"></select>',
+    template: '<select ng-options="limit for limit in limits()" ng-model="limit" ng-change="pagination.setLimit(limit)"></select>',
     scope: {
       collection: "=",
       getLimits: "&limits"
@@ -20,6 +20,7 @@ angular.module('stPagination').directive('stPaginationLimit', function (Paginati
       $scope.$watch("collection", function(collection) {
         if (Pagination.hasPagination(collection)) {
           $scope.pagination = collection.pagination;
+          $scope.limit = $scope.pagination.$limit;
         }
       });
     }
