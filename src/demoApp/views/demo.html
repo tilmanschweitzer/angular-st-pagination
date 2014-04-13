@@ -57,7 +57,7 @@
     <div>
       Commits {{ commits | pageInfo:'startIndex' }} - {{ commits | pageInfo:'stopIndex' }}
       |
-      Total {{ (commits | filter:{comment:commentFilter}).length  }}
+      Total {{ commits | pageInfo:'total' }}
       |
       Commits per page
       <st-pagination-limit collection="commits" limits="[5,10,20,50,100]"></st-pagination-limit>
