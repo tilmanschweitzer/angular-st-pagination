@@ -11,6 +11,34 @@
 
 module.exports = function (grunt) {
 
+  var GIT = {};
+  var BUILD = {};
+  var PKG = grunt.file.readJSON('package.json');
+
+  GIT.bannerHelper = function () {
+    return {
+      multilineCommentFromLines: function (lines) {
+        return "/*!\n * " + lines.join("\n * ") + "\n */\n";
+      },
+      generateBanner: function () {
+        var lines = [
+          "<%= pkg.name %> v<%= build.version() %>",
+          "source: <%= pkg.info.repository %>",
+          "",
+          "<%= git.info() %>",
+          "Licence: <%= pkg.info.licence %> (<%= pkg.info.licenceUrl %>)"
+        ];
+        return this.multilineCommentFromLines(lines);
+      },
+      generateShortBanner: function () {
+        var lines = [
+          "<%= pkg.name %> v<%= build.version() %> | <%= git.info() %>"
+        ];
+        return this.multilineCommentFromLines(lines);
+      }
+    };
+  };
+
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
@@ -19,6 +47,9 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+    pkg: PKG,
+    git: GIT,
+    build: BUILD,
 
     // Project settings
     yeoman: {
@@ -172,6 +203,18 @@ module.exports = function (grunt) {
       }
     },
 
+    uglify: {
+      addBanner: {
+        options: {
+          mangle: true,
+          banner: GIT.bannerHelper().generateBanner()
+        },
+        files: {
+          'dist/angular-stPagination.js': ['dist/angular-stPagination.js']
+        }
+      }
+    },
+
     // The following *-min tasks produce minified files in the dist folder
     imagemin: {
       dist: {
@@ -306,6 +349,41 @@ module.exports = function (grunt) {
         coverage_dir: 'coverage',
         force: true
       }
+    },
+
+    shell: {
+      bower_install: {
+        command: "bower install"
+      },
+      gitHash: {
+        command: "git log --pretty=format:'%h' -n 1",
+        options: {
+          callback: function (err, stdout, stderr, cb) {
+            GIT.hash = stdout;
+            console.log("git-version: " + GIT.hash);
+            cb();
+          }
+        }
+      },
+      gitStatus: {
+        command: "git status -s",
+        options: {
+          callback: function (err, stdout, stderr, cb) {
+            GIT.status = stdout;
+            cb();
+          }
+        }
+      },
+      gitVersionHash: {
+        command: "git log --pretty=format:'%h' -n 1 v" + PKG.version,
+        options: {
+          callback: function (err, stdout, stderr, cb) {
+            GIT.versionHash = stdout;
+            console.log("git-hash of pkg.version tag: " + GIT.versionHash);
+            cb();
+          }
+        }
+      }
     }
   });
 
@@ -339,6 +417,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'shell',
     'clean:dist',
     'bowerInstall',
     'useminPrepare',
@@ -348,9 +427,10 @@ module.exports = function (grunt) {
     'ngmin',
     'copy:dist',
     'cssmin',
-    'uglify',
+    'uglify:generated',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'uglify:addBanner'
   ]);
 
   grunt.registerTask('default', [
@@ -358,4 +438,27 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  GIT.info = function () {
+    var gitVersionComment = "git-version: " + GIT.hash;
+    if (this.isClean()) {
+      return gitVersionComment;
+    } else {
+      return gitVersionComment + " (WARNING: Repo had uncommitted changed while creating the build.)";
+    }
+  };
+  GIT.isClean = function () {
+    return (/^\s*$/.test(GIT.status));
+  };
+  GIT.isTaggedWithPackageVersion = function () {
+    return GIT.hash === GIT.versionHash;
+  };
+
+  BUILD.version = function () {
+    if (GIT.isTaggedWithPackageVersion() && GIT.isClean()) {
+      return PKG.version;
+    } else {
+      return PKG.devVersion + "-sha." + GIT.hash;
+    }
+  };
 };
