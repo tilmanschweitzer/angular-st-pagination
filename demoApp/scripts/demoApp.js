@@ -45,6 +45,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     ];
 
     $scope.displayProperties = [
+      "total",
       "startIndex",
       "stopIndex",
       "currentPage",
