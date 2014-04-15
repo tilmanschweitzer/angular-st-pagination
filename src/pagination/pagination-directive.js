@@ -2,6 +2,8 @@
 
 angular.module('stPagination').directive('stPagination', function (Pagination) {
 
+  var css3UserSelectAliases = ["-webkit-touch-callout", "-webkit-user-select", "-moz-user-select", "-ms-user-select", "user-select"]
+
   var basePagination = '<ul>' +
       '<li ng-class="{disabled: pagination.onFirstPage()}">' +
         '<a ng-click="pagination.prev()">&laquo;</a>' +
@@ -49,6 +51,11 @@ angular.module('stPagination').directive('stPagination', function (Pagination) {
       }
     },
     controller: function ($scope, $element, $attrs) {
+      // set css to prevent selections
+      angular.forEach(css3UserSelectAliases, function (alias) {
+        $element.css(alias, "none");
+      });
+
       var collectionName = $attrs.collection;
 
       $scope.$watch("collection", function (collection) {
