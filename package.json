@@ -1,12 +1,12 @@
 {
-  "name": "angular-pagination",
-  "version": "0.1.0-rc3",
+  "name": "angular-st-pagination",
+  "version": "0.1.0-rc4",
   "devVersion": "0.1.0-dev",
   "description": "Client-side and modular pagination for angular.",
   "info": {
     "licence": "MIT-LICENCE",
-    "licenceUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-stPagination/master/LICENCE",
-    "repository": "https://github.com/tilmanpotthof/angular-stPagination"
+    "licenceUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE",
+    "repository": "https://github.com/tilmanpotthof/angular-st-pagination"
   },
   "dependencies": {},
   "devDependencies": {

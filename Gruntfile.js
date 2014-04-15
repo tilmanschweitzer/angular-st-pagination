@@ -210,7 +210,7 @@ module.exports = function (grunt) {
           banner: GIT.bannerHelper().generateBanner()
         },
         files: {
-          'dist/angular-stPagination.js': ['dist/angular-stPagination.js']
+          'dist/angular-st-pagination.js': ['dist/angular-st-pagination.js']
         }
       }
     },
