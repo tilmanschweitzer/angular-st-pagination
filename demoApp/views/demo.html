@@ -53,7 +53,9 @@
       </li>
     </ul>
     </p>
-    <st-pagination collection="commits"></st-pagination>
+    <div class="pagination">
+      <st-pagination collection="commits"></st-pagination>
+    </div>
     <div>
       Commits {{ commits | pageInfo:'startIndex' }} - {{ commits | pageInfo:'stopIndex' }}
       |
@@ -70,8 +72,11 @@
   <p>
     The module name is <code>stPagination</code>.
     Only dependencies are
-    <span class="label label-info">angular 1.2+</span> and <span class="label label-info">bootstrap 3+</span> (just the css).
-    Support for bootstrap 2.3 and zurb foundation are planned for future versions.
+    <span class="label label-info">angular 1.2+</span> and <span class="label label-info">bootstrap 3+</span> (css only).
+    Compatibility for  <span class="label label-default">angular 1.0.x</span>  is tested
+    and <span class="label label-default">bootstrap 2.3.x</span> is also supported but must be configured as descripted in the section
+    <strong>Bootstrap Configuration</strong>.
+    Zurb foundation may be supported in future versions.
   </p>
 
   <h3>Pagination filter</h3>
@@ -105,7 +110,9 @@
       &lt;st-pagination collection="commits"&gt;&lt;/pagination&gt;
     </code>
   </p>
-  <st-pagination collection="commits"></st-pagination>
+  <div class="pagination">
+    <st-pagination collection="commits"></st-pagination>
+  </div>
 
   <h4>Configure displayed ranges</h4>
   <p>
@@ -127,7 +134,9 @@
     <select ng-options="r for r in [1,2,3,4,5]" ng-model="edgeRange"></select>
     edgeRange - range at the start and end of all indices
   </p>
-  <st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange"></st-pagination>
+  <div class="pagination">
+    <st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange"></st-pagination>
+  </div>
 
   <h3>Limit directive</h3>
   <p>
@@ -167,6 +176,23 @@
     </tr>
   </table>
   <hr/>
+  <h3>Boostrap configuration</h3>
+  <div ng-controller="cssConfigController">
+    <select ng-model="selectedCssConfig" ng-options="cssConfig.label for cssConfig in cssConfigs"></select>
+
+    <div ng-show="selectedCssConfig.configKey == 'bootstrap2'">
+      <st-pagination  collection="commits" css-config="bootstrap2"></st-pagination>
+    </div>
+    <div ng-show="selectedCssConfig.configKey == 'bootstrap3'">
+      <st-pagination  collection="commits" css-config="bootstrap3"></st-pagination>
+    </div>
+
+    <p>
+      <code>
+        &lt;st-pagination collection="commits" css-config="{{selectedCssConfig.configKey}}"&gt;&lt;/pagination&gt;
+      </code>
+    </p>
+  </div>
 </div>
 <div class="footer">
   <p></p>
