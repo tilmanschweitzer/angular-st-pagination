@@ -16,7 +16,7 @@ describe('Directive: pagination', function () {
     $scope = $rootScope.$new().$new();
     $scope.commits = [];
     $filter("pagination")($scope.commits);
-    $simplePagination = $compile('<pagination collection="commits"></pagination>')($scope);
+    $simplePagination = $compile('<st-pagination collection="commits"></st-pagination>')($scope);
     $scope.$apply();
   }));
 
@@ -39,13 +39,13 @@ describe('Directive: pagination', function () {
   it('should throw an error if the collection has no pagination', inject(function ($compile) {
     $scope.otherCommits = [];
     expect(function () {
-      $compile('<pagination collection="otherCommits"></pagination>')($scope);
+      $compile('<st-pagination collection="otherCommits"></st-pagination>')($scope);
       $scope.$apply();
     }).toThrow(new Error("Collection 'otherCommits' in the pagination directive is not used with a neccessary pagination filter."));
   }));
 
   it('should accept an not defined collection without errors', inject(function ($compile) {
-    $compile('<pagination collection="undefinedCollection"></pagination>')($scope);
+    $compile('<st-pagination collection="undefinedCollection"></st-pagination>')($scope);
     $scope.$apply();
   }));
 
@@ -112,4 +112,36 @@ describe('Directive: pagination', function () {
 
   });
 
+  describe('css configuration', function () {
+
+    var $configTestPagination;
+
+    // Initialize the controller and a mock scope
+    it('should have an ul as default root element', inject(function ($compile) {
+      $configTestPagination = $compile('<st-pagination collection="commits"></st-pagination>')($scope);
+      $scope.$apply();
+
+      expect($configTestPagination.parent()[0]).toBeUndefined();
+      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      expect($configTestPagination[0].className).toContain("pagination");
+    }));
+
+    it('should have an div as root element for bootstrap2', inject(function ($compile) {
+      $configTestPagination = $compile('<st-pagination collection="commits" css-config="bootstrap2"></st-pagination>')($scope);
+      $scope.$apply();
+
+      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      expect($configTestPagination[0].className).not.toContain("pagination");
+
+      expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
+      expect($configTestPagination.parent()[0].className).toContain("pagination");
+    }));
+
+    it('should throw an error for undefined configurations', inject(function ($compile) {
+      expect(function () {
+        $configTestPagination = $compile('<st-pagination collection="commits" css-config="bootstrap-1"></st-pagination>')($scope);
+        $scope.$apply();
+      }).toThrow(new Error("Given css-config attribute 'bootstrap-1' is not in allowed values 'list', 'divWrappedList', 'bootstrap3', 'bootstrap2'"));
+    }));
+  });
 });

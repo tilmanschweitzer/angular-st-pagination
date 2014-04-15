@@ -3,6 +3,7 @@
 angular.module('stPagination').filter('pageInfo', function (Pagination) {
 
   var propertyNameToFunctionMapping = {
+    total: "length",
     totalPages: "totalPages",
     currentPage: "displayPage",
     startIndex: "displayStart",

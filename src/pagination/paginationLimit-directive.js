@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('stPagination').directive('paginationLimit', function (Pagination, $log) {
+angular.module('stPagination').directive('stPaginationLimit', function (Pagination, $log) {
 
   var DEFAULT_LIMITS = [10, 20, 50];
 

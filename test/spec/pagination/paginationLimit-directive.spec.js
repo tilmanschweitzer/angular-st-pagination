@@ -16,15 +16,15 @@ describe('Directive: paginationLimit', function () {
     $scope = $rootScope.$new();
   }));
 
-  it('should create and replace the pagination-limit with a select tag', inject(function ($compile) {
-    var $element = $compile('<pagination-limit collection="commits"></pagination-limit>')($scope);
+  it('should create and replace the st-pagination-limit with a select tag', inject(function ($compile) {
+    var $element = $compile('<st-pagination-limit collection="commits"></st-pagination-limit>')($scope);
     expect($element[0].tagName).toBe("SELECT");
   }));
 
 
   it('should created an new and isolated scope', inject(function ($compile) {
     $scope.commits = [];
-    var $element = $compile('<pagination-limit collection="commits"></pagination-limit>')($scope);
+    var $element = $compile('<st-pagination-limit collection="commits"></st-pagination-limit>')($scope);
     var $directiveScope = $element.scope();
     expect($directiveScope).not.toBe(undefined);
     expect($directiveScope.$id).not.toBe($scope.$id);
@@ -33,14 +33,14 @@ describe('Directive: paginationLimit', function () {
 
   it('should set default limits to [10,20,50]', inject(function ($compile) {
     $scope.commits = [];
-    var $element = $compile('<pagination-limit collection="commits"></pagination-limit>')($scope);
+    var $element = $compile('<st-pagination-limit collection="commits"></st-pagination-limit>')($scope);
     var $directiveScope = $element.scope();
     expect($directiveScope.limits()).toEqual([10,20,50]);
   }));
 
   it('should allow to set the limits to different value', inject(function ($compile) {
     $scope.commits = [];
-    var $element = $compile('<pagination-limit collection="commits" limits="[10,20,50,100]"></pagination-limit>')($scope);
+    var $element = $compile('<st-pagination-limit collection="commits" limits="[10,20,50,100]"></st-pagination-limit>')($scope);
     var $directiveScope = $element.scope();
     expect($directiveScope.limits()).toEqual([10,20,50,100]);
   }));
@@ -48,7 +48,7 @@ describe('Directive: paginationLimit', function () {
   it('should extract pagination object correctly from the collection', inject(function ($compile, $filter, Pagination) {
     $scope.commits = [];
     $filter("pagination")($scope.commits);
-    var $element = $compile('<pagination-limit collection="commits" limits="[10,20,50,100]"></pagination-limit>')($scope);
+    var $element = $compile('<st-pagination-limit collection="commits" limits="[10,20,50,100]"></st-pagination-limit>')($scope);
     $scope.$apply();
     var $directiveScope = $element.scope();
     expect($directiveScope.pagination).toBe($scope.commits.pagination);
