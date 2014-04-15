@@ -1,6 +1,6 @@
 {
   "name": "angular-pagination",
-  "version": "0.1.0-rc1",
+  "version": "0.1.0-rc2",
   "devVersion": "0.1.0-dev",
   "description": "Client-side and modular pagination for angular.",
   "info": {
