@@ -53,7 +53,9 @@
       </li>
     </ul>
     </p>
-    <st-pagination collection="commits"></st-pagination>
+    <div class="pagination">
+      <st-pagination collection="commits"></st-pagination>
+    </div>
     <div>
       Commits {{ commits | pageInfo:'startIndex' }} - {{ commits | pageInfo:'stopIndex' }}
       |
@@ -105,7 +107,9 @@
       &lt;st-pagination collection="commits"&gt;&lt;/pagination&gt;
     </code>
   </p>
-  <st-pagination collection="commits"></st-pagination>
+  <div class="pagination">
+    <st-pagination collection="commits"></st-pagination>
+  </div>
 
   <h4>Configure displayed ranges</h4>
   <p>
@@ -127,7 +131,9 @@
     <select ng-options="r for r in [1,2,3,4,5]" ng-model="edgeRange"></select>
     edgeRange - range at the start and end of all indices
   </p>
-  <st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange"></st-pagination>
+  <div class="pagination">
+    <st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange"></st-pagination>
+  </div>
 
   <h3>Limit directive</h3>
   <p>
@@ -167,6 +173,23 @@
     </tr>
   </table>
   <hr/>
+  <h3>Boostrap configuration</h3>
+  <div ng-controller="cssConfigController">
+    <select ng-model="selectedCssConfig" ng-options="cssConfig.label for cssConfig in cssConfigs"></select>
+
+    <div ng-show="selectedCssConfig.configKey == 'bootstrap2'">
+      <st-pagination  collection="commits" css-config="bootstrap2"></st-pagination>
+    </div>
+    <div ng-show="selectedCssConfig.configKey == 'bootstrap3'">
+      <st-pagination  collection="commits" css-config="bootstrap3"></st-pagination>
+    </div>
+
+    <p>
+      <code>
+        &lt;st-pagination collection="commits" css-config="{{selectedCssConfig.configKey}}"&gt;&lt;/pagination&gt;
+      </code>
+    </p>
+  </div>
 </div>
 <div class="footer">
   <p></p>
