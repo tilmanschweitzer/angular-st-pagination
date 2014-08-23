@@ -112,4 +112,36 @@ describe('Directive: pagination', function () {
 
   });
 
+  describe('css configuration', function () {
+
+    var $configTestPagination;
+
+    // Initialize the controller and a mock scope
+    it('should have an ul as default root element', inject(function ($compile) {
+      $configTestPagination = $compile('<st-pagination collection="commits"></st-pagination>')($scope);
+      $scope.$apply();
+
+      expect($configTestPagination.parent()[0]).toBeUndefined();
+      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      expect($configTestPagination[0].className).toContain("pagination");
+    }));
+
+    it('should have an div as root element for bootstrap2', inject(function ($compile) {
+      $configTestPagination = $compile('<st-pagination collection="commits" css-config="bootstrap2"></st-pagination>')($scope);
+      $scope.$apply();
+
+      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      expect($configTestPagination[0].className).not.toContain("pagination");
+
+      expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
+      expect($configTestPagination.parent()[0].className).toContain("pagination");
+    }));
+
+    it('should throw an error for undefined configurations', inject(function ($compile) {
+      expect(function () {
+        $configTestPagination = $compile('<st-pagination collection="commits" css-config="bootstrap-1"></st-pagination>')($scope);
+        $scope.$apply();
+      }).toThrow(new Error("Given css-config attribute 'bootstrap-1' is not in allowed values 'list', 'divWrappedList', 'bootstrap3', 'bootstrap2'"));
+    }));
+  });
 });

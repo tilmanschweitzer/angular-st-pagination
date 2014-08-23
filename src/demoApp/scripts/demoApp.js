@@ -45,6 +45,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     ];
 
     $scope.displayProperties = [
+      "total",
       "startIndex",
       "stopIndex",
       "currentPage",
@@ -61,7 +62,26 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
 
     $scope.commits = commits;
   });
-});
+}).controller("cssConfigController", function ($scope) {
+      $scope.cssConfigs = [{
+        label: "Bootstrap 3.x",
+        path: "bower_components/bootstrap-css-only/css/bootstrap.css",
+        configKey: "bootstrap3"
+      },{
+        label: "Bootstrap 2.x",
+        path: "demoApp/styles/bootstrap-2.3.2.css",
+        configKey: "bootstrap2"
+      }];
+
+      $scope.selectedCssConfig = $scope.cssConfigs[0];
+
+      $scope.$watch("selectedCssConfig", function (newConfig, oldConfig) {
+        if (!angular.equals(newConfig, oldConfig)) {
+          document.querySelector("link[href='" + oldConfig.path + "']").remove();
+          document.head.appendChild(angular.element("<link rel='stylesheet' href='" + newConfig.path + "' />")[0]);
+        }
+      });
+    });
 
 angular.module("paginationDemo").controller("serverPaginationController", function ($scope, $http, paginationServerConfig) {
   $scope.serverCommits = [];
