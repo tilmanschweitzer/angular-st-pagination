@@ -20,6 +20,8 @@ angular.module('stPagination').directive('stPaginationLimit', function (Paginati
       $scope.$watch("collection", function(collection) {
         if (Pagination.hasPagination(collection)) {
           $scope.pagination = collection.pagination;
+        } else {
+          delete $scope.pagination;
         }
       });
     }
