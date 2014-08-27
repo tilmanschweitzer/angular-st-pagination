@@ -71,7 +71,7 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
       if (!angular.isArray(page)) {
         this.$page = page;
       } else {
-        var middleIndex = Math.floor((page.length / 2));
+        var middleIndex = Math.floor(((page.length - 1) / 2));
         this.$page = page[middleIndex];
       }
       this.checkPageLimits();
