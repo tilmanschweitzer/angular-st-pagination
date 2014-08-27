@@ -95,9 +95,6 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
     lastPage: function () {
       return this.totalPages() - 1;
     },
-    indices: function () {
-      return indexUtil.range(this.totalPages());
-    },
     reducedIndices: function (midRange, edgeRange) {
       midRange = isNumberOrDefault(midRange, 3);
       edgeRange = isNumberOrDefault(edgeRange, 3);
@@ -116,9 +113,6 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
     },
     indexCacheKey: function (midRange, edgeRange) {
       return this.page() + "-" + this.limit() + "-" + this.length() + "-" + midRange + "-" + edgeRange;
-    },
-    isIndex: function (index) {
-      return angular.isNumber(index);
     },
     displayPage: function () {
       return this.page() + 1;
