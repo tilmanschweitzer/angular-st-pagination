@@ -23,10 +23,10 @@ module.exports = function (grunt) {
       generateBanner: function () {
         var lines = [
           "<%= pkg.name %> v<%= build.version() %>",
-          "source: <%= pkg.info.repository %>",
+          "source: <%= pkg.repository %>",
           "",
           "<%= git.info() %>",
-          "Licence: <%= pkg.info.licence %> (<%= pkg.info.licenceUrl %>)"
+          "Licence: <%= pkg.licence %> (<%= pkg.licenceUrl %>)"
         ];
         return this.multilineCommentFromLines(lines);
       },
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+        tasks: ['newer:copy:styles']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -98,29 +98,15 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
-      livereload: {
+      dev: {
         options: {
-          open: true,
-          keepalive: true,
-          base: [
-            '.tmp',
-            '<%= yeoman.app %>'
-          ]
-        }
-      },
-      test: {
-        options: {
-          port: 9001,
-          base: [
-            '.tmp',
-            'test',
-            '<%= yeoman.app %>'
-          ]
+          open: 'http://localhost:9000/src/',
+          keepalive: true
         }
       },
       dist: {
         options: {
-          base: '<%= yeoman.dist %>',
+          open: 'http://localhost:9000/dist/',
           keepalive: true
         }
       }
@@ -129,8 +115,7 @@ module.exports = function (grunt) {
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
+        jshintrc: '.jshintrc'
       },
       all: [
         'Gruntfile.js',
@@ -154,22 +139,6 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*'
           ]
-        }]
-      },
-      server: '.tmp'
-    },
-
-    // Add vendor prefixed styles
-    autoprefixer: {
-      options: {
-        browsers: ['last 1 version']
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/styles/',
-          src: '{,*/}*.css',
-          dest: '.tmp/styles/'
         }]
       }
     },
@@ -197,7 +166,6 @@ module.exports = function (grunt) {
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
         assetsDirs: ['<%= yeoman.dist %>']
       }
@@ -212,44 +180,6 @@ module.exports = function (grunt) {
         files: {
           'dist/angular-st-pagination.js': ['dist/angular-st-pagination.js']
         }
-      }
-    },
-
-    // The following *-min tasks produce minified files in the dist folder
-    imagemin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: '<%= yeoman.dist %>/images'
-        }]
-      }
-    },
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= yeoman.dist %>/images'
-        }]
-      }
-    },
-    htmlmin: {
-      dist: {
-        options: {
-          collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true,
-          removeOptionalTags: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
-          dest: '<%= yeoman.dist %>'
-        }]
       }
     },
 
@@ -276,14 +206,14 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             '*.html',
-            'bower_components/**/*',
             'demoApp/**/*'
           ]
         }, {
           expand: true,
-          cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
-          src: ['generated/*']
+          src: [
+            'bower_components/**/*'
+          ],
+          dest: '<%= yeoman.dist %>',
         }]
       },
       styles: {
@@ -293,47 +223,6 @@ module.exports = function (grunt) {
         src: '{,*/}*.css'
       }
     },
-
-    // Run some tasks in parallel to speed up the build process
-    concurrent: {
-      server: [
-        'copy:styles'
-      ],
-      test: [
-        'copy:styles'
-      ],
-      dist: [
-        'copy:styles',
-        'imagemin',
-        'svgmin'
-      ]
-    },
-
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
 
     // Test settings
     karma: {
@@ -394,25 +283,14 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'clean:server',
       'bowerInstall',
-      'concurrent:server',
-      'autoprefixer',
-      'connect:livereload',
+      'copy:styles',
+      'connect:dev',
       'watch'
     ]);
   });
 
-  grunt.registerTask('server', function () {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve']);
-  });
-
   grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test',
     'karma'
   ]);
 
@@ -421,19 +299,18 @@ module.exports = function (grunt) {
     'clean:dist',
     'bowerInstall',
     'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
+    'copy:styles',
     'concat',
     'ngmin',
     'copy:dist',
-    'cssmin',
     'uglify:generated',
     'usemin',
-    'htmlmin',
     'uglify:addBanner'
   ]);
 
   grunt.registerTask('default', [
+    'deps-ok',
+    'nice-package',
     'newer:jshint',
     'test',
     'build'

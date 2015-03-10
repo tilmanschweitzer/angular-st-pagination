@@ -11,9 +11,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/bower_components/jquery/jquery.js',
-      'src/bower_components/angular/angular.js',
-      'src/bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/jquery/jquery.js',
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'src/pagination/stPagination-module.js',
       'src/pagination/*.js',
       'test/spec/customMatchers.js',
