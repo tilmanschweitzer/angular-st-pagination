@@ -50,10 +50,11 @@ describe('Service: indexUtil', function () {
 
   it('should generate a folded range chaining foldLessThan and foldGreaterThan', inject(function (indexUtil) {
     expect(indexUtil.rangeBuilder(3).foldLessThan(1).foldGreaterThan(1).build()).toEqual([[0], 1, [2]]);
-    expect(indexUtil.rangeBuilder(10).foldLessThan(5).foldGreaterThan(8).build()).toEqual([[0, 1, 2, 3, 4], 5, 6, 7, 8, [9]]);
+    var expected = [[0, 1, 2, 3, 4], 5, 6, 7, 8, [9]];
+    expect(indexUtil.rangeBuilder(10).foldLessThan(5).foldGreaterThan(8).build()).toEqual(expected);
   }));
 
-  describe("foldFixedLengthForIndex", function () {
+  describe('foldFixedLengthForIndex', function () {
     it('should generate fixed length indices for the index 10', inject(function (indexUtil) {
       var foldedIndices = indexUtil.rangeBuilder(20).foldFixedLengthForIndex(10, 3).build();
       expect(foldedIndices.length).toEqual(13);
@@ -96,7 +97,7 @@ describe('Service: indexUtil', function () {
     }));
   });
 
-  describe("foldWithMidAndEdgeRangeForIndex", function () {
+  describe('foldWithMidAndEdgeRangeForIndex', function () {
     it('should generate folded indices for a middle index (10)', inject(function (indexUtil) {
       var foldedIndices = indexUtil.rangeBuilder(20).foldWithMidAndEdgeRangeForIndex(10, 3, 2).build();
       expect(foldedIndices.length).toEqual(11);

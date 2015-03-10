@@ -22,7 +22,7 @@ describe('Directive: paginationLimit', function () {
   }));
 
   it('should create and replace the st-pagination-limit with a select tag', function () {
-    expect($basicPaginationLimit[0].tagName).toBe("SELECT");
+    expect($basicPaginationLimit[0].tagName).toBe('SELECT');
   });
 
   it('should create a new and isolated scope', function () {
@@ -36,13 +36,14 @@ describe('Directive: paginationLimit', function () {
   });
 
   it('should allow to set the limits to different value', function () {
-    var $element = $compile('<st-pagination-limit collection="commits" limits="[10,20,50,100]"></st-pagination-limit>')($scope);
+    var tmpl = '<st-pagination-limit collection="commits" limits="[10,20,50,100]"></st-pagination-limit>';
+    var $element = $compile(tmpl)($scope);
     expect($element.isolateScope().limits()).toEqual([10,20,50,100]);
   });
 
   it('should extract pagination object correctly from the collection', function () {
     $scope.commits = [];
-    $filter("pagination")($scope.commits);
+    $filter('pagination')($scope.commits);
 
     $scope.$apply();
 
@@ -64,7 +65,7 @@ describe('Directive: paginationLimit', function () {
 
   it('should reset the pagination if the collection is reset', function () {
     $scope.commits = [];
-    $filter("pagination")($scope.commits);
+    $filter('pagination')($scope.commits);
 
     $scope.$apply();
     expect($directiveScope.pagination).toBeDefined();
