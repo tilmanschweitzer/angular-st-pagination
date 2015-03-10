@@ -9,13 +9,9 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
       return;
     }
 
-    if (originalCollection) {
-      collectionWithPaginationHandle = originalCollection;
-    } else {
-      collectionWithPaginationHandle = inputCollection;
-    }
+    collectionWithPaginationHandle = originalCollection || inputCollection;
 
-    if (!(Pagination.hasPagination(collectionWithPaginationHandle))) {
+    if (!Pagination.hasPagination(collectionWithPaginationHandle)) {
       collectionWithPaginationHandle.pagination = new Pagination(inputCollection);
 
       if (this && this.$watch) {
