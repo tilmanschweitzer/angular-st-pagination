@@ -1,1 +1,1 @@
-angular.module("stPagination", []);
+angular.module('stPagination', []);

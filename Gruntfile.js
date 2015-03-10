@@ -18,21 +18,21 @@ module.exports = function (grunt) {
   GIT.bannerHelper = function () {
     return {
       multilineCommentFromLines: function (lines) {
-        return "/*!\n * " + lines.join("\n * ") + "\n */\n";
+        return '/*!\n * ' + lines.join('\n * ') + '\n */\n';
       },
       generateBanner: function () {
         var lines = [
-          "<%= pkg.name %> v<%= build.version() %>",
-          "source: <%= pkg.repository %>",
-          "",
-          "<%= git.info() %>",
-          "Licence: <%= pkg.licence %> (<%= pkg.licenceUrl %>)"
+          '<%= pkg.name %> v<%= build.version() %>',
+          'source: <%= pkg.repository %>',
+          '',
+          '<%= git.info() %>',
+          'Licence: <%= pkg.licence %> (<%= pkg.licenceUrl %>)'
         ];
         return this.multilineCommentFromLines(lines);
       },
       generateShortBanner: function () {
         var lines = [
-          "<%= pkg.name %> v<%= build.version() %> | <%= git.info() %>"
+          '<%= pkg.name %> v<%= build.version() %> | <%= git.info() %>'
         ];
         return this.multilineCommentFromLines(lines);
       }
@@ -242,20 +242,20 @@ module.exports = function (grunt) {
 
     shell: {
       bower_install: {
-        command: "bower install"
+        command: 'bower install'
       },
       gitHash: {
-        command: "git log --pretty=format:'%h' -n 1",
+        command: 'git log --pretty=format:"%h" -n 1',
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.hash = stdout;
-            console.log("git-version: " + GIT.hash);
+            console.log('git-version: ' + GIT.hash);
             cb();
           }
         }
       },
       gitStatus: {
-        command: "git status -s",
+        command: 'git status -s',
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.status = stdout;
@@ -264,11 +264,11 @@ module.exports = function (grunt) {
         }
       },
       gitVersionHash: {
-        command: "git log --pretty=format:'%h' -n 1 v" + PKG.version,
+        command: 'git log --pretty=format:"%h" -n 1 v' + PKG.version,
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.versionHash = stdout;
-            console.log("git-hash of pkg.version tag: " + GIT.versionHash);
+            console.log('git-hash of pkg.version tag: ' + GIT.versionHash);
             cb();
           }
         }
@@ -317,11 +317,11 @@ module.exports = function (grunt) {
   ]);
 
   GIT.info = function () {
-    var gitVersionComment = "git-version: " + GIT.hash;
+    var gitVersionComment = 'git-version: ' + GIT.hash;
     if (this.isClean()) {
       return gitVersionComment;
     } else {
-      return gitVersionComment + " (WARNING: Repo had uncommitted changed while creating the build.)";
+      return gitVersionComment + ' (WARNING: Repo had uncommitted changed while creating the build.)';
     }
   };
   GIT.isClean = function () {
@@ -335,7 +335,7 @@ module.exports = function (grunt) {
     if (GIT.isTaggedWithPackageVersion() && GIT.isClean()) {
       return PKG.version;
     } else {
-      return PKG.devVersion + "-sha." + GIT.hash;
+      return PKG.devVersion + '-sha.' + GIT.hash;
     }
   };
 };

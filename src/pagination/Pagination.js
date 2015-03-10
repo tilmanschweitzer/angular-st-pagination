@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('stPagination').factory("Pagination", function (indexUtil) {
+angular.module('stPagination').factory('Pagination', function (indexUtil) {
 
   function Pagination(inputCollection) {
     this.$inputCollection = inputCollection;
@@ -112,7 +112,7 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
       }
     },
     indexCacheKey: function (midRange, edgeRange) {
-      return this.page() + "-" + this.limit() + "-" + this.length() + "-" + midRange + "-" + edgeRange;
+      return this.page() + '-' + this.limit() + '-' + this.length() + '-' + midRange + '-' + edgeRange;
     },
     displayPage: function () {
       return this.page() + 1;

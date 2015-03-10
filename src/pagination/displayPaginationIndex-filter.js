@@ -6,7 +6,7 @@ angular.module('stPagination').filter('displayPaginationIndex', function () {
     if (angular.isNumber(index)) {
       return index + 1;
     } else if (angular.isArray(index)) {
-      return "...";
+      return '...';
     } else {
       return index;
     }
