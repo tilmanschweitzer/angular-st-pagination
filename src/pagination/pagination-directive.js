@@ -2,7 +2,7 @@
 
 angular.module('stPagination').directive('stPagination', function (Pagination) {
 
-  var css3UserSelectAliases = ["-webkit-touch-callout", "-webkit-user-select", "-moz-user-select", "-ms-user-select", "user-select"]
+  var css3UserSelectAliases = ["-webkit-touch-callout", "-webkit-user-select", "-moz-user-select", "-ms-user-select", "user-select"];
 
   var basePagination = '<ul>' +
       '<li ng-class="{disabled: pagination.onFirstPage()}">' +
