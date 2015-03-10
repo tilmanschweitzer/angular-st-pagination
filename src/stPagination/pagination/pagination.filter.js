@@ -24,9 +24,9 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
             }
           });
         } else {
-          throw new Error('Collection passed to pagination filter was not found in the scope. ' +
+          throw new Error('Collection passed to stPagination filter was not found in the scope. ' +
               'Pass it to the filter if you have other filters in between.\n' +
-              'element in collection | orderBy:"id" | pagination:collection');
+              'element in collection | orderBy:"id" | stPagination:collection');
         }
       }
     }

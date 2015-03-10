@@ -7,7 +7,7 @@ angular.module('stPagination').directive('stPaginationLimit', function (Paginati
   return {
     restrict: 'E',
     replace: true,
-    template: '<select ng-options="limit for limit in limits()" ng-model="pagination.$limit"></select>',
+    template: '<select ng-options="limit for limit in limits()" ng-model="stPagination.$limit"></select>',
     scope: {
       collection: '=',
       getLimits: '&limits'

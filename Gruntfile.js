@@ -119,13 +119,16 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/pagination/{,*/}*.js'
+        '<%= yeoman.app %>/stPagination/**/*.js',
+        '!<%= yeoman.app %>/stPagination/**/*.spec.js'
       ],
       test: {
         options: {
           jshintrc: 'test/.jshintrc'
         },
-        src: ['test/spec/{,*/}*.js']
+        src: [
+          '<%= yeoman.app %>/stPagination/**/*.spec.js'
+        ]
       }
     },
 
