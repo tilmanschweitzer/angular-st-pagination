@@ -1,6 +1,5 @@
-'use strict';
-
 angular.module('stPagination').factory('findPropertyName', function () {
+  'use strict';
 
   function findPropertyName(property, object) {
 

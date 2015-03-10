@@ -14,7 +14,7 @@ module.exports = function(config) {
       'bower_components/jquery/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'src/pagination/stPagination-module.js',
+      'src/pagination/stPagination.module.js',
       'src/pagination/*.js',
       'test/spec/customMatchers.js',
       'test/spec/**/*.js'

@@ -1,6 +1,5 @@
-'use strict';
-
 angular.module('stPagination').factory('indexUtil', function () {
+  'use strict';
 
   function RangeBuilder(array) {
     this.array = array;

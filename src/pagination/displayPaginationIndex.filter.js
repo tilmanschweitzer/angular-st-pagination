@@ -1,6 +1,5 @@
-'use strict';
-
 angular.module('stPagination').filter('displayPaginationIndex', function () {
+  'use strict';
 
   return function (index) {
     if (angular.isNumber(index)) {

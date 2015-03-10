@@ -35,7 +35,7 @@ angular.module('stPagination').directive('stPagination', function (Pagination) {
   transformationForCssConfig.bootstrap3 = transformationForCssConfig.list;
   transformationForCssConfig.bootstrap2 = transformationForCssConfig.divWrappedList;
 
-  var allowedValues = '"' + Object.keys(transformationForCssConfig).join('', '') + '"';
+  var allowedValues = '"' + Object.keys(transformationForCssConfig).join('", "') + '"';
 
   var DEFAULT_CSS_CONFIG = 'bootstrap3';
 
