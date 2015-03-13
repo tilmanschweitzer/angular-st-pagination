@@ -11,15 +11,15 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/jquery/jquery.js',
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'src/stPagination/**/*.module.js',
-      'src/stPagination/**/*.service.js',
-      'src/stPagination/**/*.directive.js',
-      'src/stPagination/**/*.filter.js',
-      'src/customMatchers.js',
-      'src/stPagination/**/*.spec.js'
+      'app/bower_components/jquery/jquery.js',
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/stPagination/**/*.module.js',
+      'app/stPagination/**/*.service.js',
+      'app/stPagination/**/*.directive.js',
+      'app/stPagination/**/*.filter.js',
+      'app/customMatchers.js',
+      'app/stPagination/**/*.spec.js'
     ],
 
     // list of files / patterns to exclude
@@ -55,7 +55,7 @@ module.exports = function(config) {
     reporters: ['progress', 'coverage'],
 
     preprocessors : {
-      'src/stPagination/**/!(*spec).js': 'coverage'
+      'app/stPagination/**/!(*spec).js': 'coverage'
     },
 
     //coverageReporter : { type : 'html', dir : 'tmp/coverage/'}

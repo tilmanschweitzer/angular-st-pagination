@@ -54,7 +54,7 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: {
       // configurable paths
-      app: require('./bower.json').appPath || 'src',
+      app: require('./bower.json').appPath || 'app',
       dist: 'dist'
     },
 
@@ -100,7 +100,7 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          open: 'http://localhost:9000/src/',
+          open: 'http://localhost:9000/app/',
           keepalive: true
         }
       },
@@ -213,10 +213,11 @@ module.exports = function (grunt) {
           ]
         }, {
           expand: true,
+          cwd: '<%= yeoman.app %>',
           src: [
             'bower_components/**/*'
           ],
-          dest: '<%= yeoman.dist %>',
+          dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
@@ -312,7 +313,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'deps-ok',
     'nice-package',
     'newer:jshint',
     'test',
