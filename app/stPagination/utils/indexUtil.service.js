@@ -11,7 +11,7 @@ angular.module('stPagination').factory('indexUtil', function () {
       return this.array;
     },
     foldGreaterThan: function (offset) {
-      return this.foldRange(offset+1, this.lastIndex);
+      return this.foldRange(offset + 1, this.lastIndex);
     },
     foldGreaterEquals: function (offset) {
       return this.foldRange(offset, this.lastIndex);
@@ -49,10 +49,10 @@ angular.module('stPagination').factory('indexUtil', function () {
       var secondFoldStop = this.lastIndex - edgeRange;
       if (index <= edgeRange + midRange) {
         firstFoldStart = edgeRange + midRange * 2;
-        return this.foldRange(firstFoldStart,  secondFoldStop);
+        return this.foldRange(firstFoldStart, secondFoldStop);
       } else if (index >= (this.lastIndex - (edgeRange + midRange))) {
         secondFoldStop = this.lastIndex - (edgeRange + midRange * 2);
-        return this.foldRange(firstFoldStart,  secondFoldStop);
+        return this.foldRange(firstFoldStart, secondFoldStop);
       } else {
         return this.foldRange(firstFoldStart, firstFoldStop).foldRange(secondFoldStart, secondFoldStop);
       }
@@ -60,7 +60,9 @@ angular.module('stPagination').factory('indexUtil', function () {
   });
 
   function range(length) {
-    return Array.apply(null, new Array(length)).map(function (_, i) {return i;});
+    return Array.apply(null, new Array(length)).map(function (_, i) {
+      return i;
+    });
   }
 
   function rangeBuilder(length) {

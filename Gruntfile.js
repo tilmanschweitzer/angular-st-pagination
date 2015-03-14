@@ -132,6 +132,16 @@ module.exports = function (grunt) {
       }
     },
 
+    jscs: {
+      src: [
+        '<%= yeoman.app %>/stPagination/**/*.js',
+        '!<%= yeoman.app %>/stPagination/**/*.spec.js'
+      ],
+      options: {
+        config: '.jscsrc'
+      }
+    },
+
     // Empties folders to start fresh
     clean: {
       dist: {
@@ -315,6 +325,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'nice-package',
     'newer:jshint',
+    'newer:jscs',
     'test',
     'build'
   ]);

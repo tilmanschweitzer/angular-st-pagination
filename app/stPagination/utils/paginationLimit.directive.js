@@ -27,6 +27,3 @@ angular.module('stPagination').directive('stPaginationLimit', function (Paginati
     }
   };
 });
-
-
-

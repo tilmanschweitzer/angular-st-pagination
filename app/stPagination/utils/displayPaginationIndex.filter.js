@@ -11,6 +11,3 @@ angular.module('stPagination').filter('displayPaginationIndex', function () {
     }
   };
 });
-
-
-

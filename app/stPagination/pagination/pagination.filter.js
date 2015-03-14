@@ -35,6 +35,3 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
     return pagination.paginatedInputCollection();
   };
 });
-
-
-
