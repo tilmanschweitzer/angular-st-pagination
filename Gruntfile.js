@@ -243,6 +243,28 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      },
+      dist: {
+        configFile: 'karma.conf.js',
+        singleRun: true,
+        options: {
+          files: [
+            'app/bower_components/jquery/jquery.js',
+            'app/bower_components/angular/angular.js',
+            'app/bower_components/angular-mocks/angular-mocks.js',
+            'dist/angular-st-pagination.js',
+            'app/customMatchers.js',
+            'app/stPagination/**/*.spec.js'
+          ],
+          preprocessors : {
+            'dist/angular-st-pagination.js': 'coverage'
+          },
+          coverageReporter : {
+            reporters: [
+              { type: 'text' }
+            ]
+          }
+        }
       }
     },
 
@@ -305,7 +327,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'karma'
+    'karma:unit'
   ]);
 
   grunt.registerTask('build', [
@@ -319,7 +341,8 @@ module.exports = function (grunt) {
     'copy:dist',
     'uglify:generated',
     'usemin',
-    'uglify:addBanner'
+    'uglify:addBanner',
+    'karma:dist'
   ]);
 
   grunt.registerTask('default', [
