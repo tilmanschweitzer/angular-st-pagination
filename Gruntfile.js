@@ -401,7 +401,7 @@ module.exports = function (grunt) {
     return (/^\s*$/.test(GIT.status));
   };
   GIT.isReleaseVersion = function () {
-    return (/^\n+\.\n+\.\n+/.test(PKG.version));
+    return (/^\d+\.\d+\.\d+$/.test(PKG.version));
   };
   GIT.isReleaseBranch = function () {
     return GIT.branch === '0.x-master';
