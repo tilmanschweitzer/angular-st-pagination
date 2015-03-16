@@ -237,7 +237,7 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           cwd: '.tmp/concat',
           src: [
-            'angular-st-pagination.js'
+            '*'
           ]
         }]
       },
