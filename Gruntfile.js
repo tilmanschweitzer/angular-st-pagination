@@ -187,6 +187,12 @@ module.exports = function (grunt) {
         options: {
           mangle: false,
           compress: false,
+          beautify: {
+            width: 120,
+            beautify: true,
+            indent_level: 2,
+
+          },
           banner: GIT.bannerHelper().generateBanner()
         },
         files: {
