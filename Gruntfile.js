@@ -115,7 +115,7 @@ module.exports = function (grunt) {
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc-base'
       },
       all: [
         'Gruntfile.js',
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
       ],
       test: {
         options: {
-          jshintrc: 'test/.jshintrc'
+          jshintrc: '.jshintrc'
         },
         src: [
           '<%= yeoman.app %>/stPagination/**/*.spec.js'
