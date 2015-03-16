@@ -1,7 +1,7 @@
 {
   "name": "angular-st-pagination",
   "description": "Client-side and modular pagination for angular.",
-  "version": "0.1.1-pre",
+  "version": "0.1.1",
   "author": "Tilman Potthof <tilmanpotthof@gmail.com>",
   "bugs": "https://github.com/tilmanpotthof/angular-st-pagination/issues",
   "contributors": [],
