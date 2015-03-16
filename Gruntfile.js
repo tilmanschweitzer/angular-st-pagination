@@ -362,7 +362,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'shell',
-    'clean:dist',
+    'clean',
     'bowerInstall',
     'useminPrepare',
     'copy:styles',
@@ -376,7 +376,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'clean',
     'nice-package',
     'sync',
     'newer:jshint',
