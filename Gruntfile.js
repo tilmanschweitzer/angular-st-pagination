@@ -225,7 +225,12 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.app %>',
           src: [
-            'bower_components/**/*'
+            'bower_components/es5-shim/es5-shim.js',
+            'bower_components/json3/lib/json3.min.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/bootstrap-css-only/css/bootstrap.css',
+            'bower_components/bootstrap-css-only/fonts/*'
           ],
           dest: '<%= yeoman.dist %>'
         }]
