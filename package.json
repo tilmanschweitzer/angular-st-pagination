@@ -1,7 +1,7 @@
 {
   "name": "angular-st-pagination",
   "description": "Client-side and modular pagination for angular.",
-  "version": "0.1.0-rc4",
+  "version": "0.1.0-pre",
   "author": "Tilman Potthof <tilmanpotthof@gmail.com>",
   "bugs": "https://github.com/tilmanpotthof/angular-st-pagination/issues",
   "contributors": [],
@@ -33,7 +33,6 @@
     "load-grunt-tasks": "3.1.0",
     "time-grunt": "1.1.0"
   },
-  "devVersion": "0.1.0-dev",
   "engines": {
     "node": ">=0.8.0"
   },

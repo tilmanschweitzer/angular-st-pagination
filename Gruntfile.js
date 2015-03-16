@@ -372,7 +372,7 @@ module.exports = function (grunt) {
     if (GIT.isTaggedWithPackageVersion() && GIT.isClean()) {
       return PKG.version;
     } else {
-      return PKG.devVersion + '-sha.' + GIT.hash;
+      return PKG.version + '-sha.' + GIT.hash;
     }
   };
 };
