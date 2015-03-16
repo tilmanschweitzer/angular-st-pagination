@@ -404,9 +404,12 @@ module.exports = function (grunt) {
   GIT.isTaggedWithPackageVersion = function () {
     return GIT.hash === GIT.versionHash;
   };
+  GIT.isReleaseVersion = function () {
+    return (/^\n+\.\n+\.\n+/.test(PKG.version));
+  };
 
   BUILD.version = function () {
-    if (GIT.isTaggedWithPackageVersion() && GIT.isClean()) {
+    if (GIT.isReleaseVersion && GIT.isClean()) {
       return PKG.version;
     } else {
       return PKG.version + '-sha.' + GIT.hash;
