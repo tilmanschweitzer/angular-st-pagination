@@ -300,7 +300,7 @@ module.exports = function (grunt) {
         }
       },
       gitVersionHash: {
-        command: 'git log --pretty=format:"%h" -n 1 v' + PKG.version,
+        command: 'git log --pretty=format:"%h" -n 1 ' + PKG.version,
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.versionHash = stdout;
