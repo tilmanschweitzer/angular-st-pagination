@@ -24,15 +24,13 @@ module.exports = function (grunt) {
         var lines = [
           '<%= pkg.name %> v<%= build.version() %>',
           'source: <%= pkg.repository.url %>',
-          '',
-          '<%= git.info() %>',
-          'Licence: <%= pkg.licence %> (<%= pkg.licenceUrl %>)'
+          'license: <%= pkg.license %> (<%= pkg.licenseUrl %>)'
         ];
         return this.multilineCommentFromLines(lines);
       },
       generateShortBanner: function () {
         var lines = [
-          '<%= pkg.name %> v<%= build.version() %> | <%= git.info() %>'
+          '<%= pkg.name %> v<%= build.version() %>'
         ];
         return this.multilineCommentFromLines(lines);
       }

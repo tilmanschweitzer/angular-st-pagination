@@ -42,8 +42,8 @@
     "pagination",
     "bootstrap"
   ],
-  "licenceUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE",
   "license": "MIT",
+  "licenseUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE",
   "main": "dist/angular-st-pagination.js",
   "repository": {
     "type": "git",
