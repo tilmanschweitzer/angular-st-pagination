@@ -1,6 +1,5 @@
-'use strict';
-
 angular.module('stPagination').filter('pageInfo', function (Pagination) {
+  'use strict';
 
   var propertyNameToFunctionMapping = {
     total: 'length',
