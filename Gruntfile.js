@@ -183,13 +183,14 @@ module.exports = function (grunt) {
     },
 
     uglify: {
-      addBanner: {
+      dist: {
         options: {
           mangle: true,
+          sourceMap: true,
           banner: GIT.bannerHelper().generateBanner()
         },
         files: {
-          'dist/angular-st-pagination.js': ['dist/angular-st-pagination.js']
+          'dist/angular-st-pagination.min.js': ['dist/angular-st-pagination.js']
         }
       }
     },
@@ -231,6 +232,13 @@ module.exports = function (grunt) {
             'bower_components/bootstrap-css-only/fonts/*'
           ],
           dest: '<%= yeoman.dist %>'
+        },{
+          expand: true,
+          dest: '<%= yeoman.dist %>',
+          cwd: '.tmp/concat',
+          src: [
+            'angular-st-pagination.js'
+          ]
         }]
       },
       styles: {
@@ -255,7 +263,7 @@ module.exports = function (grunt) {
             'app/bower_components/jquery/jquery.js',
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
-            'dist/angular-st-pagination.js',
+            'dist/angular-st-pagination.min.js',
             'app/customMatchers.js',
             'app/stPagination/**/*.spec.js'
           ],
@@ -351,13 +359,13 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    'uglify:generated',
     'usemin',
-    'uglify:addBanner',
+    'uglify:dist',
     'karma:dist'
   ]);
 
   grunt.registerTask('default', [
+    'clean',
     'nice-package',
     'sync',
     'newer:jshint',
