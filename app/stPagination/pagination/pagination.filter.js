@@ -1,6 +1,6 @@
-'use strict';
 
 angular.module('stPagination').filter('pagination', function (Pagination, findPropertyName) {
+  'use strict';
 
   return function (inputCollection, originalCollection) {
     var collectionWithPaginationHandle;

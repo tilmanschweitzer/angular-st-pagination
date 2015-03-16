@@ -1,6 +1,5 @@
-'use strict';
-
 angular.module('stPagination').directive('stPagination', function (Pagination) {
+  'use strict';
 
   var css3UserSelectAliases = [
     '-webkit-touch-callout',
