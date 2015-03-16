@@ -29,11 +29,11 @@ describe('Directive: pagination', function () {
   });
 
   it('should set the collection correctly', function () {
-    expect($simplePagination.scope().collection).toBe($scope.commits);
+    expect($simplePagination.isolateScope().collection).toBe($scope.commits);
   });
 
   it('should set the pagination of the collection correctly', inject(function () {
-    expect($simplePagination.scope().pagination).toBe($scope.commits.pagination);
+    expect($simplePagination.isolateScope().pagination).toBe($scope.commits.pagination);
   }));
 
   it('should throw an error if the collection has no pagination', inject(function ($compile) {
@@ -73,7 +73,7 @@ describe('Directive: pagination', function () {
     }));
 
     it('example should have 3 pages', inject(function () {
-      expect($simplePagination.scope().pagination.totalPages()).toBe(3);
+      expect($simplePagination.isolateScope().pagination.totalPages()).toBe(3);
     }));
 
     it('example have 5 list elements (prev, 1, 2, 3, next)', inject(function () {
