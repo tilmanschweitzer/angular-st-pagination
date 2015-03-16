@@ -343,16 +343,6 @@ module.exports = function (grunt) {
             cb();
           }
         }
-      },
-      gitVersionHash: {
-        command: 'git log --pretty=format:"%h" -n 1 ' + PKG.version,
-        options: {
-          callback: function (err, stdout, stderr, cb) {
-            GIT.versionHash = stdout;
-            console.log('git-hash of pkg.version tag: ' + GIT.versionHash);
-            cb();
-          }
-        }
       }
     }
   });
@@ -410,16 +400,12 @@ module.exports = function (grunt) {
   GIT.isClean = function () {
     return (/^\s*$/.test(GIT.status));
   };
-  GIT.isTaggedWithPackageVersion = function () {
-    return GIT.hash === GIT.versionHash;
-  };
   GIT.isReleaseVersion = function () {
     return (/^\n+\.\n+\.\n+/.test(PKG.version));
   };
   GIT.isReleaseBranch = function () {
     return GIT.branch === '0.x-master';
   };
-
   BUILD.version = function () {
     if (GIT.isReleaseVersion() && GIT.isReleaseBranch() && GIT.isClean()) {
       return PKG.version;
