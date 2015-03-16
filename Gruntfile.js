@@ -23,7 +23,7 @@ module.exports = function (grunt) {
       generateBanner: function () {
         var lines = [
           '<%= pkg.name %> v<%= build.version() %>',
-          'source: <%= pkg.repository %>',
+          'source: <%= pkg.repository.url %>',
           '',
           '<%= git.info() %>',
           'Licence: <%= pkg.licence %> (<%= pkg.licenceUrl %>)'
