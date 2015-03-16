@@ -9,6 +9,14 @@ describe('Directive: paginationLimit', function () {
     jasmine.addMatchers(customJasmineMatchers);
   });
 
+  function getOptionValuesByText($select) {
+    var optionValueByText = {};
+    $select.find('option').each(function (i, option) {
+      var $option = angular.element(option);
+      optionValueByText[$option.text()] = $option.val();
+    });
+    return optionValueByText;
+  }
   var $scope, $basicPaginationLimit, $directiveScope, $compile, $filter, Pagination;
 
   // Initialize the controller and a mock scope
@@ -74,4 +82,28 @@ describe('Directive: paginationLimit', function () {
     $scope.$apply();
     expect($directiveScope.pagination).not.toBeDefined();
   });
+
+  it('updates the limit on the pagination object', function () {
+    $scope.commits = [];
+    $filter('pagination')($scope.commits);
+    $scope.$apply();
+
+    expect($scope.commits.pagination.$limit).toBe(10);
+
+    var optionValueByText = getOptionValuesByText($basicPaginationLimit);
+    $basicPaginationLimit.val(optionValueByText[20]).trigger('change');
+
+    $scope.$apply();
+    expect($scope.commits.pagination.$limit).toBe(20);
+  });
+
+  it('initializes the select values', function () {
+    $scope.commits = [];
+    $filter('pagination')($scope.commits);
+    $scope.$apply();
+
+    expect($basicPaginationLimit.find(':selected').text()).toBe('10');
+    expect($basicPaginationLimit.find('option:nth-child(2)').text()).toBe('20');
+  });
+
 });
