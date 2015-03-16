@@ -13,7 +13,6 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
     <!-- endbower -->
-    <!-- build:css({.tmp,src}) styles/main.css -->
     <link rel="stylesheet" href="demoApp/styles/main.css">
     <!-- endbuild -->
   </head>
@@ -34,20 +33,20 @@
     <script src="bower_components/angular/angular.js"></script>
     <!-- endbower -->
 
-    <!-- build:js({.tmp/,src}) demoApp.js -->
+    <!-- build:js({.tmp/,app}) demoApp.js -->
     <script src="demoApp/scripts/demoApp.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js({.tmp/concat,src}) angular-stPagination.js -->
-    <script src="pagination/stPagination-module.js"></script>
-    <script src="pagination/Pagination.js"></script>
-    <script src="pagination/pagination-filter.js"></script>
-    <script src="pagination/findPropertyName.js"></script>
-    <script src="pagination/indexUtil.js"></script>
-    <script src="pagination/displayPaginationIndex-filter.js"></script>
-    <script src="pagination/paginationLimit-directive.js"></script>
-    <script src="pagination/pagination-directive.js"></script>
-    <script src="pagination/page-info-filter.js"></script>
+    <!-- build:js({.tmp/concat,app}) angular-st-pagination.js -->
+    <script src="stPagination/stPagination.module.js"></script>
+    <script src="stPagination/pagination/Pagination.service.js"></script>
+    <script src="stPagination/pagination/pagination.filter.js"></script>
+    <script src="stPagination/utils/findPropertyName.service.js"></script>
+    <script src="stPagination/utils/indexUtil.service.js"></script>
+    <script src="stPagination/utils/displayPaginationIndex.filter.js"></script>
+    <script src="stPagination/utils/paginationLimit.directive.js"></script>
+    <script src="stPagination/pagination/pagination.directive.js"></script>
+    <script src="stPagination/utils/pageInfo.filter.js"></script>
     <!-- endbuild -->
 </body>
 </html>

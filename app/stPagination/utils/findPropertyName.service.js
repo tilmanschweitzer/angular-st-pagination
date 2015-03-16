@@ -1,13 +1,12 @@
-'use strict';
-
-angular.module("stPagination").factory("findPropertyName", function () {
+angular.module('stPagination').factory('findPropertyName', function () {
+  'use strict';
 
   function findPropertyName(property, object) {
 
     try {
       if (angular.isObject(object)) {
         angular.forEach(object, function (value, key) {
-          if (value === object || (key[0] === "$" && key !== "$parent")) {
+          if (value === object || (key[0] === '$' && key !== '$parent')) {
             return;
           }
           if (value === property) {
@@ -15,7 +14,7 @@ angular.module("stPagination").factory("findPropertyName", function () {
           } else {
             var nestedName = findPropertyName(property, object[key]);
             if (nestedName) {
-              throw key + "." + nestedName;
+              throw key + '.' + nestedName;
             }
           }
         });

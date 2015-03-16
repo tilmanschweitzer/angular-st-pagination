@@ -18,21 +18,19 @@ module.exports = function (grunt) {
   GIT.bannerHelper = function () {
     return {
       multilineCommentFromLines: function (lines) {
-        return "/*!\n * " + lines.join("\n * ") + "\n */\n";
+        return '/*!\n * ' + lines.join('\n * ') + '\n */\n';
       },
       generateBanner: function () {
         var lines = [
-          "<%= pkg.name %> v<%= build.version() %>",
-          "source: <%= pkg.info.repository %>",
-          "",
-          "<%= git.info() %>",
-          "Licence: <%= pkg.info.licence %> (<%= pkg.info.licenceUrl %>)"
+          '<%= pkg.name %> v<%= build.version() %>',
+          'source: <%= pkg.repository.url %>',
+          'license: <%= pkg.license %> (<%= pkg.licenseUrl %>)'
         ];
         return this.multilineCommentFromLines(lines);
       },
       generateShortBanner: function () {
         var lines = [
-          "<%= pkg.name %> v<%= build.version() %> | <%= git.info() %>"
+          '<%= pkg.name %> v<%= build.version() %>'
         ];
         return this.multilineCommentFromLines(lines);
       }
@@ -54,7 +52,7 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: {
       // configurable paths
-      app: require('./bower.json').appPath || 'src',
+      app: require('./bower.json').appPath || 'app',
       dist: 'dist'
     },
 
@@ -73,7 +71,7 @@ module.exports = function (grunt) {
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+        tasks: ['newer:copy:styles']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -98,29 +96,15 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
-      livereload: {
+      dev: {
         options: {
-          open: true,
-          keepalive: true,
-          base: [
-            '.tmp',
-            '<%= yeoman.app %>'
-          ]
-        }
-      },
-      test: {
-        options: {
-          port: 9001,
-          base: [
-            '.tmp',
-            'test',
-            '<%= yeoman.app %>'
-          ]
+          open: 'http://localhost:9000/app/',
+          keepalive: true
         }
       },
       dist: {
         options: {
-          base: '<%= yeoman.dist %>',
+          open: 'http://localhost:9000/dist/',
           keepalive: true
         }
       }
@@ -129,18 +113,30 @@ module.exports = function (grunt) {
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
+        jshintrc: '.jshintrc-base'
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%= yeoman.app %>/stPagination/**/*.js',
+        '!<%= yeoman.app %>/stPagination/**/*.spec.js'
       ],
       test: {
         options: {
-          jshintrc: 'test/.jshintrc'
+          jshintrc: '.jshintrc'
         },
-        src: ['test/spec/{,*/}*.js']
+        src: [
+          '<%= yeoman.app %>/stPagination/**/*.spec.js'
+        ]
+      }
+    },
+
+    jscs: {
+      src: [
+        '<%= yeoman.app %>/stPagination/**/*.js',
+        '!<%= yeoman.app %>/stPagination/**/*.spec.js'
+      ],
+      options: {
+        config: '.jscsrc'
       }
     },
 
@@ -154,22 +150,6 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*'
           ]
-        }]
-      },
-      server: '.tmp'
-    },
-
-    // Add vendor prefixed styles
-    autoprefixer: {
-      options: {
-        browsers: ['last 1 version']
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/styles/',
-          src: '{,*/}*.css',
-          dest: '.tmp/styles/'
         }]
       }
     },
@@ -197,7 +177,6 @@ module.exports = function (grunt) {
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
         assetsDirs: ['<%= yeoman.dist %>']
       }
@@ -206,50 +185,29 @@ module.exports = function (grunt) {
     uglify: {
       addBanner: {
         options: {
-          mangle: true,
+          mangle: false,
+          compress: false,
+          beautify: {
+            width: 120,
+            beautify: true,
+            indent_level: 2,
+
+          },
           banner: GIT.bannerHelper().generateBanner()
         },
         files: {
-          'dist/angular-stPagination.js': ['dist/angular-stPagination.js']
+          'dist/angular-st-pagination.js': ['dist/angular-st-pagination.js']
         }
-      }
-    },
-
-    // The following *-min tasks produce minified files in the dist folder
-    imagemin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: '<%= yeoman.dist %>/images'
-        }]
-      }
-    },
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= yeoman.dist %>/images'
-        }]
-      }
-    },
-    htmlmin: {
+      },
       dist: {
         options: {
-          collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true,
-          removeOptionalTags: true
+          mangle: true,
+          sourceMap: true,
+          banner: GIT.bannerHelper().generateBanner()
         },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
-          dest: '<%= yeoman.dist %>'
-        }]
+        files: {
+          'dist/angular-st-pagination.min.js': ['dist/angular-st-pagination.js']
+        }
       }
     },
 
@@ -276,14 +234,27 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             '*.html',
-            'bower_components/**/*',
             'demoApp/**/*'
           ]
         }, {
           expand: true,
-          cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
-          src: ['generated/*']
+          cwd: '<%= yeoman.app %>',
+          src: [
+            'bower_components/es5-shim/es5-shim.js',
+            'bower_components/json3/lib/json3.min.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/bootstrap-css-only/css/bootstrap.css',
+            'bower_components/bootstrap-css-only/fonts/*'
+          ],
+          dest: '<%= yeoman.dist %>'
+        },{
+          expand: true,
+          dest: '<%= yeoman.dist %>',
+          cwd: '.tmp/concat',
+          src: [
+            '*'
+          ]
         }]
       },
       styles: {
@@ -294,52 +265,42 @@ module.exports = function (grunt) {
       }
     },
 
-    // Run some tasks in parallel to speed up the build process
-    concurrent: {
-      server: [
-        'copy:styles'
-      ],
-      test: [
-        'copy:styles'
-      ],
-      dist: [
-        'copy:styles',
-        'imagemin',
-        'svgmin'
-      ]
-    },
-
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Test settings
     karma: {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      },
+      dist: {
+        configFile: 'karma.conf.js',
+        singleRun: true,
+        options: {
+          files: [
+            'app/bower_components/jquery/jquery.js',
+            'app/bower_components/angular/angular.js',
+            'app/bower_components/angular-mocks/angular-mocks.js',
+            'dist/angular-st-pagination.min.js',
+            'app/customMatchers.js',
+            'app/stPagination/**/*.spec.js'
+          ],
+          preprocessors : {
+            'dist/angular-st-pagination.js': 'coverage'
+          },
+          coverageReporter : {
+            reporters: [
+              { type: 'text' }
+            ]
+          }
+        }
+      }
+    },
+
+    sync: {
+      all: {
+        options: {
+          // sync specific options
+          sync: ['author', 'name', 'version']
+        }
       }
     },
 
@@ -353,20 +314,20 @@ module.exports = function (grunt) {
 
     shell: {
       bower_install: {
-        command: "bower install"
+        command: 'bower install'
       },
       gitHash: {
-        command: "git log --pretty=format:'%h' -n 1",
+        command: 'git log --pretty=format:"%h" -n 1',
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.hash = stdout;
-            console.log("git-version: " + GIT.hash);
+            console.log('git-version: ' + GIT.hash);
             cb();
           }
         }
       },
       gitStatus: {
-        command: "git status -s",
+        command: 'git status -s',
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.status = stdout;
@@ -375,11 +336,11 @@ module.exports = function (grunt) {
         }
       },
       gitVersionHash: {
-        command: "git log --pretty=format:'%h' -n 1 v" + PKG.version,
+        command: 'git log --pretty=format:"%h" -n 1 ' + PKG.version,
         options: {
           callback: function (err, stdout, stderr, cb) {
             GIT.versionHash = stdout;
-            console.log("git-hash of pkg.version tag: " + GIT.versionHash);
+            console.log('git-hash of pkg.version tag: ' + GIT.versionHash);
             cb();
           }
         }
@@ -394,57 +355,46 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'clean:server',
       'bowerInstall',
-      'concurrent:server',
-      'autoprefixer',
-      'connect:livereload',
+      'copy:styles',
+      'connect:dev',
       'watch'
     ]);
   });
 
-  grunt.registerTask('server', function () {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve']);
-  });
-
   grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test',
-    'karma'
+    'karma:unit'
   ]);
 
   grunt.registerTask('build', [
     'shell',
-    'clean:dist',
+    'clean',
     'bowerInstall',
     'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
+    'copy:styles',
     'concat',
     'ngmin',
     'copy:dist',
-    'cssmin',
-    'uglify:generated',
     'usemin',
-    'htmlmin',
-    'uglify:addBanner'
+    'uglify:addBanner',
+    'uglify:dist',
+    'karma:dist'
   ]);
 
   grunt.registerTask('default', [
+    'sync',
     'newer:jshint',
+    'newer:jscs',
     'test',
     'build'
   ]);
 
   GIT.info = function () {
-    var gitVersionComment = "git-version: " + GIT.hash;
+    var gitVersionComment = 'git-version: ' + GIT.hash;
     if (this.isClean()) {
       return gitVersionComment;
     } else {
-      return gitVersionComment + " (WARNING: Repo had uncommitted changed while creating the build.)";
+      return gitVersionComment + ' (WARNING: Repo had uncommitted changed while creating the build.)';
     }
   };
   GIT.isClean = function () {
@@ -458,7 +408,7 @@ module.exports = function (grunt) {
     if (GIT.isTaggedWithPackageVersion() && GIT.isClean()) {
       return PKG.version;
     } else {
-      return PKG.devVersion + "-sha." + GIT.hash;
+      return PKG.version + '-sha.' + GIT.hash;
     }
   };
 };

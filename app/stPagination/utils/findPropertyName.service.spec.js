@@ -10,7 +10,7 @@ describe('Service: findPropertyName', function () {
     var object = {
       myProperty: property
     };
-    expect(findPropertyName(property,  object)).toBe("myProperty");
+    expect(findPropertyName(property,  object)).toBe('myProperty');
   }));
 
   it('should find a property name in a nested object', inject(function (findPropertyName) {
@@ -20,13 +20,13 @@ describe('Service: findPropertyName', function () {
         myProperty: property
       }
     };
-    expect(findPropertyName(property,  object)).toBe("nestedProperty.myProperty");
+    expect(findPropertyName(property,  object)).toBe('nestedProperty.myProperty');
   }));
 
   it('should find a property name in an $scope', inject(function ($rootScope, findPropertyName) {
     var $scope = $rootScope.$new();
     $scope.myProperty = {};
-    expect(findPropertyName($scope.myProperty, $scope)).toBe("myProperty");
+    expect(findPropertyName($scope.myProperty, $scope)).toBe('myProperty');
   }));
 
   it('should find a property name in a child $scope', inject(function ($rootScope, findPropertyName) {
@@ -36,6 +36,6 @@ describe('Service: findPropertyName', function () {
     var property = {};
 
     $parentScope.myProperty = property;
-    expect(findPropertyName(property, $scope)).toBe("$parent.myProperty");
+    expect(findPropertyName(property, $scope)).toBe('$parent.myProperty');
   }));
 });

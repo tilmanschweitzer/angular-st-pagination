@@ -1,6 +1,5 @@
-'use strict';
-
-angular.module('stPagination').factory("Pagination", function (indexUtil) {
+angular.module('stPagination').factory('Pagination', function (indexUtil) {
+  'use strict';
 
   function Pagination(inputCollection) {
     this.$inputCollection = inputCollection;
@@ -71,7 +70,7 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
       if (!angular.isArray(page)) {
         this.$page = page;
       } else {
-        var middleIndex = Math.floor((page.length / 2));
+        var middleIndex = Math.floor(((page.length - 1) / 2));
         this.$page = page[middleIndex];
       }
       this.checkPageLimits();
@@ -95,9 +94,6 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
     lastPage: function () {
       return this.totalPages() - 1;
     },
-    indices: function () {
-      return indexUtil.range(this.totalPages());
-    },
     reducedIndices: function (midRange, edgeRange) {
       midRange = isNumberOrDefault(midRange, 3);
       edgeRange = isNumberOrDefault(edgeRange, 3);
@@ -115,10 +111,7 @@ angular.module('stPagination').factory("Pagination", function (indexUtil) {
       }
     },
     indexCacheKey: function (midRange, edgeRange) {
-      return this.page() + "-" + this.limit() + "-" + this.length() + "-" + midRange + "-" + edgeRange;
-    },
-    isIndex: function (index) {
-      return angular.isNumber(index);
+      return this.page() + '-' + this.limit() + '-' + this.length() + '-' + midRange + '-' + edgeRange;
     },
     displayPage: function () {
       return this.page() + 1;

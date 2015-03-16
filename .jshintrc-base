@@ -1,0 +1,65 @@
+{
+  /*
+   * comments on different values referr to johnpapa's angular style guide
+   * source: https://github.com/johnpapa/angular-styleguide#js-hint
+   */
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "es3": false,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "indent": 2, // 2 instead of 4
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonbsp": true,
+  "nonew": true,
+  "plusplus": false,
+  "quotmark": "single",
+  "undef": true,
+  "unused": true, // true instead of false
+  "strict": true, // true instead of false
+  "maxparams": 5, // 5 instead of 10
+  "maxdepth": 4, // 4 instead of 5
+  "maxstatements": 20, // 20 instead of 40
+  "maxcomplexity": 6, // 6 instead of 10
+  "maxlen": 120,
+
+  "asi": false,
+  "boss": false,
+  "debug": false,
+  "eqnull": true,
+  "esnext": false,
+  "evil": false,
+  "expr": false,
+  "funcscope": false,
+  "globalstrict": false,
+  "iterator": false,
+  "lastsemic": false,
+  "laxbreak": false,
+  "laxcomma": false,
+  "loopfunc": true,
+  "maxerr": false,
+  "moz": false,
+  "multistr": false,
+  "notypeof": false,
+  "proto": false,
+  "scripturl": false,
+  "shadow": false,
+  "sub": true,
+  "supernew": false,
+  "validthis": false,
+  "noyield": false,
+
+  "browser": true,
+  "node": true,
+
+  "globals": {
+    "angular": false,
+    "$": false
+  }
+}

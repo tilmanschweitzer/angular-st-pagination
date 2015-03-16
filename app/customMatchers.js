@@ -11,8 +11,8 @@ window.customJasmine20Matchers = {
         var instanceName = actual.constructor.name;
 
         if (!result.pass) {
-          result.message = "Expected " +  actual + " to be an instance of '" +  expected.name +
-              "', but was instance of '" + instanceName + "'";
+          result.message = 'Expected ' +  actual + ' to be an instance of "' +  expected.name +
+              '", but was instance of "' + instanceName + '"';
         }
         return result;
       }
@@ -25,12 +25,12 @@ window.customJasmine20Matchers = {
         if (!scope.$parent) {
           return {
             pass: false,
-            message: "Expected " + actual + " to have an isolated scope, but it seems not to be a scope."
+            message: 'Expected ' + actual + ' to have an isolated scope, but it seems not to be a scope.'
           };
         } else if (Object.getPrototypeOf(scope) === scope.$parent) {
           return {
             pass: false,
-            message: "Expected " + actual + " to have an isolated scope."
+            message: 'Expected ' + actual + ' to have an isolated scope.'
           };
         } else {
           return {
@@ -53,7 +53,13 @@ function create10CompatipleJasmineMatcher (jasmine20Matcher) {
 
 window.customJasmineMatchers = {};
 
-["toBeInstanceOf", "toHaveAnIsolatedScope"].forEach(function (customMatcherName) {
+['toBeInstanceOf', 'toHaveAnIsolatedScope'].forEach(function (customMatcherName) {
   var jasmine20Matcher = window.customJasmine20Matchers[customMatcherName];
   window.customJasmineMatchers[customMatcherName] = create10CompatipleJasmineMatcher(jasmine20Matcher);
 });
+
+(function() {
+  // simple patch for angular 1.2 isolateScope function
+  var elementPrototype = angular.element(window.document).constructor.prototype;
+  elementPrototype.isolateScope = elementPrototype.scope;
+}());
