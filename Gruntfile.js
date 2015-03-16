@@ -339,7 +339,8 @@ module.exports = function (grunt) {
         command: 'git status -s -b',
         options:  {
           callback: function (err, stdout, stderr, cb) {
-            GIT.branch = stdout.match(/## ((\w|[-\.])+)\.\.\..*/)[1];
+            var match = stdout.match(/## ((\w|[-\.])+)\.\.\..*/);
+            GIT.branch = (match || {})[1];
             cb();
           }
         }
