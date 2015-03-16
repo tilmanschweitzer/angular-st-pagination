@@ -1,6 +1,6 @@
 {
-  "name": "angular-pagination",
-  "version": "0.0.0",
+  "name": "angular-st-pagination",
+  "version": "0.1.0",
   "dependencies": {
     "angular": "1.2.14",
     "angular-route": "1.2.14",
@@ -9,5 +9,16 @@
   "devDependencies": {
     "jquery": "~1.10.2",
     "angular-mocks": "1.2.14"
-  }
+  },
+  "authors": [
+    "Tilman Potthof <tilmanpotthof@gmail.com>"
+  ],
+  "description": "Client-side and modular pagination for angular.",
+  "license": "MIT",
+  "homepage": "http://tilmanpotthof.github.io/angular-st-pagination/#/",
+  "keywords": [
+    "angular",
+    "pagination",
+    "bootstrap"
+  ]
 }

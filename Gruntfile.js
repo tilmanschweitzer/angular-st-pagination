@@ -271,6 +271,15 @@ module.exports = function (grunt) {
       }
     },
 
+    sync: {
+      all: {
+        options: {
+          // sync specific options
+          sync: ['author', 'name', 'version']
+        }
+      }
+    },
+
     coveralls: {
       options: {
         debug: true,
@@ -350,6 +359,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'nice-package',
+    'sync',
     'newer:jshint',
     'newer:jscs',
     'test',
