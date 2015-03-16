@@ -183,6 +183,16 @@ module.exports = function (grunt) {
     },
 
     uglify: {
+      addBanner: {
+        options: {
+          mangle: false,
+          compress: false,
+          banner: GIT.bannerHelper().generateBanner()
+        },
+        files: {
+          'dist/angular-st-pagination.js': ['dist/angular-st-pagination.js']
+        }
+      },
       dist: {
         options: {
           mangle: true,
@@ -360,6 +370,7 @@ module.exports = function (grunt) {
     'ngmin',
     'copy:dist',
     'usemin',
+    'uglify:addBanner',
     'uglify:dist',
     'karma:dist'
   ]);
