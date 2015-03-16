@@ -1,5 +1,5 @@
 /*!
- * angular-st-pagination v0.1.1-sha.c67d14e
+ * angular-st-pagination v0.1.1
  * source: git@github.com:tilmanpotthof/angular-st-pagination.git
  * license: MIT (https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE)
  */
