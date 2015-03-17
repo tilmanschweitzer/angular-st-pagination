@@ -6,8 +6,7 @@
 git checkout bower
 
 DIST=dist/
-git checkout 0.x-master -- $DIST
-
+git checkout 0.x-master -- $DIST bower.json README.md
 
 for FILE in angular-st-pagination.js  angular-st-pagination.min.js angular-st-pagination.min.js.map
 do
