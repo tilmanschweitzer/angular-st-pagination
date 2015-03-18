@@ -45,7 +45,7 @@ angular.module('paginationDemo').controller('demoController', [
         'totalPages'
       ];
       $scope.propertyTemplate = function (property) {
-        return '{{ commits | pageInfo:"' + property + '" }}';
+        return '{{ commits | stPageInfo:"' + property + '" }}';
       };
       $scope.getResult = function (functionName, object) {
         return object[functionName]();
