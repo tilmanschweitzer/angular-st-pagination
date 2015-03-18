@@ -74,6 +74,16 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       label: 'Bootstrap 2.x',
       path: 'demoApp/styles/bootstrap-2.3.2.css',
       configKey: 'bootstrap2'
+    },
+    {
+      label: 'List',
+      path: '',
+      configKey: 'list'
+    },
+    {
+      label: 'Div wrapped list',
+      path: '',
+      configKey: 'divWrappedList'
     }
   ];
 
