@@ -53,7 +53,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     ];
 
     $scope.propertyTemplate = function (property) {
-      return '{{ commits | pageInfo:"' + property + '" }}';
+      return '{{ commits | stPageInfo:"' + property + '" }}';
     };
 
     $scope.getResult = function (functionName, object) {

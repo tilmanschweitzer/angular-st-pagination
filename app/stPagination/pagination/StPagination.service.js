@@ -1,7 +1,7 @@
-angular.module('stPagination').factory('Pagination', function (indexUtil) {
+angular.module('stPagination').factory('StPagination', function (indexUtil) {
   'use strict';
 
-  function Pagination(inputCollection) {
+  function StPagination(inputCollection) {
     this.$inputCollection = inputCollection;
     this.$limit = 10;
     this.$page = 0;
@@ -9,16 +9,16 @@ angular.module('stPagination').factory('Pagination', function (indexUtil) {
   }
 
   function hasPagination(collection) {
-    return collection && collection.pagination instanceof Pagination;
+    return collection && collection.pagination instanceof StPagination;
   }
 
   function isNumberOrDefault(number, defaultValue) {
     return angular.isNumber(number) ? number : defaultValue;
   }
 
-  Pagination.hasPagination = hasPagination;
+  StPagination.hasPagination = hasPagination;
 
-  angular.extend(Pagination.prototype, {
+  angular.extend(StPagination.prototype, {
     setInputCollection: function (inputCollection) {
       this.$inputCollection = inputCollection;
       this.checkPageLimits();
@@ -121,5 +121,5 @@ angular.module('stPagination').factory('Pagination', function (indexUtil) {
     }
   });
 
-  return Pagination;
+  return StPagination;
 });

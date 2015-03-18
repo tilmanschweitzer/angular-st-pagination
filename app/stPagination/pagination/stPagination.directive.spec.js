@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Directive: pagination', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));
@@ -15,7 +14,7 @@ describe('Directive: pagination', function () {
   beforeEach(inject(function ($controller, $rootScope, $filter, $compile) {
     $scope = $rootScope.$new().$new();
     $scope.commits = [];
-    $filter('pagination')($scope.commits);
+    $filter('stPagination')($scope.commits);
     $simplePagination = $compile('<st-pagination collection="commits"></st-pagination>')($scope);
     $scope.$apply();
   }));
@@ -55,7 +54,7 @@ describe('Directive: pagination', function () {
 
     beforeEach(inject(function ($filter) {
       $scope.commits = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
-      $filter('pagination')($scope.commits);
+      $filter('stPagination')($scope.commits);
       $scope.commits.pagination.setPage(1);
       $scope.$apply();
 

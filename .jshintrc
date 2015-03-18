@@ -11,6 +11,7 @@
     "describe": false,
     "expect": false,
     "inject": false,
+    "module": false,
     "it": false,
     "jasmine": false,
     "spyOn": false,

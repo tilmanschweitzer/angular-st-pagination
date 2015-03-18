@@ -3,9 +3,10 @@
 > Provides client-side pagination through a simple angular filter.
 
 [![Build Status](https://travis-ci.org/tilmanpotthof/angular-st-pagination.png)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
-[![Coverage Status](https://coveralls.io/repos/tilmanpotthof/angular-st-pagination/badge.png)](https://coveralls.io/r/tilmanpotthof/angular-st-pagination)
 [![Dependency Status](https://gemnasium.com/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
-
+[![Test Coverage](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination/badges/coverage.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
+[![Code Climate](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination/badges/gpa.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
+[![Issue Stat](http://issuestats.com/github/tilmanpotthof/angular-st-pagination/badge/issue)](http://issuestats.com/github/tilmanpotthof/angular-st-pagination)
 
     bower install angular-st-pagination --save-dev
 
@@ -41,12 +42,11 @@ The configurable number of elements never changes and prevents the pagination to
 
 Configure the pagination directive to use them with **Bootstrap 3.x** and **2.x**
 
-### Angular compatibility (1.0.x, 1.2.x)
+### Angular compatibility (1.3.x, 1.2.x, 1.0.x)
 
-Angular is moving fast, but the compatibility is tested for all minor branches including `1.0.x` and `1.2.x`.
+Angular is moving fast, but the compatibility is tested for all minor branches including older releases `1.0.x` and `1.2.x`.
 
 ### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
-
 
 
 ## Components

@@ -276,7 +276,7 @@ module.exports = function (grunt) {
         singleRun: true,
         options: {
           files: [
-            'app/bower_components/jquery/jquery.js',
+            'app/bower_components/jquery/dist/jquery.js',
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
             'dist/angular-st-pagination.min.js',
@@ -301,14 +301,6 @@ module.exports = function (grunt) {
           // sync specific options
           sync: ['author', 'name', 'version']
         }
-      }
-    },
-
-    coveralls: {
-      options: {
-        debug: true,
-        coverage_dir: 'coverage',
-        force: true
       }
     },
 
