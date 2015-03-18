@@ -1,5 +1,4 @@
-
-angular.module('stPagination').filter('pagination', function (Pagination, findPropertyName) {
+angular.module('stPagination').filter('stPagination', function (StPagination, findPropertyName) {
   'use strict';
 
   return function (inputCollection, originalCollection) {
@@ -11,15 +10,15 @@ angular.module('stPagination').filter('pagination', function (Pagination, findPr
 
     collectionWithPaginationHandle = originalCollection || inputCollection;
 
-    if (!Pagination.hasPagination(collectionWithPaginationHandle)) {
-      collectionWithPaginationHandle.pagination = new Pagination(inputCollection);
+    if (!StPagination.hasPagination(collectionWithPaginationHandle)) {
+      collectionWithPaginationHandle.pagination = new StPagination(inputCollection);
 
       if (this && this.$watch) {
         var collectionName = findPropertyName(collectionWithPaginationHandle, this);
 
         if (collectionName) {
           this.$watch(collectionName, function (newCollection, oldCollection) {
-            if (Pagination.hasPagination(oldCollection)) {
+            if (StPagination.hasPagination(oldCollection)) {
               newCollection.pagination = oldCollection.pagination;
             }
           });

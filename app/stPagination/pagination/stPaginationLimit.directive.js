@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPaginationLimit', function (Pagination) {
+angular.module('stPagination').directive('stPaginationLimit', function (StPagination) {
   'use strict';
 
   var DEFAULT_LIMITS = [10, 20, 50];
@@ -17,7 +17,7 @@ angular.module('stPagination').directive('stPaginationLimit', function (Paginati
       };
 
       $scope.$watch('collection', function(collection) {
-        if (Pagination.hasPagination(collection)) {
+        if (StPagination.hasPagination(collection)) {
           $scope.pagination = collection.pagination;
         } else {
           delete $scope.pagination;

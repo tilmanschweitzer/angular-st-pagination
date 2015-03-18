@@ -17,8 +17,8 @@
 <div class="row marketing">
   <h4>Complete pagination logic</h4>
   <p>
-    Just use the <code>pagination</code> filter with an array and the logic is handled by the library.
-    It is as simple as this example: <code>user for users | pagination</code>.
+    Just use the <code>stPagination</code> filter with an array and the logic is handled by the library.
+    It is as simple as this example: <code>user for users | stPagination</code>.
   </p>
   <h4>Fixed number of elements</h4>
   <p>
@@ -47,7 +47,7 @@
     <p>
     <ul class="list-unstyled commits">
       <li ng-hide="commits">Loading commits...</li>
-      <li ng-repeat="commit in commits | filter:{comment:commentFilter} | pagination:commits">
+      <li ng-repeat="commit in commits | filter:{comment:commentFilter} | stPagination:commits">
         <code>{{ commit.hash }}</code>
         <span style="text-wrap: none">{{ commit.comment }}</span>
       </li>
@@ -57,9 +57,9 @@
       <st-pagination collection="commits"></st-pagination>
     </div>
     <div>
-      Commits {{ commits | pageInfo:'startIndex' }} - {{ commits | pageInfo:'stopIndex' }}
+      Commits {{ commits | stPageInfo:'startIndex' }} - {{ commits | stPageInfo:'stopIndex' }}
       |
-      Total {{ commits | pageInfo:'total' }}
+      Total {{ commits | stPageInfo:'total' }}
       |
       Commits per page
       <st-pagination-limit collection="commits" limits="[5,10,20,50,100]"></st-pagination-limit>
@@ -81,11 +81,11 @@
 
   <h3>Pagination filter</h3>
   <p>
-    To initialize the pagination you can use the <code>pagination</code> filter that handles
+    To initialize the pagination you can use the <code>stPagination</code> filter that handles
     the filtering, correct calculation of offsets and pages.
   </p>
   <p>
-    <code>commit in commits | pagination</code>
+    <code>commit in commits | stPagination</code>
   </p>
   <p>
     The filter attaches a pagination object to the collection which can be used by the directives.
@@ -97,7 +97,7 @@
   Otherwise the pagination object can not be attached correctly.
   </p>
   <p>
-    <code>commit in commits | filter:{comment:commentFilter} | pagination:commits</code>
+    <code>commit in commits | filter:{comment:commentFilter} | stPagination:commits</code>
   </p>
 
 
@@ -153,7 +153,7 @@
 
   <h3>Pagination info</h3>
   <p>
-    Information about the pagination can be displayed with the <code>pageInfo</code> filter.
+    Information about the pagination can be displayed with the <code>stPageInfo</code> filter.
   </p>
   <table class="table">
     <thead>
@@ -168,7 +168,7 @@
         {{ property }}
       </td>
       <td>
-        <span class="badge label-primary">{{ commits | pageInfo:property }}</span>
+        <span class="badge label-primary">{{ commits | stPageInfo:property }}</span>
       </td>
       <td>
         <code>{{ propertyTemplate(property) }}</code>
