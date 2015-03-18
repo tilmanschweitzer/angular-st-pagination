@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Directive: paginationLimit', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));

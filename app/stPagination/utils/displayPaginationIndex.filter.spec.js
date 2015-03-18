@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Filter: displayPaginationIndex', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));
@@ -18,6 +17,5 @@ describe('Filter: displayPaginationIndex', function () {
     expect($filter('displayPaginationIndex')('123')).toBe('123');
     expect($filter('displayPaginationIndex')(undefined)).toBe(undefined);
     expect($filter('displayPaginationIndex')({})).toEqual({});
-
   }));
 });

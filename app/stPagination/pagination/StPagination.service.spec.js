@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Type: Pagination', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));

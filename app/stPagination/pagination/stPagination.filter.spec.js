@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Filter: pagination', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));
