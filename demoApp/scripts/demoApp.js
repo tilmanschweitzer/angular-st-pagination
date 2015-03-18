@@ -16,10 +16,10 @@ angular.module('paginationDemo', [
 
 angular.module('paginationDemo').controller('demoController', function ($scope, $http) {
   function createCommit(line) {
-    var lineTokens = line.split(" ");
+    var lineTokens = line.split(' ');
     return {
       hash: lineTokens[0],
-      comment: lineTokens.slice(1).join(" ")
+      comment: lineTokens.slice(1).join(' ')
     };
   }
 
@@ -27,33 +27,33 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     return !/(^\s*$)/.test(line);
   }
 
-  $http.get("demoApp/data/angular-commits.txt").success(function (data) {
-    var lines = data.split("\n");
+  $http.get('demoApp/data/angular-commits.txt').success(function (data) {
+    var lines = data.split('\n');
     var commits = lines.filter(filterEmptyLine).map(createCommit);
 
     $scope.functionNames = [
-      "limit",
-      "start",
-      "stop",
-      "page",
-      "displayPage",
-      "lastPage",
-      "totalPages",
-      "onFirstPage",
-      "onLastPage",
-      "length"
+      'limit',
+      'start',
+      'stop',
+      'page',
+      'displayPage',
+      'lastPage',
+      'totalPages',
+      'onFirstPage',
+      'onLastPage',
+      'length'
     ];
 
     $scope.displayProperties = [
-      "total",
-      "startIndex",
-      "stopIndex",
-      "currentPage",
-      "totalPages"
+      'total',
+      'startIndex',
+      'stopIndex',
+      'currentPage',
+      'totalPages'
     ];
 
     $scope.propertyTemplate = function (property) {
-      return "{{ commits | pageInfo:'" + property + "' }}";
+      return '{{ commits | stPageInfo:"' + property + '" }}';
     };
 
     $scope.getResult = function (functionName, object) {
@@ -61,25 +61,29 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     };
 
     $scope.commits = commits;
+    $scope.commentFilter = '';
   });
-}).controller("cssConfigController", function ($scope) {
-      $scope.cssConfigs = [{
-        label: "Bootstrap 3.x",
-        path: "bower_components/bootstrap-css-only/css/bootstrap.css",
-        configKey: "bootstrap3"
-      },{
-        label: "Bootstrap 2.x",
-        path: "demoApp/styles/bootstrap-2.3.2.css",
-        configKey: "bootstrap2"
-      }];
+}).controller('cssConfigController', function ($scope) {
+  $scope.cssConfigs = [
+    {
+      label: 'Bootstrap 3.x',
+      path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
+      configKey: 'bootstrap3'
+    },
+    {
+      label: 'Bootstrap 2.x',
+      path: 'demoApp/styles/bootstrap-2.3.2.css',
+      configKey: 'bootstrap2'
+    }
+  ];
 
-      $scope.selectedCssConfig = $scope.cssConfigs[0];
+  $scope.selectedCssConfig = $scope.cssConfigs[0];
 
-      $scope.$watch("selectedCssConfig", function (newConfig, oldConfig) {
-        if (!angular.equals(newConfig, oldConfig)) {
-          document.querySelector("link[href='" + oldConfig.path + "']").remove();
-          document.head.appendChild(angular.element("<link rel='stylesheet' href='" + newConfig.path + "' />")[0]);
-        }
-      });
-    });
+  $scope.$watch('selectedCssConfig', function (newConfig, oldConfig) {
+    if (!angular.equals(newConfig, oldConfig)) {
+      document.querySelector('link[href="' + oldConfig.path + '"]').remove();
+      document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
+    }
+  });
+});
 

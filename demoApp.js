@@ -45,12 +45,13 @@ angular.module('paginationDemo').controller('demoController', [
         'totalPages'
       ];
       $scope.propertyTemplate = function (property) {
-        return '{{ commits | pageInfo:\'' + property + '\' }}';
+        return '{{ commits | stPageInfo:"' + property + '" }}';
       };
       $scope.getResult = function (functionName, object) {
         return object[functionName]();
       };
       $scope.commits = commits;
+      $scope.commentFilter = '';
     });
   }
 ]).controller('cssConfigController', [
@@ -71,8 +72,8 @@ angular.module('paginationDemo').controller('demoController', [
     $scope.selectedCssConfig = $scope.cssConfigs[0];
     $scope.$watch('selectedCssConfig', function (newConfig, oldConfig) {
       if (!angular.equals(newConfig, oldConfig)) {
-        document.querySelector('link[href=\'' + oldConfig.path + '\']').remove();
-        document.head.appendChild(angular.element('<link rel=\'stylesheet\' href=\'' + newConfig.path + '\' />')[0]);
+        document.querySelector('link[href="' + oldConfig.path + '"]').remove();
+        document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
       }
     });
   }
