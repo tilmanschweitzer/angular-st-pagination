@@ -1,7 +1,17 @@
 language: node_js
+
 node_js:
   - '0.10'
+
 before_script:
   - 'npm install -g bower grunt-cli'
   - 'bower install  --config.interactive=false'
+
 script: grunt default coveralls
+
+after_script:
+  - cat coverage/*/lcov.info | codeclimate
+
+addons:
+  code_climate:
+    repo_token: c1ef296970b9778de133b224c572544741967fa4668f6f85a58fb8963f39d3a6
