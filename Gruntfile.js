@@ -276,7 +276,7 @@ module.exports = function (grunt) {
         singleRun: true,
         options: {
           files: [
-            'app/bower_components/jquery/jquery.js',
+            'app/bower_components/jquery/dist/jquery.js',
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
             'dist/angular-st-pagination.min.js',
@@ -304,14 +304,6 @@ module.exports = function (grunt) {
       }
     },
 
-    coveralls: {
-      options: {
-        debug: true,
-        coverage_dir: 'coverage',
-        force: true
-      }
-    },
-
     shell: {
       bower_install: {
         command: 'bower install'
@@ -335,12 +327,12 @@ module.exports = function (grunt) {
           }
         }
       },
-      gitVersionHash: {
-        command: 'git log --pretty=format:"%h" -n 1 ' + PKG.version,
-        options: {
+      getBranch: {
+        command: 'git status -s -b',
+        options:  {
           callback: function (err, stdout, stderr, cb) {
-            GIT.versionHash = stdout;
-            console.log('git-hash of pkg.version tag: ' + GIT.versionHash);
+            var match = stdout.match(/## ((\w|[-\.])+)\.\.\..*/);
+            GIT.branch = (match || {})[1];
             cb();
           }
         }
@@ -400,12 +392,14 @@ module.exports = function (grunt) {
   GIT.isClean = function () {
     return (/^\s*$/.test(GIT.status));
   };
-  GIT.isTaggedWithPackageVersion = function () {
-    return GIT.hash === GIT.versionHash;
+  GIT.isReleaseVersion = function () {
+    return (/^\d+\.\d+\.\d+$/.test(PKG.version));
   };
-
+  GIT.isReleaseBranch = function () {
+    return GIT.branch === '0.x-master';
+  };
   BUILD.version = function () {
-    if (GIT.isTaggedWithPackageVersion() && GIT.isClean()) {
+    if (GIT.isReleaseVersion() && GIT.isReleaseBranch() && GIT.isClean()) {
       return PKG.version;
     } else {
       return PKG.version + '-sha.' + GIT.hash;

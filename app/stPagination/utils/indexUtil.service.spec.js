@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Service: indexUtil', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));

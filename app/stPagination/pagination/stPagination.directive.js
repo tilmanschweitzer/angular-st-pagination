@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPagination', function (Pagination) {
+angular.module('stPagination').directive('stPagination', function (StPagination) {
   'use strict';
 
   var css3UserSelectAliases = [
@@ -67,7 +67,7 @@ angular.module('stPagination').directive('stPagination', function (Pagination) {
 
       $scope.$watch('collection', function (collection) {
         if (angular.isArray(collection)) {
-          if (Pagination.hasPagination(collection)) {
+          if (StPagination.hasPagination(collection)) {
             $scope.pagination = collection.pagination;
           } else {
             var msg = 'Collection "' + collectionName + '" in the pagination directive is not used with a neccessary ' +

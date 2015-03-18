@@ -3,7 +3,7 @@
 set -o verbose
 
 # clean bower
-rm -rf src/bower_components
+rm -rf app/bower_components
 
 # reinstall bower components
 bower install

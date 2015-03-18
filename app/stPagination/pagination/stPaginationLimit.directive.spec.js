@@ -1,6 +1,5 @@
-'use strict';
-
 describe('Directive: paginationLimit', function () {
+  'use strict';
 
   // load the controller's module
   beforeEach(module('stPagination'));
@@ -17,13 +16,13 @@ describe('Directive: paginationLimit', function () {
     });
     return optionValueByText;
   }
-  var $scope, $basicPaginationLimit, $directiveScope, $compile, $filter, Pagination;
+  var $scope, $basicPaginationLimit, $directiveScope, $compile, $filter, StPagination;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$compile_, _$filter_, _Pagination_) {
+  beforeEach(inject(function ($controller, $rootScope, _$compile_, _$filter_, _StPagination_) {
     $compile = _$compile_;
     $filter = _$filter_;
-    Pagination = _Pagination_;
+    StPagination = _StPagination_;
     $scope = $rootScope.$new();
     $basicPaginationLimit = $compile('<st-pagination-limit collection="commits"></st-pagination-limit>')($scope);
     $directiveScope = $basicPaginationLimit.isolateScope();
@@ -51,12 +50,12 @@ describe('Directive: paginationLimit', function () {
 
   it('should extract pagination object correctly from the collection', function () {
     $scope.commits = [];
-    $filter('pagination')($scope.commits);
+    $filter('stPagination')($scope.commits);
 
     $scope.$apply();
 
     expect($directiveScope.pagination).toBe($scope.commits.pagination);
-    expect($directiveScope.pagination).toBeInstanceOf(Pagination);
+    expect($directiveScope.pagination).toBeInstanceOf(StPagination);
   });
 
 
@@ -73,7 +72,7 @@ describe('Directive: paginationLimit', function () {
 
   it('should reset the pagination if the collection is reset', function () {
     $scope.commits = [];
-    $filter('pagination')($scope.commits);
+    $filter('stPagination')($scope.commits);
 
     $scope.$apply();
     expect($directiveScope.pagination).toBeDefined();
@@ -85,7 +84,7 @@ describe('Directive: paginationLimit', function () {
 
   it('updates the limit on the pagination object', function () {
     $scope.commits = [];
-    $filter('pagination')($scope.commits);
+    $filter('stPagination')($scope.commits);
     $scope.$apply();
 
     expect($scope.commits.pagination.$limit).toBe(10);
@@ -99,7 +98,7 @@ describe('Directive: paginationLimit', function () {
 
   it('initializes the select values', function () {
     $scope.commits = [];
-    $filter('pagination')($scope.commits);
+    $filter('stPagination')($scope.commits);
     $scope.$apply();
 
     expect($basicPaginationLimit.find(':selected').text()).toBe('10');
