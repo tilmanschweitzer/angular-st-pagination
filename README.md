@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/tilmanpotthof/angular-st-pagination.png)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
 [![Coverage Status](https://coveralls.io/repos/tilmanpotthof/angular-st-pagination/badge.png)](https://coveralls.io/r/tilmanpotthof/angular-st-pagination)
 [![Dependency Status](https://gemnasium.com/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
+[![Codacy Badge](https://www.codacy.com/project/badge/23324161acfb47b491e6e84cafa964f9)](https://www.codacy.com/public/tilmanpotthof/angular-st-pagination)
 
 
     bower install angular-st-pagination --save-dev
