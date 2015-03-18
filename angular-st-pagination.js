@@ -1,26 +1,26 @@
 /*!
- * angular-st-pagination v0.1.2
+ * angular-st-pagination v0.2.0
  * source: git@github.com:tilmanpotthof/angular-st-pagination.git
  * license: MIT (https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE)
  */
 angular.module("stPagination", []);
 
-angular.module("stPagination").factory("Pagination", [ "indexUtil", function(indexUtil) {
+angular.module("stPagination").factory("StPagination", [ "indexUtil", function(indexUtil) {
   "use strict";
-  function Pagination(inputCollection) {
+  function StPagination(inputCollection) {
     this.$inputCollection = inputCollection;
     this.$limit = 10;
     this.$page = 0;
     this.$cachedReducedIndices = {};
   }
   function hasPagination(collection) {
-    return collection && collection.pagination instanceof Pagination;
+    return collection && collection.pagination instanceof StPagination;
   }
   function isNumberOrDefault(number, defaultValue) {
     return angular.isNumber(number) ? number : defaultValue;
   }
-  Pagination.hasPagination = hasPagination;
-  angular.extend(Pagination.prototype, {
+  StPagination.hasPagination = hasPagination;
+  angular.extend(StPagination.prototype, {
     setInputCollection: function(inputCollection) {
       this.$inputCollection = inputCollection;
       this.checkPageLimits();
@@ -121,10 +121,10 @@ angular.module("stPagination").factory("Pagination", [ "indexUtil", function(ind
       return this.start() + 1;
     }
   });
-  return Pagination;
+  return StPagination;
 } ]);
 
-angular.module("stPagination").filter("pagination", [ "Pagination", "findPropertyName", function(Pagination, findPropertyName) {
+angular.module("stPagination").filter("stPagination", [ "StPagination", function(StPagination) {
   "use strict";
   return function(inputCollection, originalCollection) {
     var collectionWithPaginationHandle;
@@ -132,52 +132,14 @@ angular.module("stPagination").filter("pagination", [ "Pagination", "findPropert
       return;
     }
     collectionWithPaginationHandle = originalCollection || inputCollection;
-    if (!Pagination.hasPagination(collectionWithPaginationHandle)) {
-      collectionWithPaginationHandle.pagination = new Pagination(inputCollection);
-      if (this && this.$watch) {
-        var collectionName = findPropertyName(collectionWithPaginationHandle, this);
-        if (collectionName) {
-          this.$watch(collectionName, function(newCollection, oldCollection) {
-            if (Pagination.hasPagination(oldCollection)) {
-              newCollection.pagination = oldCollection.pagination;
-            }
-          });
-        } else {
-          throw new Error("Collection passed to stPagination filter was not found in the scope. " + "Pass it to the filter if you have other filters in between.\n" + 'element in collection | orderBy:"id" | stPagination:collection');
-        }
-      }
+    if (!StPagination.hasPagination(collectionWithPaginationHandle)) {
+      collectionWithPaginationHandle.pagination = new StPagination(inputCollection);
     }
     var pagination = collectionWithPaginationHandle.pagination;
     pagination.setInputCollection(inputCollection);
     return pagination.paginatedInputCollection();
   };
 } ]);
-
-angular.module("stPagination").factory("findPropertyName", function() {
-  "use strict";
-  function findPropertyName(property, object) {
-    try {
-      if (angular.isObject(object)) {
-        angular.forEach(object, function(value, key) {
-          if (value === object || key[0] === "$" && key !== "$parent") {
-            return;
-          }
-          if (value === property) {
-            throw key;
-          } else {
-            var nestedName = findPropertyName(property, object[key]);
-            if (nestedName) {
-              throw key + "." + nestedName;
-            }
-          }
-        });
-      }
-    } catch (result) {
-      return result;
-    }
-  }
-  return findPropertyName;
-});
 
 angular.module("stPagination").factory("indexUtil", function() {
   "use strict";
@@ -264,7 +226,7 @@ angular.module("stPagination").filter("displayPaginationIndex", function() {
   };
 });
 
-angular.module("stPagination").directive("stPaginationLimit", [ "Pagination", function(Pagination) {
+angular.module("stPagination").directive("stPaginationLimit", [ "StPagination", function(StPagination) {
   "use strict";
   var DEFAULT_LIMITS = [ 10, 20, 50 ];
   return {
@@ -280,7 +242,7 @@ angular.module("stPagination").directive("stPaginationLimit", [ "Pagination", fu
         return $scope.getLimits() || DEFAULT_LIMITS;
       };
       $scope.$watch("collection", function(collection) {
-        if (Pagination.hasPagination(collection)) {
+        if (StPagination.hasPagination(collection)) {
           $scope.pagination = collection.pagination;
         } else {
           delete $scope.pagination;
@@ -290,7 +252,7 @@ angular.module("stPagination").directive("stPaginationLimit", [ "Pagination", fu
   };
 } ]);
 
-angular.module("stPagination").directive("stPagination", [ "Pagination", function(Pagination) {
+angular.module("stPagination").directive("stPagination", [ "StPagination", function(StPagination) {
   "use strict";
   var css3UserSelectAliases = [ "-webkit-touch-callout", "-webkit-user-select", "-moz-user-select", "-ms-user-select", "user-select" ];
   var basePagination = "<ul>" + '<li ng-class="{disabled: pagination.onFirstPage()}">' + '<a ng-click="pagination.prev()">&laquo;</a>' + "</li>" + '<li ng-class="{active: pagination.onPage(index)}" ' + 'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' + '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' + "</li>" + '<li ng-class="{disabled: pagination.onLastPage()}">' + '<a ng-click="pagination.next()">&raquo;</a>' + "</li>" + "</ul>";
@@ -332,7 +294,7 @@ angular.module("stPagination").directive("stPagination", [ "Pagination", functio
       var collectionName = $attrs.collection;
       $scope.$watch("collection", function(collection) {
         if (angular.isArray(collection)) {
-          if (Pagination.hasPagination(collection)) {
+          if (StPagination.hasPagination(collection)) {
             $scope.pagination = collection.pagination;
           } else {
             var msg = 'Collection "' + collectionName + '" in the pagination directive is not used with a neccessary ' + "pagination filter.";
@@ -344,7 +306,7 @@ angular.module("stPagination").directive("stPagination", [ "Pagination", functio
   };
 } ]);
 
-angular.module("stPagination").filter("pageInfo", [ "Pagination", function(Pagination) {
+angular.module("stPagination").filter("stPageInfo", [ "StPagination", function(StPagination) {
   "use strict";
   var propertyNameToFunctionMapping = {
     total: "length",
@@ -354,10 +316,10 @@ angular.module("stPagination").filter("pageInfo", [ "Pagination", function(Pagin
     stopIndex: "stop"
   };
   return function(inputCollection, propertyName) {
-    if (Pagination.hasPagination(inputCollection) && propertyName) {
+    if (StPagination.hasPagination(inputCollection) && propertyName) {
       var fnName = propertyNameToFunctionMapping[propertyName];
       if (!fnName) {
-        throw new Error('No display property "' + propertyName + '" defined for the pageInfo filter');
+        throw new Error('No display property "' + propertyName + '" defined for the stPageInfo filter');
       }
       return inputCollection.pagination[fnName]();
     } else {
