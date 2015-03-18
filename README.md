@@ -6,7 +6,7 @@
 [![Dependency Status](https://gemnasium.com/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
 [![Test Coverage](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination/badges/coverage.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
 [![Code Climate](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination/badges/gpa.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
-
+[![Issue Stat](http://issuestats.com/github/tilmanpotthof/angular-st-pagination/badge/issue)](http://issuestats.com/github/tilmanpotthof/angular-st-pagination)
 
     bower install angular-st-pagination --save-dev
 
