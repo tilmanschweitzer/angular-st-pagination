@@ -7,7 +7,7 @@ before_script:
   - 'npm install -g bower grunt-cli'
   - 'bower install  --config.interactive=false'
 
-script: grunt default coveralls
+script: grunt
 
 after_script:
   - cat coverage/*/lcov.info | codeclimate

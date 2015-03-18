@@ -304,14 +304,6 @@ module.exports = function (grunt) {
       }
     },
 
-    coveralls: {
-      options: {
-        debug: true,
-        coverage_dir: 'coverage',
-        force: true
-      }
-    },
-
     shell: {
       bower_install: {
         command: 'bower install'
