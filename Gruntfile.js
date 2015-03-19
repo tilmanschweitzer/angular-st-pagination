@@ -155,7 +155,7 @@ module.exports = function (grunt) {
     },
 
     // Automatically inject Bower components into the app
-    'bowerInstall': {
+    'wiredep': {
       app: {
         src: [
           '<%= yeoman.app %>/index.html'
@@ -213,7 +213,7 @@ module.exports = function (grunt) {
 
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
-    ngmin: {
+    ngAnnotate: {
       dist: {
         files: [{
           expand: true,
@@ -361,11 +361,11 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'shell',
     'clean',
-    'bowerInstall',
+    'wiredep',
     'useminPrepare',
     'copy:styles',
     'concat',
-    'ngmin',
+    'ngAnnotate',
     'copy:dist',
     'usemin',
     'uglify:addBanner',
