@@ -304,6 +304,10 @@ module.exports = function (grunt) {
       }
     },
 
+    ngdocs: {
+      all: ['app/stPagination**/*.js']
+    },
+
     shell: {
       bower_install: {
         command: 'bower install'
