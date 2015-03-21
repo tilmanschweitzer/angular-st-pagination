@@ -7,8 +7,8 @@ angular.module('stPagination').filter('stPagination', function (StPagination) {
    * @kind function
    *
    * @description
-   * Initialized the pagination and returns a new limited sub-array with an offset controlled by a stPagination
-   * directive.
+   * Initialized the pagination and returns a new limited sub-array with an offset controlled by a
+   * {@link stPagination.directive:stPagination `stPagination` directive}.
    * The initialized pagination object handles the filtering, correct calculation of offsets and pages.
    *
    * <pre>
