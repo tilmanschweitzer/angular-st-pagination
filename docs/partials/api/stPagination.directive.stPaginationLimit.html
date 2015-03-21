@@ -1,0 +1,77 @@
+<a href="https://github.com/tilmanpotthof/angular-st-pagination/edit/master/app/stPagination/pagination/stPaginationLimit.directive.js#L73" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/tilmanpotthof/angular-st-pagination/blob/2916943/app/stPagination/pagination/stPaginationLimit.directive.js#L73" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">stPaginationLimit</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">stPagination</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="stpagination-directive-page stpagination-directive-stpaginationlimit-page"><p>Directive that displays a select element to change the number of items per page.</p>
+<pre class="prettyprint linenums">
+   &lt;st-pagination-limit collection="users"&gt;&lt;/st-pagination-limit&gt;
+</pre>
+<h4 id="description_configure-the-limits">Configure the limits</h4>
+<p>The limit options can be configured. The default is <code>[10, 20, 50]</code>.</p>
+<pre class="prettyprint linenums">
+   &lt;st-pagination-limit collection="users" limits="[5,10,20,50,100]"&gt;&lt;/st-pagination-limit&gt;
+</pre>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;st-pagination-limit
+       collection="{Array}"
+       [limits="{Array}"]&gt;
+&lt;/st-pagination-limit&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>collection</td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-directive-page stpagination-directive-stpaginationlimit-page"><p>Array that was initialized by the
+<a href="#/api/stPagination.filter:stPagination"><code>stPagination</code> filter</a></p>
+</div></td></tr><tr><td>limits <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-directive-page stpagination-directive-stpaginationlimit-page"><p>Limit options for the select element. <em>(default: [10, 20, 50])</em></p>
+</div></td></tr></tbody></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="stpagination-directive-page stpagination-directive-stpaginationlimit-page"><h4 id="example_source">Source</h4>
+<div source-edit="paginationExample" source-edit-deps="angular.js app.js" source-edit-html="index.html-2" source-edit-css="" source-edit-js="app.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-2" ng-html-wrap-loaded="paginationExample angular.js app.js"></pre>
+<script type="text/ng-template" id="index.html-2">
+  <div ng-controller="UserController">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users | stPagination">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email  }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      {{ users | stPageInfo:'startIndex' }} - {{ users | stPageInfo:'stopIndex' }}
+      |
+      Total {{ users | stPageInfo:'total' }}
+      |
+      Users per page
+      <st-pagination-limit collection="users" limits="[5,10,20,50,100]" class="input-small">
+      </st-pagination-limit>
+    </div>
+    <st-pagination collection="users" css-config="bootstrap2">
+    </st-pagination>
+
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="app.js">
+<pre class="prettyprint linenums" ng-set-text="app.js"></pre>
+<script type="text/ng-template" id="app.js">
+  angular.module('paginationExample', ['stPagination', 'exampleData'])
+    .controller('UserController', function UserController($scope, exampleUsers) {
+        $scope.users = exampleUsers;
+        $scope.$watch('users.pagination', function (pagination) {
+          pagination.setPage(14)
+        });
+     });
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="paginationExample" ng-set-html="index.html-2" ng-eval-javascript="app.js"></div>
+</div></div>
+</div>

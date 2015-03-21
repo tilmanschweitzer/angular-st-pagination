@@ -1,0 +1,112 @@
+<a href="https://github.com/tilmanpotthof/angular-st-pagination/edit/master/app/stPagination/pagination/stPagination.filter.js#L105" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/tilmanpotthof/angular-st-pagination/blob/2916943/app/stPagination/pagination/stPagination.filter.js#L105" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">stPagination</code>
+<div><span class="hint">filter in module <code ng:non-bindable="">stPagination</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="stpagination-filter-page stpagination-filter-stpagination-page"><p>Initialized the pagination and returns a new limited sub-array with an offset controlled by a
+<a href="#/api/stPagination.directive:stPagination"><code>stPagination</code> directive</a>.
+The initialized pagination object handles the filtering, correct calculation of offsets and pages.</p>
+<pre class="prettyprint linenums">
+   &lt;ul&gt;
+     &lt;li ng-repeat="user in users | stPagination"&gt;{{ user.name }}&lt;/li&gt;
+   &lt;/ul&gt;
+</pre>
+<h4 id="description_usage-with-other-filters">Usage with other filters</h4>
+<p>If you want to apply other filters to you collection before the pagination filter,
+you have to pass the <code>originalCollection</code> to the filter.
+Otherwise the pagination object can not be attached correctly.</p>
+<pre class="prettyprint linenums">
+   &lt;ul&gt;
+     &lt;li ng-repeat="user in users | filter:{name: usernameFilter} | stPagination:users"&gt;
+       {{ user.name }}
+     &lt;/li&gt;
+   &lt;/ul&gt;
+</pre>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage"><h3 id="usage_in-html-template-binding">In HTML Template Binding</h3>
+<div class="in-html-template-binding"><code ng:non-bindable=""><span>{{</span> stPagination_expression | stPagination[:originalCollection] <span>}}</span></code>
+</div>
+<h3 id="usage_in-javascript">In JavaScript</h3>
+<div class="in-javascript"><code ng:non-bindable="">$filter('stPagination')(inputCollection[, originalCollection])</code>
+</div>
+<h4 id="usage_in-javascript_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>inputCollection</td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-filter-page stpagination-filter-stpagination-page"><p>Source array to be paginated</p>
+</div></td></tr><tr><td>originalCollection <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-filter-page stpagination-filter-stpagination-page"><p>Required if the pagination filter is chained with others</p>
+</div></td></tr></tbody></table><h4 id="usage_in-javascript_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-filter-page stpagination-filter-stpagination-page"><p>A new sub-array defined by the pagination limit and offset.</p>
+</div></td></tr></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="stpagination-filter-page stpagination-filter-stpagination-page"><h4 id="example_source">Source</h4>
+<div source-edit="paginationExample" source-edit-deps="angular.js app.js" source-edit-html="index.html-1" source-edit-css="" source-edit-js="app.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-1" ng-html-wrap-loaded="paginationExample angular.js app.js"></pre>
+<script type="text/ng-template" id="index.html-1">
+  <div ng-controller="UserController">
+    <h4 id="example_simple-pagination">Simple pagination</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users | stPagination">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email  }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      {{ users | stPageInfo:'startIndex' }} - {{ users | stPageInfo:'stopIndex' }}
+      |
+      Total {{ users | stPageInfo:'total' }}
+    </div>
+    <st-pagination collection="users" css-config="bootstrap2"></st-pagination>
+  </div>
+  <hr/>
+  <h4 id="example_pagination-with-chained-filters">Pagination with chained filters</h4>
+  <div ng-controller="CommitController">
+    <div>
+      <label for="comment-filter">Search comments</label>
+      <input type="text" id="comment-filter" ng-model="commentFilter"/>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Hash</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="commit in commits | filter: {comment: commentFilter} | stPagination:commits">
+          <td>{{ commit.hash }}</td>
+          <td>{{ commit.comment  }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      {{ commits | stPageInfo:'startIndex' }} - {{ commits | stPageInfo:'stopIndex' }}
+      |
+      Total {{ commits | stPageInfo:'total' }}
+    </div>
+    <st-pagination collection="commits" css-config="bootstrap2"></st-pagination>
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="app.js">
+<pre class="prettyprint linenums" ng-set-text="app.js"></pre>
+<script type="text/ng-template" id="app.js">
+  angular.module('paginationExample', ['stPagination', 'exampleData'])
+    .controller('UserController', function UserController($scope, exampleUsers) {
+        $scope.users = exampleUsers;
+     }).controller('CommitController', function CommitController($scope, exampleCommits) {
+        $scope.commits = exampleCommits;
+        $scope.commentFilter = '';
+     });;
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="paginationExample" ng-set-html="index.html-1" ng-eval-javascript="app.js"></div>
+</div></div>
+</div>

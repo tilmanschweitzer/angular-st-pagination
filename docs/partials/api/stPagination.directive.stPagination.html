@@ -1,0 +1,107 @@
+<a href="https://github.com/tilmanpotthof/angular-st-pagination/edit/master/app/stPagination/pagination/stPagination.directive.js#L138" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/tilmanpotthof/angular-st-pagination/blob/2916943/app/stPagination/pagination/stPagination.directive.js#L138" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">stPagination</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">stPagination</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="stpagination-directive-page stpagination-directive-stpagination-page"><p>Directive that display a pagination for a collection that is initialized by the
+<a href="#/api/stPagination.filter:stPagination"><code>stPagination</code> filter</a>.</p>
+<pre class="prettyprint linenums">
+   &lt;st-pagination collection="users"&gt;&lt;/st-pagination&gt;
+</pre>
+<h4 id="description_configure-displayed-ranges">Configure displayed ranges</h4>
+<p>The automatic folding of indices can be configured.
+The length of the displayed index ranges are set with the attributes <code>midRange</code> and `edgeRange.
+If the ranges overlap they are summed up to keep a fixed length.
+The overlapped element a replaced by &#39;...&#39; and a click on that pagination element will jump to the middle
+of the folded elements.</p>
+<pre class="prettyprint linenums">
+   &lt;st-pagination collection="users" mid-range="2" edge-range="3"&gt;&lt;/st-pagination&gt;
+</pre>
+<h4 id="description_configure-structure-for-css">Configure structure for css</h4>
+<p>Configure the html structure for you css with the parameter <code>cssConfig</code>.
+Decide between a basic <code>&lt;ul&gt;</code> list (<code>&#39;list&#39;</code>) or a list wrapped by <code>&lt;div&gt;</code> elements (<code>&#39;divWrappedList&#39;</code>).</p>
+<p>Bootstrap 3.x and 2.x are supported by these html structures.
+Therefore just use the aliases <code>&#39;bootstrap3&#39;</code> for <code>&#39;list&#39;</code> and <code>&#39;bootstrap2&#39;</code> for <code>&#39;divWrappedList&#39;</code>.</p>
+<pre class="prettyprint linenums">
+   &lt;st-pagination css-config="'bootstrap3'"&gt;&lt;/st-pagination&gt;
+</pre>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;st-pagination
+       collection="{Array}"
+       [mid-range="{number}"]
+       [edge-range="{number}"]
+       [css-config="{string}"]&gt;
+&lt;/st-pagination&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>collection</td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-directive-page stpagination-directive-stpagination-page"><p>Array that was initialized by the
+<a href="#/api/stPagination.filter:stPagination"><code>stPagination</code> filter</a></p>
+</div></td></tr><tr><td>midRange <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="stpagination-directive-page stpagination-directive-stpagination-page"><p>Range before and after current index</p>
+</div> <p><em>(default: 3)</em></p></td></tr><tr><td>edgeRange <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="stpagination-directive-page stpagination-directive-stpagination-page"><p>Range at the start and end of all indices</p>
+</div> <p><em>(default: 3)</em></p></td></tr><tr><td>cssConfig <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="stpagination-directive-page stpagination-directive-stpagination-page"><p>Key to defined the html structure.</p>
+<ul>
+<li><code>&#39;list&#39;</code></li>
+<li><code>&#39;divWrappedList&#39;</code></li>
+<li><code>&#39;bootstrap3&#39;</code> alias for <code>&#39;list&#39;</code></li>
+<li><code>&#39;bootstrap2&#39;</code> alias for <code>&#39;divWrappedList&#39;</code></li>
+</ul>
+</div> <p><em>(default: 'list')</em></p></td></tr></tbody></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="stpagination-directive-page stpagination-directive-stpagination-page"><h4 id="example_source">Source</h4>
+<div source-edit="paginationExample" source-edit-deps="angular.js app.js" source-edit-html="index.html-0" source-edit-css="" source-edit-js="app.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-0" ng-html-wrap-loaded="paginationExample angular.js app.js"></pre>
+<script type="text/ng-template" id="index.html-0">
+  <div ng-controller="UserController">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users | stPagination">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email  }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      {{ users | stPageInfo:'startIndex' }} - {{ users | stPageInfo:'stopIndex' }}
+      |
+      Total {{ users | stPageInfo:'total' }}
+    </div>
+    <st-pagination collection="users" mid-range="midRange" edge-range="edgeRange" css-config="bootstrap2">
+    </st-pagination>
+    <hr/>
+    <p ng-init="midRange = 1; edgeRange = 1">
+      <span><code>midRange:</code><span>
+      <select ng-options="r for r in [1,2,3,4,5]" ng-model="mR" class="input-small"></select>
+      <span><code>edgeRange:</code><span>
+      <select ng-options="r for r in [1,2,3,4,5]" ng-model="eR" class="input-small"></select>
+    </p>
+    <p>
+      <code>
+       &lt;st-pagination collection="users" mid-range="{{mR}}" edge-range="{{eR}}"&gt;&lt;/st-pagination&gt;
+      </code>
+    </p>
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="app.js">
+<pre class="prettyprint linenums" ng-set-text="app.js"></pre>
+<script type="text/ng-template" id="app.js">
+  angular.module('paginationExample', ['stPagination', 'exampleData'])
+    .controller('UserController', function UserController($scope, exampleUsers) {
+        $scope.users = exampleUsers;
+        $scope.$watch('users.pagination', function (pagination) {
+          pagination.setPage(14)
+        });
+     });
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="paginationExample" ng-set-html="index.html-0" ng-eval-javascript="app.js"></div>
+</div></div>
+</div>
