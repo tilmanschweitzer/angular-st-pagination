@@ -69,6 +69,13 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
+      docs: {
+        files: ['<%= yeoman.app %>/**/*.js'],
+        tasks: ['ngdocs'],
+        options: {
+          livereload: true
+        }
+      },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles']
@@ -106,6 +113,11 @@ module.exports = function (grunt) {
         options: {
           open: 'http://localhost:9000/dist/',
           keepalive: true
+        }
+      },
+      docs: {
+        options: {
+          open: 'http://localhost:9000/dist/docs/'
         }
       }
     },
@@ -304,6 +316,21 @@ module.exports = function (grunt) {
       }
     },
 
+    ngdocs: {
+      options: {
+        dest: 'dist/docs',
+        scripts: [
+          'angular.js',
+          '../angular-st-pagination.js',
+          '../demoApp/scripts/exampleData.js'
+        ],
+        navTemplate: 'app/demoApp/views/docsNav.html',
+        sourceLink: 'https://github.com/tilmanpotthof/angular-st-pagination/blob/{{sha}}/{{file}}#L{{codeline}}',
+        editLink: 'https://github.com/tilmanpotthof/angular-st-pagination/edit/master/{{file}}#L{{codeline}}'
+      },
+      all: ['app/stPagination/**/*.js']
+    },
+
     shell: {
       bower_install: {
         command: 'bower install'
@@ -358,6 +385,12 @@ module.exports = function (grunt) {
     'karma:unit'
   ]);
 
+  grunt.registerTask('dev-docs', [
+    'build',
+    'connect:docs',
+    'watch:docs'
+  ]);
+
   grunt.registerTask('build', [
     'shell',
     'clean',
@@ -370,7 +403,8 @@ module.exports = function (grunt) {
     'usemin',
     'uglify:addBanner',
     'uglify:dist',
-    'karma:dist'
+    'karma:dist',
+    'ngdocs'
   ]);
 
   grunt.registerTask('default', [
