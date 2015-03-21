@@ -324,7 +324,9 @@ module.exports = function (grunt) {
           '../angular-st-pagination.js',
           '../demoApp/scripts/exampleData.js'
         ],
-        navTemplate: 'app/demoApp/views/docsNav.html'
+        navTemplate: 'app/demoApp/views/docsNav.html',
+        sourceLink: 'https://github.com/tilmanpotthof/angular-st-pagination/blob/{{sha}}/{{file}}#L{{codeline}}',
+        editLink: 'https://github.com/tilmanpotthof/angular-st-pagination/edit/master/{{file}}#L{{codeline}}'
       },
       all: ['app/stPagination/**/*.js']
     },
