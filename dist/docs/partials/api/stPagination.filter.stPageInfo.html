@@ -1,0 +1,118 @@
+<a href="https://github.com/tilmanpotthof/angular-st-pagination/edit/master/app/stPagination/pagination/stPageInfo.filter.js#L115" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/tilmanpotthof/angular-st-pagination/blob/2916943/app/stPagination/pagination/stPageInfo.filter.js#L115" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">stPageInfo</code>
+<div><span class="hint">filter in module <code ng:non-bindable="">stPagination</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="stpagination-filter-page stpagination-filter-stpageinfo-page"><p>Returns information about pagination properties.</p>
+<pre class="prettyprint linenums">
+   {{ users | stPageInfo:'total' }}
+   {{ users | stPageInfo:'currentPage' }}
+   {{ users | stPageInfo:'totalPages' }}
+   {{ users | stPageInfo:'startIndex' }}
+   {{ users | stPageInfo:'stopIndex' }}
+</pre>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage"><h3 id="usage_in-html-template-binding">In HTML Template Binding</h3>
+<div class="in-html-template-binding"><code ng:non-bindable=""><span>{{</span> stPageInfo_expression | stPageInfo:propertyName <span>}}</span></code>
+</div>
+<h3 id="usage_in-javascript">In JavaScript</h3>
+<div class="in-javascript"><code ng:non-bindable="">$filter('stPageInfo')(collection, propertyName)</code>
+</div>
+<h4 id="usage_in-javascript_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>collection</td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="stpagination-filter-page stpagination-filter-stpageinfo-page"><p>Array that was initialized by the
+<a href="#/api/stPagination.filter:stPagination"><code>stPagination</code> filter</a></p>
+</div></td></tr><tr><td>propertyName</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="stpagination-filter-page stpagination-filter-stpageinfo-page"><p>Name of the pagination property</p>
+<ul>
+<li><code>&#39;total&#39;</code> total number of elements in the collection</li>
+<li><code>&#39;currentPage&#39;</code> index of the current page</li>
+<li><code>&#39;totalPages&#39;</code> total number of pages</li>
+<li><code>&#39;startIndex&#39;</code> index of the first element on the current page</li>
+<li><code>&#39;stopIndex&#39;</code> index of the last element on the current page</li>
+</ul>
+</div></td></tr></tbody></table><h4 id="usage_in-javascript_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-number">Number</a></td><td><div class="stpagination-filter-page stpagination-filter-stpageinfo-page"><p>The value of the specified pagination property.</p>
+</div></td></tr></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="stpagination-filter-page stpagination-filter-stpageinfo-page"><h4 id="example_source">Source</h4>
+<div source-edit="paginationExample" source-edit-deps="angular.js app.js" source-edit-html="index.html" source-edit-css="" source-edit-js="app.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html" ng-html-wrap-loaded="paginationExample angular.js app.js"></pre>
+<script type="text/ng-template" id="index.html">
+  <h4 id="example_pagination-with-chained-filters">Pagination with chained filters</h4>
+  <div ng-controller="ExampleController">
+    <div>
+      <label for="comment-filter">Search comments</label>
+      <input type="text" id="comment-filter" ng-model="commentFilter"/>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Hash</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="commit in commits | filter: {comment: commentFilter} | stPagination:commits">
+          <td>{{ commit.hash }}</td>
+          <td>{{ commit.comment  }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+            <th>Usage example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>'total'</code></td>
+            <td><span class="badge label-primary">{{ commits | stPageInfo:'total' }}</span></td>
+            <td><code>{{ propertyTemplate('total') }}</code></td>
+          </tr>
+          <tr>
+            <td><code>'currentPage'</code></td>
+            <td><span class="badge label-primary">{{ commits | stPageInfo:'currentPage' }}</span></td>
+            <td><code>{{ propertyTemplate('currentPage') }}</code></td>
+          </tr>
+          <tr>
+            <td><code>'totalPages'</code></td>
+            <td><span class="badge label-primary">{{ commits | stPageInfo:'totalPages' }}</span></td>
+            <td><code>{{ propertyTemplate('totalPages') }}</code></td>
+          </tr>
+          <tr>
+            <td><code>'startIndex'</code></td>
+            <td><span class="badge label-primary">{{ commits | stPageInfo:'startIndex' }}</span></td>
+            <td><code>{{ propertyTemplate('startIndex') }}</code></td>
+          </tr>
+          <tr>
+            <td><code>'stopIndex'</code></td>
+            <td><span class="badge label-primary">{{ commits | stPageInfo:'stopIndex' }}</span></td>
+            <td><code>{{ propertyTemplate('stopIndex') }}</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <st-pagination collection="commits" css-config="bootstrap2"></st-pagination>
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="app.js">
+<pre class="prettyprint linenums" ng-set-text="app.js"></pre>
+<script type="text/ng-template" id="app.js">
+  angular.module('paginationExample', ['stPagination', 'exampleData'])
+    .controller('ExampleController', function ExampleController($scope, exampleCommits) {
+        $scope.commits = exampleCommits;
+       $scope.propertyTemplate = function (property) {
+         return '{{ commits | stPageInfo:"' + property + '" }}';
+       };
+     });
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="paginationExample" ng-set-html="index.html" ng-eval-javascript="app.js"></div>
+</div></div>
+</div>
