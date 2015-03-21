@@ -113,13 +113,13 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
            <hr/>
            <p ng-init="midRange = 1; edgeRange = 1">
              <span><code>midRange:</code><span>
-             <select ng-options="r for r in [1,2,3,4,5]" ng-model="midRange" class="input-small"></select>
+             <select ng-options="r for r in [1,2,3,4,5]" ng-model="mR" class="input-small"></select>
              <span><code>edgeRange:</code><span>
-             <select ng-options="r for r in [1,2,3,4,5]" ng-model="edgeRange" class="input-small"></select>
+             <select ng-options="r for r in [1,2,3,4,5]" ng-model="eR" class="input-small"></select>
            </p>
            <p>
              <code>
-              &lt;st-pagination collection="users" mid-range="{{midRange}}" edge-range="{{edgeRange}}"&gt;&lt;/st-pagination&gt;
+              &lt;st-pagination collection="users" mid-range="{{mR}}" edge-range="{{eR}}"&gt;&lt;/st-pagination&gt;
              </code>
            </p>
          </div>
