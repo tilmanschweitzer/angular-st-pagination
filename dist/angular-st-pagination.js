@@ -1,5 +1,5 @@
 /*!
- * angular-st-pagination v0.2.0
+ * angular-st-pagination v0.2.1
  * source: git@github.com:tilmanpotthof/angular-st-pagination.git
  * license: MIT (https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE)
  */
@@ -8,10 +8,10 @@ angular.module("stPagination", []);
 angular.module("stPagination").factory("StPagination", [ "indexUtil", function(indexUtil) {
   "use strict";
   function StPagination(inputCollection) {
-    this.$inputCollection = inputCollection;
-    this.$limit = 10;
-    this.$page = 0;
-    this.$cachedReducedIndices = {};
+    this._inputCollection = inputCollection;
+    this._limit = 10;
+    this._page = 0;
+    this._cachedReducedIndices = {};
   }
   function hasPagination(collection) {
     return collection && collection.pagination instanceof StPagination;
@@ -22,20 +22,20 @@ angular.module("stPagination").factory("StPagination", [ "indexUtil", function(i
   StPagination.hasPagination = hasPagination;
   angular.extend(StPagination.prototype, {
     setInputCollection: function(inputCollection) {
-      this.$inputCollection = inputCollection;
+      this._inputCollection = inputCollection;
       this.checkPageLimits();
     },
     paginatedInputCollection: function() {
-      return this.$inputCollection.slice(this.start(), this.stop());
+      return this._inputCollection.slice(this.start(), this.stop());
     },
     inputCollection: function() {
-      return this.$inputCollection;
+      return this._inputCollection;
     },
     start: function() {
       return this.offset();
     },
     stop: function() {
-      var stop = this.offset() + this.limit();
+      var stop = this.offset() + this.getLimit();
       if (stop < this.length()) {
         return stop;
       } else {
@@ -43,45 +43,45 @@ angular.module("stPagination").factory("StPagination", [ "indexUtil", function(i
       }
     },
     length: function() {
-      return this.$inputCollection.length;
+      return this._inputCollection.length;
     },
     setLimit: function(limit) {
-      this.$limit = limit;
+      this._limit = limit;
     },
     totalPages: function() {
-      return Math.ceil(this.$inputCollection.length / this.limit()) || 1;
+      return Math.ceil(this._inputCollection.length / this.getLimit()) || 1;
     },
     offset: function() {
-      return this.$page * this.$limit;
+      return this._page * this._limit;
     },
     page: function() {
-      return this.$page;
+      return this._page;
     },
     next: function() {
-      this.$page += 1;
+      this._page += 1;
       this.checkPageLimits();
     },
     prev: function() {
-      this.$page -= 1;
+      this._page -= 1;
       this.checkPageLimits();
     },
-    limit: function() {
-      return this.$limit;
+    getLimit: function() {
+      return this._limit;
     },
     setPage: function(page) {
       if (!angular.isArray(page)) {
-        this.$page = page;
+        this._page = page;
       } else {
         var middleIndex = Math.floor((page.length - 1) / 2);
-        this.$page = page[middleIndex];
+        this._page = page[middleIndex];
       }
       this.checkPageLimits();
     },
     checkPageLimits: function() {
-      if (this.$page < 0) {
-        this.$page = 0;
-      } else if (this.$page > this.lastPage()) {
-        this.$page = this.lastPage();
+      if (this._page < 0) {
+        this._page = 0;
+      } else if (this._page > this.lastPage()) {
+        this._page = this.lastPage();
       }
     },
     onFirstPage: function() {
@@ -100,19 +100,19 @@ angular.module("stPagination").factory("StPagination", [ "indexUtil", function(i
       midRange = isNumberOrDefault(midRange, 3);
       edgeRange = isNumberOrDefault(edgeRange, 3);
       var indexCacheKey = this.indexCacheKey(midRange, edgeRange);
-      if (this.$cachedReducedIndices[indexCacheKey]) {
-        return this.$cachedReducedIndices[indexCacheKey];
+      if (this._cachedReducedIndices[indexCacheKey]) {
+        return this._cachedReducedIndices[indexCacheKey];
       } else {
         var page = this.page();
         var total = this.totalPages();
         var rangeBuilder = indexUtil.rangeBuilder(total).foldWithMidAndEdgeRangeForIndex(page, midRange, edgeRange);
         var indices = rangeBuilder.build();
-        this.$cachedReducedIndices[indexCacheKey] = indices;
+        this._cachedReducedIndices[indexCacheKey] = indices;
         return indices;
       }
     },
     indexCacheKey: function(midRange, edgeRange) {
-      return this.page() + "-" + this.limit() + "-" + this.length() + "-" + midRange + "-" + edgeRange;
+      return this.page() + "-" + this.getLimit() + "-" + this.length() + "-" + midRange + "-" + edgeRange;
     },
     displayPage: function() {
       return this.page() + 1;
@@ -126,7 +126,7 @@ angular.module("stPagination").factory("StPagination", [ "indexUtil", function(i
 
 angular.module("stPagination").filter("stPagination", [ "StPagination", function(StPagination) {
   "use strict";
-  return function(inputCollection, originalCollection) {
+  return function stPaginationFilter(inputCollection, originalCollection) {
     var collectionWithPaginationHandle;
     if (!inputCollection) {
       return;
@@ -232,7 +232,7 @@ angular.module("stPagination").directive("stPaginationLimit", [ "StPagination", 
   return {
     restrict: "E",
     replace: true,
-    template: '<select ng-options="limit for limit in limits()" ng-model="pagination.$limit"></select>',
+    template: '<select ng-options="limit for limit in limits()" ng-model="pagination._limit"></select>',
     scope: {
       collection: "=",
       getLimits: "&limits"
@@ -267,7 +267,7 @@ angular.module("stPagination").directive("stPagination", [ "StPagination", funct
   transformationForCssConfig.bootstrap3 = transformationForCssConfig.list;
   transformationForCssConfig.bootstrap2 = transformationForCssConfig.divWrappedList;
   var allowedValues = '"' + Object.keys(transformationForCssConfig).join('", "') + '"';
-  var DEFAULT_CSS_CONFIG = "bootstrap3";
+  var DEFAULT_CSS_CONFIG = "list";
   return {
     restrict: "E",
     replace: true,
@@ -315,15 +315,15 @@ angular.module("stPagination").filter("stPageInfo", [ "StPagination", function(S
     startIndex: "displayStart",
     stopIndex: "stop"
   };
-  return function(inputCollection, propertyName) {
-    if (StPagination.hasPagination(inputCollection) && propertyName) {
+  return function(collection, propertyName) {
+    if (StPagination.hasPagination(collection) && propertyName) {
       var fnName = propertyNameToFunctionMapping[propertyName];
       if (!fnName) {
         throw new Error('No display property "' + propertyName + '" defined for the stPageInfo filter');
       }
-      return inputCollection.pagination[fnName]();
+      return collection.pagination[fnName]();
     } else {
-      return inputCollection;
+      return collection;
     }
   };
 } ]);
