@@ -8,7 +8,7 @@ if [ -z $ISSUE_NUMBER_INPUT ]; then
    exit 0
 fi
 
-JSON=$(curl -s https://api.github.com/repos/tilmanpotthof/angular-st-pagination/issues/15)
+JSON=$(curl -s https://api.github.com/repos/tilmanpotthof/angular-st-pagination/issues/$ISSUE_NUMBER_INPUT)
 
 ISSUE_NUMBER=$(echo 'console.log('$JSON'.number)' | node)
 ISSUE_NAME=$(echo 'console.log('$JSON'.title)' | node)
