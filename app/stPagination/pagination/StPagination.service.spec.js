@@ -13,7 +13,7 @@ describe('Type: Pagination', function () {
 
   it('should be initialized with limit of 10', function () {
     var pagination = new StPagination();
-    expect(pagination.limit()).toBe(10);
+    expect(pagination.getLimit()).toBe(10);
   });
 
   it('should calculate the total pages for an input collection', function () {
