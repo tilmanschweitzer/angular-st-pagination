@@ -1,8 +1,5 @@
 #!/bin/sh
 
-#./scripts/clean-build.sh
-
-
 git checkout bower
 
 DIST=dist/

@@ -87,13 +87,13 @@ describe('Directive: paginationLimit', function () {
     $filter('stPagination')($scope.commits);
     $scope.$apply();
 
-    expect($scope.commits.pagination.$limit).toBe(10);
+    expect($scope.commits.pagination._limit).toBe(10);
 
     var optionValueByText = getOptionValuesByText($basicPaginationLimit);
     $basicPaginationLimit.val(optionValueByText[20]).trigger('change');
 
     $scope.$apply();
-    expect($scope.commits.pagination.$limit).toBe(20);
+    expect($scope.commits.pagination._limit).toBe(20);
   });
 
   it('initializes the select values', function () {
