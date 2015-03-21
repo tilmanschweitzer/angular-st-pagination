@@ -1,11 +1,13 @@
-# angular-st-pagination
+# angular-st-pagination ![Bower Version](https://img.shields.io/bower/v/angular-st-pagination.svg)
 
 > Provides client-side pagination through a simple angular filter.
 
-[![Build Status](https://travis-ci.org/tilmanpotthof/angular-st-pagination.png)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
-[![Dependency Status](https://gemnasium.com/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
-[![Test Coverage](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination/badges/coverage.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
-[![Code Climate](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination/badges/gpa.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
+
+
+[![Build Status](https://img.shields.io/travis/tilmanpotthof/angular-st-pagination.svg)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
+[![Dependency Status](https://img.shields.io/gemnasium/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
+[![Code Climate](https://img.shields.io/codeclimate/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
 [![Issue Stat](http://issuestats.com/github/tilmanpotthof/angular-st-pagination/badge/issue)](http://issuestats.com/github/tilmanpotthof/angular-st-pagination)
 
     bower install angular-st-pagination --save-dev
