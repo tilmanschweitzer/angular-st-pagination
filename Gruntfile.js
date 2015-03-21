@@ -323,7 +323,8 @@ module.exports = function (grunt) {
           'angular.js',
           '../angular-st-pagination.js',
           '../demoApp/scripts/exampleData.js'
-        ]
+        ],
+        navTemplate: 'app/demoApp/views/docsNav.html'
       },
       all: ['app/stPagination/**/*.js']
     },
