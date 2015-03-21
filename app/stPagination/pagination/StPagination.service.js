@@ -2,10 +2,10 @@ angular.module('stPagination').factory('StPagination', function (indexUtil) {
   'use strict';
 
   function StPagination(inputCollection) {
-    this.$inputCollection = inputCollection;
-    this.$limit = 10;
-    this.$page = 0;
-    this.$cachedReducedIndices = {};
+    this._inputCollection = inputCollection;
+    this._limit = 10;
+    this._page = 0;
+    this._cachedReducedIndices = {};
   }
 
   function hasPagination(collection) {
@@ -20,20 +20,20 @@ angular.module('stPagination').factory('StPagination', function (indexUtil) {
 
   angular.extend(StPagination.prototype, {
     setInputCollection: function (inputCollection) {
-      this.$inputCollection = inputCollection;
+      this._inputCollection = inputCollection;
       this.checkPageLimits();
     },
     paginatedInputCollection: function () {
-      return this.$inputCollection.slice(this.start(), this.stop());
+      return this._inputCollection.slice(this.start(), this.stop());
     },
     inputCollection: function () {
-      return this.$inputCollection;
+      return this._inputCollection;
     },
     start: function () {
       return this.offset();
     },
     stop: function () {
-      var stop = this.offset() + this.limit();
+      var stop = this.offset() + this.getLimit();
       if (stop < this.length()) {
         return stop;
       } else {
@@ -41,45 +41,45 @@ angular.module('stPagination').factory('StPagination', function (indexUtil) {
       }
     },
     length: function () {
-      return this.$inputCollection.length;
+      return this._inputCollection.length;
     },
     setLimit: function (limit) {
-      this.$limit = limit;
+      this._limit = limit;
     },
     totalPages: function () {
-      return Math.ceil(this.$inputCollection.length / this.limit()) || 1;
+      return Math.ceil(this._inputCollection.length / this.getLimit()) || 1;
     },
     offset: function () {
-      return this.$page * this.$limit;
+      return this._page * this._limit;
     },
     page: function () {
-      return this.$page;
+      return this._page;
     },
     next: function () {
-      this.$page += 1;
+      this._page += 1;
       this.checkPageLimits();
     },
     prev: function () {
-      this.$page -= 1;
+      this._page -= 1;
       this.checkPageLimits();
     },
-    limit: function () {
-      return this.$limit;
+    getLimit: function () {
+      return this._limit;
     },
     setPage: function (page) {
       if (!angular.isArray(page)) {
-        this.$page = page;
+        this._page = page;
       } else {
         var middleIndex = Math.floor(((page.length - 1) / 2));
-        this.$page = page[middleIndex];
+        this._page = page[middleIndex];
       }
       this.checkPageLimits();
     },
     checkPageLimits: function () {
-      if (this.$page < 0) {
-        this.$page = 0;
-      } else if (this.$page > this.lastPage()) {
-        this.$page = this.lastPage();
+      if (this._page < 0) {
+        this._page = 0;
+      } else if (this._page > this.lastPage()) {
+        this._page = this.lastPage();
       }
     },
     onFirstPage: function () {
@@ -99,19 +99,19 @@ angular.module('stPagination').factory('StPagination', function (indexUtil) {
       edgeRange = isNumberOrDefault(edgeRange, 3);
 
       var indexCacheKey = this.indexCacheKey(midRange, edgeRange);
-      if (this.$cachedReducedIndices[indexCacheKey]) {
-        return this.$cachedReducedIndices[indexCacheKey];
+      if (this._cachedReducedIndices[indexCacheKey]) {
+        return this._cachedReducedIndices[indexCacheKey];
       } else {
         var page = this.page();
         var total = this.totalPages();
         var rangeBuilder = indexUtil.rangeBuilder(total).foldWithMidAndEdgeRangeForIndex(page, midRange, edgeRange);
         var indices = rangeBuilder.build();
-        this.$cachedReducedIndices[indexCacheKey] = indices;
+        this._cachedReducedIndices[indexCacheKey] = indices;
         return indices;
       }
     },
     indexCacheKey: function (midRange, edgeRange) {
-      return this.page() + '-' + this.limit() + '-' + this.length() + '-' + midRange + '-' + edgeRange;
+      return this.page() + '-' + this.getLimit() + '-' + this.length() + '-' + midRange + '-' + edgeRange;
     },
     displayPage: function () {
       return this.page() + 1;
