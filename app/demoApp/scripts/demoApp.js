@@ -13,7 +13,30 @@ angular.module('paginationDemo', [
         redirectTo: '/'
       });
   });
+angular.module('paginationDemo').controller('demoBaseController', function ($scope, $timeout, $templateCache) {
+  $scope.styleResetToggle = true;
 
+  function setStyleReset(value) {
+    $scope.styleResetToggle = !!value;
+  }
+
+  function toggleStyle() {
+    setStyleReset(false);
+    $timeout(angular.bind(null, setStyleReset, true), 10);
+  }
+
+  $scope.GLOBAL_CONFIG = {
+    cssConfig: 'bootstrap3'
+  };
+
+  $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
+    var tpl = '<st-pagination collection="commits" css-config="CSS" mid-range="midRange" edge-range="edgeRange">' +
+      '</st-pagination>';
+    tpl = tpl.replace('CSS', $scope.GLOBAL_CONFIG.cssConfig);
+    $templateCache.put('paginationTemplate.html', tpl);
+    toggleStyle();
+  });
+});
 angular.module('paginationDemo').controller('demoController', function ($scope, $http) {
   $http.get('demoApp/data/commits.json').success(function (commits) {
     $scope.commits = commits;
@@ -44,6 +67,21 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       configKey: 'bootstrap2'
     },
     {
+      label: 'Zurb Foundation 5',
+      path: 'demoApp/styles/foundation-5.5.1.css',
+      configKey: 'zurbFoundation'
+    },
+    {
+      label: 'Zurb Foundation 4',
+      path: 'demoApp/styles/foundation-4.3.2.css',
+      configKey: 'zurbFoundation'
+    },
+    {
+      label: 'Zurb Foundation 3',
+      path: 'demoApp/styles/foundation-3.2.5.css',
+      configKey: 'zurbFoundation'
+    },
+    {
       label: 'ul list',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
       configKey: 'list'
@@ -72,6 +110,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
 
       $scope.generatedHtml = generateHtml();
+      $scope.GLOBAL_CONFIG.cssConfig = newConfig.configKey;
     }
   });
 });
