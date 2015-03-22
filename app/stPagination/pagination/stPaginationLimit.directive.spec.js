@@ -19,7 +19,7 @@ describe('Directive: paginationLimit', function () {
   var $scope, $basicPaginationLimit, $directiveScope, $compile, $filter, StPagination;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$compile_, _$filter_, _StPagination_) {
+  beforeEach(inject(function ($rootScope, _$compile_, _$filter_, _StPagination_) {
     $compile = _$compile_;
     $filter = _$filter_;
     StPagination = _StPagination_;
