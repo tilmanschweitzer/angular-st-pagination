@@ -10,44 +10,57 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
   ];
 
   var basePagination = '<ul>' +
-      '<li ng-class="{disabled: pagination.onFirstPage()}">' +
+      '<li ng-class="{%DISABLED_CLASS%: pagination.onFirstPage()}">' +
         '<a ng-click="pagination.prev()">&laquo;</a>' +
       '</li>' +
-      '<li ng-class="{active: pagination.onPage(index)}" ' +
+      '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' +
         'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
         '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' +
       '</li>' +
-      '<li ng-class="{disabled: pagination.onLastPage()}">' +
+      '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
         '<a ng-click="pagination.next()">&raquo;</a>' +
       '</li>' +
     '</ul>';
 
-  var transformationForCssConfig = {
-    list: function ($element) {
-      $element.addClass('pagination');
+  function extendDefaults (options) {
+    return angular.extend({
+      divWrapped: false,
+      selectedClass: 'active',
+      disabledClass: 'disabled'
+    }, options);
+  }
+
+  var cssConfigsByKey = {
+    list: {},
+    divWrappedList : {
+      divWrapped: true
     },
-    divWrappedList: function ($element) {
-      $element.wrap('<div class="pagination"></div>');
+    bootstrap3: {},
+    bootstrap2 : {
+      divWrapped: true
     },
-    bootstrap3: function ($element) {
-      transformationForCssConfig.list($element);
-    },
-    bootstrap2: function ($element) {
-      transformationForCssConfig.divWrappedList($element);
-    },
-    zurbFoundation: function ($element) {
-      transformationForCssConfig.list($element);
-      angular.forEach($element.find('li'), function (liElement) {
-        var $liElement = angular.element(liElement);
-        var ngClass = $liElement.attr('ng-class');
-        $liElement.attr('ng-class', ngClass.replace('disabled', 'unavailable').replace('active', 'current'));
-      });
+    zurbFoundation: {
+      selectedClass: 'current',
+      disabledClass: 'unavailable'
     }
   };
 
-  var allowedValues = '"' + Object.keys(transformationForCssConfig).join('", "') + '"';
+  var allowedValues = '"' + Object.keys(cssConfigsByKey).join('", "') + '"';
+  var defaultCssConfig = 'list';
 
-  var DEFAULT_CSS_CONFIG = 'list';
+  function parseCssConfig(cssConfig) {
+    var configObject;
+    cssConfig = cssConfig || defaultCssConfig;
+    if (angular.isString(cssConfig)) {
+      configObject = cssConfigsByKey[cssConfig];
+      if (configObject !== undefined) {
+        return extendDefaults(configObject);
+      } else {
+        var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
+        throw new Error(msg);
+      }
+    }
+  }
 
   /**
    * @ngdoc directive
@@ -159,14 +172,22 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
     },
     template: basePagination,
     compile: function ($element, attributes) {
-      var cssConfig = attributes.cssConfig || DEFAULT_CSS_CONFIG;
-      var transformation = transformationForCssConfig[cssConfig];
-      if (angular.isFunction(transformation)) {
-        transformation($element);
+      var cssConfigObject = parseCssConfig(attributes.cssConfig);
+
+      if (cssConfigObject.divWrapped) {
+        $element.wrap('<div class="pagination"></div>');
       } else {
-        var msg = 'Given css-config attribute "' + attributes.cssConfig + '" is not in allowed values ' + allowedValues;
-        throw new Error(msg);
+        $element.addClass('pagination');
       }
+
+      angular.forEach($element.find('li'), function (liElement) {
+        var $liElement = angular.element(liElement);
+        var ngClass = $liElement.attr('ng-class');
+        ngClass = ngClass.replace('%DISABLED_CLASS%', cssConfigObject.disabledClass);
+        ngClass = ngClass.replace('%SELECTED_CLASS%', cssConfigObject.selectedClass);
+        $liElement.attr('ng-class', ngClass);
+      });
+
     },
     controller: function ($scope, $element, $attrs) {
       // set css to prevent selections

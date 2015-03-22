@@ -154,6 +154,36 @@ describe('Directive: pagination', function () {
       expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('active');
     });
 
+    describe('"bootstrap3"', function () {
+      beforeEach(function () {
+        var tmpl = '<st-pagination collection="commits" css-config="bootstrap3"></st-pagination>';
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders an ul as default root element', function () {
+        expect($configTestPagination.parent()[0]).toBeUndefined();
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      });
+
+      it('renders a "pagination" class to the root ul element', function () {
+        expect($configTestPagination[0].className).toContain('pagination');
+      });
+
+      it('renders a "disabled" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('disabled');
+      });
+
+      it('renders a "active" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('active');
+      });
+
+      it('renders other page link without "active" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('active');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('active');
+      });
+    });
+
     describe('"bootstrap2"', function () {
       beforeEach(function () {
         var tmpl = '<st-pagination collection="commits" css-config="bootstrap2"></st-pagination>';
