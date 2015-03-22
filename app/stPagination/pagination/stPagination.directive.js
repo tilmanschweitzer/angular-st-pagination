@@ -82,6 +82,8 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
    * Bootstrap 3.x and 2.x are supported by these html structures.
    * Therefore just use the aliases `'bootstrap3'` for `'list'` and `'bootstrap2'` for `'divWrappedList'`.
    *
+   * Zurb foundation (3.x-5.x) is also supported and has its own key `'zurbFoundation'`.
+   *
    * <pre>
    *    <st-pagination css-config="'bootstrap3'"></st-pagination>
    * </pre>
@@ -95,6 +97,7 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
    *   - `'divWrappedList'`
    *   - `'bootstrap3'` alias for `'list'`
    *   - `'bootstrap2'` alias for `'divWrappedList'`
+   *   - `'zurbFoundation'` - custom configuration for zurb
    * @example
    *
      <example module="paginationExample">
