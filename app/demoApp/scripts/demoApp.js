@@ -15,34 +15,9 @@ angular.module('paginationDemo', [
   });
 
 angular.module('paginationDemo').controller('demoController', function ($scope, $http) {
-  function createCommit(line) {
-    var lineTokens = line.split(' ');
-    return {
-      hash: lineTokens[0],
-      comment: lineTokens.slice(1).join(' ')
-    };
-  }
-
-  function filterEmptyLine(line) {
-    return !/(^\s*$)/.test(line);
-  }
-
-  $http.get('demoApp/data/angular-commits.txt').success(function (data) {
-    var lines = data.split('\n');
-    var commits = lines.filter(filterEmptyLine).map(createCommit);
-
-    $scope.functionNames = [
-      'limit',
-      'start',
-      'stop',
-      'page',
-      'displayPage',
-      'lastPage',
-      'totalPages',
-      'onFirstPage',
-      'onLastPage',
-      'length'
-    ];
+  $http.get('demoApp/data/commits.json').success(function (commits) {
+    $scope.commits = commits;
+    $scope.commentFilter = '';
 
     $scope.displayProperties = [
       'total',
@@ -55,13 +30,6 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     $scope.propertyTemplate = function (property) {
       return '{{ commits | stPageInfo:"' + property + '" }}';
     };
-
-    $scope.getResult = function (functionName, object) {
-      return object[functionName]();
-    };
-
-    $scope.commits = commits;
-    $scope.commentFilter = '';
   });
 }).controller('cssConfigController', function ($scope, $compile) {
   $scope.cssConfigs = [
