@@ -38,7 +38,7 @@ Just use the pagination filter with an array and the logic is handled by the lib
 
 ### Fixed number of elements
 
-The number of page links never changes and prevents the pagination to cause link breaks.
+The number of page links never changes and prevents the pagination to cause line breaks.
 
 ### Configurable for CSS frameworks
 
