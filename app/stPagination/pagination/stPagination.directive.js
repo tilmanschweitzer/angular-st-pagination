@@ -28,11 +28,22 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
     },
     divWrappedList: function ($element) {
       $element.wrap('<div class="pagination"></div>');
+    },
+    bootstrap3: function ($element) {
+      transformationForCssConfig.list($element);
+    },
+    bootstrap2: function ($element) {
+      transformationForCssConfig.divWrappedList($element);
+    },
+    zurbFoundation: function ($element) {
+      transformationForCssConfig.list($element);
+      angular.forEach($element.find('li'), function (liElement) {
+        var $liElement = angular.element(liElement);
+        var ngClass = $liElement.attr('ng-class');
+        $liElement.attr('ng-class', ngClass.replace('disabled', 'unavailable').replace('active', 'current'));
+      });
     }
   };
-
-  transformationForCssConfig.bootstrap3 = transformationForCssConfig.list;
-  transformationForCssConfig.bootstrap2 = transformationForCssConfig.divWrappedList;
 
   var allowedValues = '"' + Object.keys(transformationForCssConfig).join('", "') + '"';
 
