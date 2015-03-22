@@ -38,15 +38,16 @@ Just use the pagination filter with an array and the logic is handled by the lib
 
 ### Fixed number of elements
 
-The configurable number of elements never changes and prevents the pagination to break the line for any number of elements.
+The number of page links never changes and prevents the pagination to cause line breaks.
 
-### Configurable CSS
+### Configurable for CSS frameworks
 
-Configure the pagination directive to use them with **Bootstrap 3.x** and **2.x**
+Configure the html structure of the pagination directive to use it with the popular CSS frameworks
+**Bootstrap** and **Zurb Foundation**.
 
 ### Angular compatibility (1.3.x, 1.2.x, 1.0.x)
 
-Angular is moving fast, but the compatibility is tested for all minor branches including older releases `1.0.x` and `1.2.x`.
+Angular is moving fast, but the compatibility is tested for all stable minor releases `1.0.x`, `1.2.x` and `1.3.x`.
 
 ### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
 
