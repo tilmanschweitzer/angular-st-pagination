@@ -245,5 +245,38 @@ describe('Directive: pagination', function () {
         expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('current');
       });
     });
+
+    describe('custom config object', function () {
+      beforeEach(function () {
+        var tmpl = '<st-pagination collection="commits" ' +
+          'css-config="{divWrapped: true, selectedClass: \'selected\', disabledClass: \'inactive\'}"></st-pagination>';
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders a div as root element', function () {
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+        expect($configTestPagination[0].className).not.toContain('pagination');
+
+        expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
+      });
+
+      it('renders a "pagination" class to the root div element', function () {
+        expect($configTestPagination.parent()[0].className).toContain('pagination');
+      });
+
+      it('renders a "inactive" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('inactive');
+      });
+
+      it('renders a "current" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('selected');
+      });
+
+      it('renders other page link without "current" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('selected');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('selected');
+      });
+    });
   });
 });

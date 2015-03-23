@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPagination', function (StPagination) {
+angular.module('stPagination').directive('stPagination', function (StPagination, $parse) {
   'use strict';
 
   var css3UserSelectAliases = [
@@ -22,7 +22,7 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
       '</li>' +
     '</ul>';
 
-  function extendDefaults (options) {
+  function extendDefaults(options) {
     return angular.extend({
       divWrapped: false,
       selectedClass: 'active',
@@ -32,11 +32,11 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
 
   var cssConfigsByKey = {
     list: {},
-    divWrappedList : {
+    divWrappedList: {
       divWrapped: true
     },
     bootstrap3: {},
-    bootstrap2 : {
+    bootstrap2: {
       divWrapped: true
     },
     zurbFoundation: {
@@ -49,16 +49,17 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
   var defaultCssConfig = 'list';
 
   function parseCssConfig(cssConfig) {
-    var configObject;
+    var configObject = $parse(cssConfig)({});
+    if (angular.isObject(configObject)) {
+      return extendDefaults(configObject);
+    }
     cssConfig = cssConfig || defaultCssConfig;
-    if (angular.isString(cssConfig)) {
-      configObject = cssConfigsByKey[cssConfig];
-      if (configObject !== undefined) {
-        return extendDefaults(configObject);
-      } else {
-        var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
-        throw new Error(msg);
-      }
+    configObject = cssConfigsByKey[cssConfig];
+    if (configObject !== undefined) {
+      return extendDefaults(configObject);
+    } else {
+      var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
+      throw new Error(msg);
     }
   }
 
