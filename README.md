@@ -8,7 +8,6 @@
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
 [![Dependency Status](https://img.shields.io/gemnasium/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
 [![Code Climate](https://img.shields.io/codeclimate/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
-[![Issue Stat](http://issuestats.com/github/tilmanpotthof/angular-st-pagination/badge/issue)](http://issuestats.com/github/tilmanpotthof/angular-st-pagination)
 
     bower install angular-st-pagination --save-dev
 
