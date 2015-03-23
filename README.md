@@ -54,7 +54,7 @@ Angular is moving fast, but the compatibility is tested for all stable minor rel
 
 ## Components
 
-### `pagination` filter
+### [`pagination`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.filter:stPagination) filter
 
 Initializes a collection for the pagination.
 
@@ -78,7 +78,7 @@ Initializes a collection for the pagination.
 
 --
 
-### `stPagination` directive
+### [`stPagination`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPagination) directive
 
 Displays the pagination. Collection must be initialized with the `pagination` filter.
 
@@ -97,7 +97,7 @@ Displays the pagination. Collection must be initialized with the `pagination` fi
 
 --
 
-### `stPaginationLimit` directive
+### [`stPaginationLimit`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPaginationLimit) directive
 
 Displays a select box to change the pagination limit. Collection must be initialized with the `pagination` filter.
 
@@ -114,7 +114,7 @@ Displays a select box to change the pagination limit. Collection must be initial
 
 --
 
-### `pageInfo` filter
+### [`stPageInfo`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPageInfo) filter
 
 Displays information about the pagination. Collection must be initialized with the `pagination` filter. 
 
@@ -127,8 +127,8 @@ Displays information about the pagination. Collection must be initialized with t
 
 #### Basic usage
 
-    {{ users | pageInfo:'total' }}
-    {{ users | pageInfo:'currentPage' }}
+    {{ users | stPageInfo:'total' }}
+    {{ users | stPageInfo:'currentPage' }}
 
 ## Build
 
