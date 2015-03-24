@@ -91,27 +91,82 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
    * ## Configure structure for css
    *
    * Configure the html structure for you css with the parameter `cssConfig`.
-   * Decide between a basic `<ul>` list (`'list'`) or a list wrapped by `<div>` elements (`'divWrappedList'`).
+   * As parameter you can pass a **`{string}`** key for configuration presets or an custom configuration
+   * as **`{object}`**.
    *
-   * Bootstrap 3.x and 2.x are supported by these html structures.
-   * Therefore just use the aliases `'bootstrap3'` for `'list'` and `'bootstrap2'` for `'divWrappedList'`.
-   *
-   * Zurb foundation (3.x-5.x) is also supported and has its own key `'zurbFoundation'`.
+   * The generated default structure of the directive is a simple list with links and a ***pagination*** class.
+   * The current page link has an ***active*** class and the previous and next buttons get a ***disabled*** class
+   * for the first or last page.
    *
    * <pre>
-   *    <st-pagination css-config="'bootstrap3'"></st-pagination>
+   *   <ul class="pagination">
+   *     <li class="disabled"><a>&laquo;</a></li>
+   *     <li class="active"><a>1</a></li>
+   *     <li><a>1</a></li>
+   *     <li><a>2</a></li>
+   *     <li><a>3</a></li>
+   *     <li><a>&raquo;</a></li>
+   *   </ul>
+   * </pre>
+   *
+   * The config property `{divWrapped: true}` or the key `'divWrappedList'` wraps the list in a div element.
+   *
+   * <pre>
+   *   <div class="pagination">
+   *     <ul>
+   *       ...
+   *     </ul>
+   *   </div>
+   * </pre>
+   *
+   * The config properties `selectedClass` and `disabledClass` replace the class attributes for the list elements.
+   * For example `{selectedClass: 'current', disabledClass: 'unavailable'}` will generate the following html structure.
+   *
+   * <pre>
+   *   <ul class="pagination">
+   *     <li class="current"><a>&laquo;</a></li>
+   *     <li class="unavailable"><a>1</a></li>
+   *     <li><a>1</a></li>
+   *     <li><a>2</a></li>
+   *     <li><a>3</a></li>
+   *     <li><a>&raquo;</a></li>
+   *   </ul>
+   * </pre>
+   *
+   * ### Config keys for css frameworks
+   *
+   * To simplify the configuration for popular css framework just use a **`{string}`** key for the configuration.
+   *
+   *   - `'bootstrap3'` generates the default structure
+   *   - `'bootstrap2'` generates a `'divWrappedList'`
+   *   - `'zurbFoundation'` set class attributes necessary for foundation (works with version 3-5)
+   *
+   * <pre>
+   *    <st-pagination css-config="'zurbFoundation'"></st-pagination>
    * </pre>
    *
    * @param {Array} collection Array that was initialized by the
    *  {@link stPagination.filter:stPagination `stPagination` filter}
    * @param {number=} [midRange=3] Range before and after current index
    * @param {number=} [edgeRange=3]  Range at the start and end of all indices
-   * @param {string=} [cssConfig='list'] Key to defined the html structure.
+   * @param {object|string=} [cssConfig='list'] Custom `{object}` to configure the html structure or `{string}` key
+   *   for a predefined configuration.
+   *
+   *   Config **`{object}`** properties:
+   *   - `divWrapped` - `{boolean}`   - if true the pagination list will be wrapped with a div element
+   *        *(Default: false)*
+   *   - `selectedClass` - `{string}` - set as class attribute for the li element of the selected page
+   *        *(Default: 'active')*
+   *   - `disabledClass` - `{string}` - set as class attribute to disable previous and next elements
+   *        on first and last page *(Default: 'disabled')*
+   *
+   *  Config **`{string}`** keys:
    *   - `'list'`
    *   - `'divWrappedList'`
    *   - `'bootstrap3'` alias for `'list'`
    *   - `'bootstrap2'` alias for `'divWrappedList'`
    *   - `'zurbFoundation'` - custom configuration for zurb
+   *
    * @example
    *
      <example module="paginationExample">
