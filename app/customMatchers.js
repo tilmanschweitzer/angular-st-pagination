@@ -62,4 +62,10 @@ window.customJasmineMatchers = {};
   // simple patch for angular 1.2 isolateScope function
   var elementPrototype = angular.element(window.document).constructor.prototype;
   elementPrototype.isolateScope = elementPrototype.scope;
+
+  // jasmine 1.0 polyfill
+  window.customJasmineMatchers.toContain = function (expected) {
+    var actual = this.actual || [];
+    return actual.indexOf(expected) >= 0;
+  };
 }());
