@@ -26,7 +26,7 @@ describe('Filter: stPageInfo', function () {
     expect($filter('stPageInfo')('', 'totalPages')).toEqual('');
   });
 
-  it('should get number of total pages with  "totalPages"', function ($filter) {
+  it('should get number of total pages with  "totalPages"', function () {
     expect($filter('stPageInfo')($scope.commits, 'totalPages')).toBe(3);
   });
 
