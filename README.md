@@ -8,7 +8,6 @@
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
 [![Dependency Status](https://img.shields.io/gemnasium/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
 [![Code Climate](https://img.shields.io/codeclimate/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
-[![Issue Stat](http://issuestats.com/github/tilmanpotthof/angular-st-pagination/badge/issue)](http://issuestats.com/github/tilmanpotthof/angular-st-pagination)
 
     bower install angular-st-pagination --save-dev
 
@@ -38,22 +37,23 @@ Just use the pagination filter with an array and the logic is handled by the lib
 
 ### Fixed number of elements
 
-The configurable number of elements never changes and prevents the pagination to break the line for any number of elements.
+The number of page links never changes and prevents the pagination to cause line breaks.
 
-### Configurable CSS
+### Configurable for CSS frameworks
 
-Configure the pagination directive to use them with **Bootstrap 3.x** and **2.x**
+Configure the html structure of the pagination directive to use it with the popular CSS frameworks
+**Bootstrap** and **Zurb Foundation**.
 
 ### Angular compatibility (1.3.x, 1.2.x, 1.0.x)
 
-Angular is moving fast, but the compatibility is tested for all minor branches including older releases `1.0.x` and `1.2.x`.
+Angular is moving fast, but the compatibility is tested for all stable minor releases `1.0.x`, `1.2.x` and `1.3.x`.
 
 ### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
 
 
 ## Components
 
-### `pagination` filter
+### [`pagination`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.filter:stPagination) filter
 
 Initializes a collection for the pagination.
 
@@ -77,7 +77,7 @@ Initializes a collection for the pagination.
 
 --
 
-### `stPagination` directive
+### [`stPagination`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPagination) directive
 
 Displays the pagination. Collection must be initialized with the `pagination` filter.
 
@@ -96,7 +96,7 @@ Displays the pagination. Collection must be initialized with the `pagination` fi
 
 --
 
-### `stPaginationLimit` directive
+### [`stPaginationLimit`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPaginationLimit) directive
 
 Displays a select box to change the pagination limit. Collection must be initialized with the `pagination` filter.
 
@@ -113,7 +113,7 @@ Displays a select box to change the pagination limit. Collection must be initial
 
 --
 
-### `pageInfo` filter
+### [`stPageInfo`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPageInfo) filter
 
 Displays information about the pagination. Collection must be initialized with the `pagination` filter. 
 
@@ -126,8 +126,8 @@ Displays information about the pagination. Collection must be initialized with t
 
 #### Basic usage
 
-    {{ users | pageInfo:'total' }}
-    {{ users | pageInfo:'currentPage' }}
+    {{ users | stPageInfo:'total' }}
+    {{ users | stPageInfo:'currentPage' }}
 
 ## Build
 
