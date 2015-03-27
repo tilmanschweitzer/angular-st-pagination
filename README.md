@@ -27,7 +27,7 @@ Script path and basic usage.
 
 #### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
 
-#### [Release Notes](ReleaseNotes)
+#### [Release Notes](ReleaseNotes.md)
 
 ## Features
 
