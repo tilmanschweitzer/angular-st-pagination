@@ -1,5 +1,10 @@
 ## Release notes
 
+### 0.3.0
+
+* css config object to configure css classes (#23)
+* zurb foundation css config (#10)
+
 ### 0.2.1
 
 * replaced $ prefixed for internal variables (#18)
