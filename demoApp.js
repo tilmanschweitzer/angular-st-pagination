@@ -13,36 +13,34 @@ angular.module('paginationDemo', [
         redirectTo: '/'
       });
   }]);
+angular.module('paginationDemo').controller('demoBaseController', ["$scope", "$timeout", "$templateCache", function ($scope, $timeout, $templateCache) {
+  $scope.styleResetToggle = true;
 
+  function setStyleReset(value) {
+    $scope.styleResetToggle = !!value;
+  }
+
+  function toggleStyle() {
+    setStyleReset(false);
+    $timeout(angular.bind(null, setStyleReset, true), 10);
+  }
+
+  $scope.GLOBAL_CONFIG = {
+    cssConfig: 'bootstrap3'
+  };
+
+  $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
+    var tpl = '<st-pagination collection="commits" css-config="CSS" mid-range="midRange" edge-range="edgeRange">' +
+      '</st-pagination>';
+    tpl = tpl.replace('CSS', $scope.GLOBAL_CONFIG.cssConfig);
+    $templateCache.put('paginationTemplate.html', tpl);
+    toggleStyle();
+  });
+}]);
 angular.module('paginationDemo').controller('demoController', ["$scope", "$http", function ($scope, $http) {
-  function createCommit(line) {
-    var lineTokens = line.split(' ');
-    return {
-      hash: lineTokens[0],
-      comment: lineTokens.slice(1).join(' ')
-    };
-  }
-
-  function filterEmptyLine(line) {
-    return !/(^\s*$)/.test(line);
-  }
-
-  $http.get('demoApp/data/angular-commits.txt').success(function (data) {
-    var lines = data.split('\n');
-    var commits = lines.filter(filterEmptyLine).map(createCommit);
-
-    $scope.functionNames = [
-      'limit',
-      'start',
-      'stop',
-      'page',
-      'displayPage',
-      'lastPage',
-      'totalPages',
-      'onFirstPage',
-      'onLastPage',
-      'length'
-    ];
+  $http.get('demoApp/data/commits.json').success(function (commits) {
+    $scope.commits = commits;
+    $scope.commentFilter = '';
 
     $scope.displayProperties = [
       'total',
@@ -55,13 +53,6 @@ angular.module('paginationDemo').controller('demoController', ["$scope", "$http"
     $scope.propertyTemplate = function (property) {
       return '{{ commits | stPageInfo:"' + property + '" }}';
     };
-
-    $scope.getResult = function (functionName, object) {
-      return object[functionName]();
-    };
-
-    $scope.commits = commits;
-    $scope.commentFilter = '';
   });
 }]).controller('cssConfigController', ["$scope", "$compile", function ($scope, $compile) {
   $scope.cssConfigs = [
@@ -74,6 +65,21 @@ angular.module('paginationDemo').controller('demoController', ["$scope", "$http"
       label: 'Bootstrap 2.x (div wrapped ul list)',
       path: 'demoApp/styles/bootstrap-2.3.2.css',
       configKey: 'bootstrap2'
+    },
+    {
+      label: 'Zurb Foundation 5',
+      path: 'demoApp/styles/foundation-5.5.1.css',
+      configKey: 'zurbFoundation'
+    },
+    {
+      label: 'Zurb Foundation 4',
+      path: 'demoApp/styles/foundation-4.3.2.css',
+      configKey: 'zurbFoundation'
+    },
+    {
+      label: 'Zurb Foundation 3',
+      path: 'demoApp/styles/foundation-3.2.5.css',
+      configKey: 'zurbFoundation'
     },
     {
       label: 'ul list',
@@ -104,6 +110,7 @@ angular.module('paginationDemo').controller('demoController', ["$scope", "$http"
       document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
 
       $scope.generatedHtml = generateHtml();
+      $scope.GLOBAL_CONFIG.cssConfig = newConfig.configKey;
     }
   });
 }]);

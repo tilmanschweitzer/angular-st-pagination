@@ -18,8 +18,8 @@ NG_DOCS={
       "shortName": "stPagination",
       "type": "directive",
       "moduleName": "stPagination",
-      "shortDescription": "Directive that display a pagination for a collection that is initialized by the",
-      "keywords": "$scope $watch alias aliases angular api app array attributes automatic basic bootstrap bootstrap2 bootstrap3 class click collection configure configured controller css css-config cssconfig current decide defined directive display displayed divwrappedlist edge-range edgerange element elements email er exampledata exampleusers filter fixed folded folding function html indices initialized input-small js jump key length list mid-range middle midrange module ng-controller ng-init ng-model ng-options ng-repeat overlap overlapped pagination paginationexample parameter range ranges replaced set setpage start startindex stopindex stpageinfo stpagination structure structures summed supported table total user usercontroller users wrapped"
+      "shortDescription": "Directive that display a pagination for an array that is initialized by the",
+      "keywords": "$scope $watch active alias angular api app array attribute attributes automatic bootstrap2 bootstrap3 buttons class click collection config configuration configure configured controller css css-config cssconfig current custom default directive disable disabled disabledclass display displayed div divwrapped divwrappedlist edge-range edgerange element elements email er example exampledata exampleusers false filter fixed folded folding foundation framework frameworks function generate generated generates html indices initialized input-small js jump key length li link links list mid-range middle midrange module ng-controller ng-init ng-model ng-options ng-repeat number overlap overlapped pagination paginationexample parameter pass popular predefined presets previous properties property replace replaced selected selectedclass set setpage simple simplify start startindex stopindex stpageinfo stpagination structure summed table total true unavailable user usercontroller users version wrapped wraps zurb zurbfoundation"
     },
     {
       "section": "api",
