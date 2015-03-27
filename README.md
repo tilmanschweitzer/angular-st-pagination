@@ -20,11 +20,14 @@ Script path and basic usage.
 
     // pagination filter and directives
     <ul>
-      <li ng-repeat="user in users | pagination">{{ user.name }}</li>
+      <li ng-repeat="user in users | stPagination">{{ user.name }}</li>
     </ul>
     <st-pagination collection="users"></st-pagination>
     <st-pagination-limit collection="commits" limits="[5,10,20,50,100]"></st-pagination-limit>
 
+#### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
+
+#### [Release Notes](ReleaseNotes)
 
 ## Features
 
@@ -45,9 +48,6 @@ Configure the html structure of the pagination directive to use it with the popu
 
 Angular is moving fast, but the compatibility is tested for all stable minor releases `1.0.x`, `1.2.x` and `1.3.x`.
 
-### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
-
-### [Release Notes](ReleaseNotes)
 
 ## Components
 
