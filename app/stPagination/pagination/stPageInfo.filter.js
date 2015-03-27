@@ -16,6 +16,7 @@ angular.module('stPagination').filter('stPageInfo', function (StPagination) {
    *
    * @description
    * Returns information about pagination properties.
+   * Array must be initialized with the `pagination` filter.
    *
    * <pre>
    *    {{ users | stPageInfo:'total' }}
