@@ -1,5 +1,5 @@
 /*!
- * angular-st-pagination v0.2.1
+ * angular-st-pagination v0.3.0
  * source: git@github.com:tilmanpotthof/angular-st-pagination.git
  * license: MIT (https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE)
  */
@@ -252,22 +252,47 @@ angular.module("stPagination").directive("stPaginationLimit", [ "StPagination", 
   };
 } ]);
 
-angular.module("stPagination").directive("stPagination", [ "StPagination", function(StPagination) {
+angular.module("stPagination").directive("stPagination", [ "StPagination", "$parse", function(StPagination, $parse) {
   "use strict";
   var css3UserSelectAliases = [ "-webkit-touch-callout", "-webkit-user-select", "-moz-user-select", "-ms-user-select", "user-select" ];
-  var basePagination = "<ul>" + '<li ng-class="{disabled: pagination.onFirstPage()}">' + '<a ng-click="pagination.prev()">&laquo;</a>' + "</li>" + '<li ng-class="{active: pagination.onPage(index)}" ' + 'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' + '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' + "</li>" + '<li ng-class="{disabled: pagination.onLastPage()}">' + '<a ng-click="pagination.next()">&raquo;</a>' + "</li>" + "</ul>";
-  var transformationForCssConfig = {
-    list: function($element) {
-      $element.addClass("pagination");
+  var basePagination = "<ul>" + '<li ng-class="{%DISABLED_CLASS%: pagination.onFirstPage()}">' + '<a ng-click="pagination.prev()">&laquo;</a>' + "</li>" + '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' + 'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' + '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' + "</li>" + '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' + '<a ng-click="pagination.next()">&raquo;</a>' + "</li>" + "</ul>";
+  function extendDefaults(options) {
+    return angular.extend({
+      divWrapped: false,
+      selectedClass: "active",
+      disabledClass: "disabled"
+    }, options);
+  }
+  var cssConfigsByKey = {
+    list: {},
+    divWrappedList: {
+      divWrapped: true
     },
-    divWrappedList: function($element) {
-      $element.wrap('<div class="pagination"></div>');
+    bootstrap3: {},
+    bootstrap2: {
+      divWrapped: true
+    },
+    zurbFoundation: {
+      selectedClass: "current",
+      disabledClass: "unavailable"
     }
   };
-  transformationForCssConfig.bootstrap3 = transformationForCssConfig.list;
-  transformationForCssConfig.bootstrap2 = transformationForCssConfig.divWrappedList;
-  var allowedValues = '"' + Object.keys(transformationForCssConfig).join('", "') + '"';
-  var DEFAULT_CSS_CONFIG = "list";
+  var allowedValues = '"' + Object.keys(cssConfigsByKey).join('", "') + '"';
+  var defaultCssConfig = "list";
+  function parseCssConfig(cssConfig) {
+    var configObject = $parse(cssConfig)({});
+    if (angular.isObject(configObject)) {
+      return extendDefaults(configObject);
+    }
+    cssConfig = cssConfig || defaultCssConfig;
+    configObject = cssConfigsByKey[cssConfig];
+    if (configObject !== undefined) {
+      return extendDefaults(configObject);
+    } else {
+      var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
+      throw new Error(msg);
+    }
+  }
   return {
     restrict: "E",
     replace: true,
@@ -278,14 +303,19 @@ angular.module("stPagination").directive("stPagination", [ "StPagination", funct
     },
     template: basePagination,
     compile: function($element, attributes) {
-      var cssConfig = attributes.cssConfig || DEFAULT_CSS_CONFIG;
-      var transformation = transformationForCssConfig[cssConfig];
-      if (angular.isFunction(transformation)) {
-        transformation($element);
+      var cssConfigObject = parseCssConfig(attributes.cssConfig);
+      if (cssConfigObject.divWrapped) {
+        $element.wrap('<div class="pagination"></div>');
       } else {
-        var msg = 'Given css-config attribute "' + attributes.cssConfig + '" is not in allowed values ' + allowedValues;
-        throw new Error(msg);
+        $element.addClass("pagination");
       }
+      angular.forEach($element.find("li"), function(liElement) {
+        var $liElement = angular.element(liElement);
+        var ngClass = $liElement.attr("ng-class");
+        ngClass = ngClass.replace("%DISABLED_CLASS%", cssConfigObject.disabledClass);
+        ngClass = ngClass.replace("%SELECTED_CLASS%", cssConfigObject.selectedClass);
+        $liElement.attr("ng-class", ngClass);
+      });
     },
     controller: [ "$scope", "$element", "$attrs", function($scope, $element, $attrs) {
       angular.forEach(css3UserSelectAliases, function(alias) {
