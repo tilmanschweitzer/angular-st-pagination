@@ -69,18 +69,18 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
    * @restrict E
    *
    * @description
-   * Directive that display a pagination for a collection that is initialized by the
+   * Directive that display a pagination for an array that is initialized by the
    * {@link stPagination.filter:stPagination `stPagination` filter}.
    *
    * <pre>
    *    <st-pagination collection="users"></st-pagination>
    * </pre>
    *
-   * ## Configure displayed ranges
+   * ## Configure number of displayed page links
    *
    * The automatic folding of indices can be configured.
-   * The length of the displayed index ranges are set with the attributes `midRange` and `edgeRange.
-   * If the ranges overlap they are summed up to keep a fixed length.
+   * The number of the displayed page links are set with the attributes `midRange` and `edgeRange.
+   * If the page links overlap they are summed up to keep a fixed length.
    * The overlapped element a replaced by '...' and a click on that pagination element will jump to the middle
    * of the folded elements.
    *
@@ -120,6 +120,12 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
    * </pre>
    *
    * The config properties `selectedClass` and `disabledClass` replace the class attributes for the list elements.
+   *
+   * <pre>
+   *    <st-pagination collection="users" css-config="{selectedClass: 'current', disabledClass: 'unavailable'}">
+   *    </st-pagination>
+   * </pre>
+   *
    * For example `{selectedClass: 'current', disabledClass: 'unavailable'}` will generate the following html structure.
    *
    * <pre>
@@ -142,13 +148,13 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
    *   - `'zurbFoundation'` set class attributes necessary for foundation (works with version 3-5)
    *
    * <pre>
-   *    <st-pagination css-config="'zurbFoundation'"></st-pagination>
+   *    <st-pagination collection="users" css-config="'zurbFoundation'"></st-pagination>
    * </pre>
    *
    * @param {Array} collection Array that was initialized by the
    *  {@link stPagination.filter:stPagination `stPagination` filter}
-   * @param {number=} [midRange=3] Range before and after current index
-   * @param {number=} [edgeRange=3]  Range at the start and end of all indices
+   * @param {number=} [midRange=3] Number of page links before and after current index
+   * @param {number=} [edgeRange=3]  Number of page links at the start and end
    * @param {object|string=} [cssConfig='list'] Custom `{object}` to configure the html structure or `{string}` key
    *   for a predefined configuration.
    *
@@ -191,10 +197,10 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
              |
              Total {{ users | stPageInfo:'total' }}
            </div>
-           <st-pagination collection="users" mid-range="midRange" edge-range="edgeRange" css-config="bootstrap2">
+           <st-pagination collection="users" mid-range="mR" edge-range="mR" css-config="bootstrap2">
            </st-pagination>
            <hr/>
-           <p ng-init="midRange = 1; edgeRange = 1">
+           <p ng-init="mR = 1; eR = 1">
              <span><code>midRange:</code><span>
              <select ng-options="r for r in [1,2,3,4,5]" ng-model="mR" class="input-small"></select>
              <span><code>edgeRange:</code><span>
