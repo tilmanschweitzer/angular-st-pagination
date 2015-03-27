@@ -1,17 +1,17 @@
 describe('Directive: pagination', function () {
   'use strict';
 
-  // load the controller's module
   beforeEach(module('stPagination'));
 
   beforeEach(function () {
     jasmine.addMatchers(customJasmineMatchers);
   });
 
-  var $scope, $simplePagination;
+  var $scope, $simplePagination, $compile, $filter;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, $filter, $compile) {
+  beforeEach(inject(function ($rootScope, _$filter_, _$compile_) {
+    $compile = _$compile_;
+    $filter = _$filter_;
     $scope = $rootScope.$new().$new();
     $scope.commits = [];
     $filter('stPagination')($scope.commits);
@@ -31,28 +31,28 @@ describe('Directive: pagination', function () {
     expect($simplePagination.isolateScope().collection).toBe($scope.commits);
   });
 
-  it('should set the pagination of the collection correctly', inject(function () {
+  it('should set the pagination of the collection correctly', function () {
     expect($simplePagination.isolateScope().pagination).toBe($scope.commits.pagination);
-  }));
+  });
 
-  it('should throw an error if the collection has no pagination', inject(function ($compile) {
+  it('should throw an error if the collection has no pagination', function () {
     $scope.otherCommits = [];
     var msg = 'Collection "otherCommits" in the pagination directive is not used with a neccessary pagination filter.';
     expect(function () {
       $compile('<st-pagination collection="otherCommits"></st-pagination>')($scope);
       $scope.$apply();
     }).toThrow(new Error(msg));
-  }));
+  });
 
-  it('should accept an not defined collection without errors', inject(function ($compile) {
+  it('should accept an not defined collection without errors', function () {
     $compile('<st-pagination collection="undefinedCollection"></st-pagination>')($scope);
     $scope.$apply();
-  }));
+  });
 
   describe('event handling', function () {
     var $prev, $page1, $page2, $page3, $next;
 
-    beforeEach(inject(function ($filter) {
+    beforeEach(function () {
       $scope.commits = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
       $filter('stPagination')($scope.commits);
       $scope.commits.pagination.setPage(1);
@@ -69,27 +69,27 @@ describe('Directive: pagination', function () {
       $page2 = $simplePagination.find('li:eq(2)');
       $page3 = $simplePagination.find('li:eq(3)');
       $next = $simplePagination.find('li:eq(4)');
-    }));
+    });
 
-    it('example should have 3 pages', inject(function () {
+    it('example should have 3 pages', function () {
       expect($simplePagination.isolateScope().pagination.totalPages()).toBe(3);
-    }));
+    });
 
-    it('example have 5 list elements (prev, 1, 2, 3, next)', inject(function () {
+    it('example have 5 list elements (prev, 1, 2, 3, next)', function () {
       expect($simplePagination.find('li').length).toBe(5);
-    }));
+    });
 
-    it('example have an active button for page 2', inject(function () {
+    it('example have an active button for page 2', function () {
       expect($page2.hasClass('active')).toBe(true);
-    }));
+    });
 
-    it('example have the displayed elements « 1 2 3 »', inject(function () {
+    it('example have the displayed elements « 1 2 3 »', function () {
       expect($prev.find('a').text()).toBe('«');
       expect($next.find('a').text()).toBe('»');
       expect($page1.find('a').text()).toBe('1');
       expect($page2.find('a').text()).toBe('2');
       expect($page3.find('a').text()).toBe('3');
-    }));
+    });
 
     it('should call prev page when clicking on the prev button', function () {
       $prev.find('a').trigger('click');
@@ -116,36 +116,167 @@ describe('Directive: pagination', function () {
 
     var $configTestPagination;
 
-    // Initialize the controller and a mock scope
-    it('should have an ul as default root element', inject(function ($compile) {
+    beforeEach(function () {
+      $simplePagination = null;
       $configTestPagination = $compile('<st-pagination collection="commits"></st-pagination>')($scope);
       $scope.$apply();
+    });
 
-      expect($configTestPagination.parent()[0]).toBeUndefined();
-      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
-      expect($configTestPagination[0].className).toContain('pagination');
-    }));
-
-    it('should have an div as root element for bootstrap2', inject(function ($compile) {
-      var tmpl = '<st-pagination collection="commits" css-config="bootstrap2"></st-pagination>';
-      $configTestPagination = $compile(tmpl)($scope);
-      $scope.$apply();
-
-      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
-      expect($configTestPagination[0].className).not.toContain('pagination');
-
-      expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
-      expect($configTestPagination.parent()[0].className).toContain('pagination');
-    }));
-
-    it('should throw an error for undefined configurations', inject(function ($compile) {
+    it('throws an error for undefined configurations', function () {
       var msg = 'Given css-config attribute "bootstrap-1" is not in allowed values ' +
-        '"list", "divWrappedList", "bootstrap3", "bootstrap2"';
+        '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
       expect(function () {
         var tmpl = '<st-pagination collection="commits" css-config="bootstrap-1"></st-pagination>';
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       }).toThrow(new Error(msg));
-    }));
+    });
+
+    it('renders an ul as default root element', function () {
+      expect($configTestPagination.parent()[0]).toBeUndefined();
+      expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+    });
+
+    it('renders a "pagination" class to the root ul element', function () {
+      expect($configTestPagination[0].className).toContain('pagination');
+    });
+
+    it('renders a "disabled" class for the prev link', function () {
+      expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('disabled');
+    });
+
+    it('renders a "active" class for the link to current (first) page', function () {
+      expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('active');
+    });
+
+    it('renders other page link without "active" class', function () {
+      expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('active');
+      expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('active');
+    });
+
+    describe('"bootstrap3"', function () {
+      beforeEach(function () {
+        var tmpl = '<st-pagination collection="commits" css-config="bootstrap3"></st-pagination>';
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders an ul as default root element', function () {
+        expect($configTestPagination.parent()[0]).toBeUndefined();
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      });
+
+      it('renders a "pagination" class to the root ul element', function () {
+        expect($configTestPagination[0].className).toContain('pagination');
+      });
+
+      it('renders a "disabled" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('disabled');
+      });
+
+      it('renders a "active" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('active');
+      });
+
+      it('renders other page link without "active" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('active');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('active');
+      });
+    });
+
+    describe('"bootstrap2"', function () {
+      beforeEach(function () {
+        var tmpl = '<st-pagination collection="commits" css-config="bootstrap2"></st-pagination>';
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders a div as root element', function () {
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+        expect($configTestPagination[0].className).not.toContain('pagination');
+
+        expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
+      });
+
+      it('renders a "pagination" class to the root div element', function () {
+        expect($configTestPagination.parent()[0].className).toContain('pagination');
+      });
+
+      it('renders a "disabled" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('disabled');
+      });
+
+      it('renders a "active" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('active');
+      });
+
+      it('renders other page link without "active" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('active');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('active');
+      });
+    });
+
+    describe('"zurbFoundation"', function () {
+      beforeEach(function () {
+        var tmpl = '<st-pagination collection="commits" css-config="zurbFoundation"></st-pagination>';
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders an ul as default root element', function () {
+        expect($configTestPagination.parent()[0]).toBeUndefined();
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+      });
+
+      it('renders a "pagination" class to the root ul element', function () {
+        expect($configTestPagination[0].className).toContain('pagination');
+      });
+
+      it('renders a "unavailable" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('unavailable');
+      });
+
+      it('renders a "current" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('current');
+      });
+
+      it('renders other page link without "current" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('current');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('current');
+      });
+    });
+
+    describe('custom config object', function () {
+      beforeEach(function () {
+        var tmpl = '<st-pagination collection="commits" ' +
+          'css-config="{divWrapped: true, selectedClass: \'selected\', disabledClass: \'inactive\'}"></st-pagination>';
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders a div as root element', function () {
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+        expect($configTestPagination[0].className).not.toContain('pagination');
+
+        expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
+      });
+
+      it('renders a "pagination" class to the root div element', function () {
+        expect($configTestPagination.parent()[0].className).toContain('pagination');
+      });
+
+      it('renders a "inactive" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('inactive');
+      });
+
+      it('renders a "current" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('selected');
+      });
+
+      it('renders other page link without "current" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('selected');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('selected');
+      });
+    });
   });
 });

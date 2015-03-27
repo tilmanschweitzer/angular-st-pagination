@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPagination', function (StPagination) {
+angular.module('stPagination').directive('stPagination', function (StPagination, $parse) {
   'use strict';
 
   var css3UserSelectAliases = [
@@ -10,33 +10,58 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
   ];
 
   var basePagination = '<ul>' +
-      '<li ng-class="{disabled: pagination.onFirstPage()}">' +
+      '<li ng-class="{%DISABLED_CLASS%: pagination.onFirstPage()}">' +
         '<a ng-click="pagination.prev()">&laquo;</a>' +
       '</li>' +
-      '<li ng-class="{active: pagination.onPage(index)}" ' +
+      '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' +
         'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
         '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' +
       '</li>' +
-      '<li ng-class="{disabled: pagination.onLastPage()}">' +
+      '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
         '<a ng-click="pagination.next()">&raquo;</a>' +
       '</li>' +
     '</ul>';
 
-  var transformationForCssConfig = {
-    list: function ($element) {
-      $element.addClass('pagination');
+  function extendDefaults(options) {
+    return angular.extend({
+      divWrapped: false,
+      selectedClass: 'active',
+      disabledClass: 'disabled'
+    }, options);
+  }
+
+  var cssConfigsByKey = {
+    list: {},
+    divWrappedList: {
+      divWrapped: true
     },
-    divWrappedList: function ($element) {
-      $element.wrap('<div class="pagination"></div>');
+    bootstrap3: {},
+    bootstrap2: {
+      divWrapped: true
+    },
+    zurbFoundation: {
+      selectedClass: 'current',
+      disabledClass: 'unavailable'
     }
   };
 
-  transformationForCssConfig.bootstrap3 = transformationForCssConfig.list;
-  transformationForCssConfig.bootstrap2 = transformationForCssConfig.divWrappedList;
+  var allowedValues = '"' + Object.keys(cssConfigsByKey).join('", "') + '"';
+  var defaultCssConfig = 'list';
 
-  var allowedValues = '"' + Object.keys(transformationForCssConfig).join('", "') + '"';
-
-  var DEFAULT_CSS_CONFIG = 'list';
+  function parseCssConfig(cssConfig) {
+    var configObject = $parse(cssConfig)({});
+    if (angular.isObject(configObject)) {
+      return extendDefaults(configObject);
+    }
+    cssConfig = cssConfig || defaultCssConfig;
+    configObject = cssConfigsByKey[cssConfig];
+    if (configObject !== undefined) {
+      return extendDefaults(configObject);
+    } else {
+      var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
+      throw new Error(msg);
+    }
+  }
 
   /**
    * @ngdoc directive
@@ -44,18 +69,18 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
    * @restrict E
    *
    * @description
-   * Directive that display a pagination for a collection that is initialized by the
+   * Directive that display a pagination for an array that is initialized by the
    * {@link stPagination.filter:stPagination `stPagination` filter}.
    *
    * <pre>
    *    <st-pagination collection="users"></st-pagination>
    * </pre>
    *
-   * ## Configure displayed ranges
+   * ## Configure number of displayed page links
    *
    * The automatic folding of indices can be configured.
-   * The length of the displayed index ranges are set with the attributes `midRange` and `edgeRange.
-   * If the ranges overlap they are summed up to keep a fixed length.
+   * The number of the displayed page links are set with the attributes `midRange` and `edgeRange.
+   * If the page links overlap they are summed up to keep a fixed length.
    * The overlapped element a replaced by '...' and a click on that pagination element will jump to the middle
    * of the folded elements.
    *
@@ -66,24 +91,88 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
    * ## Configure structure for css
    *
    * Configure the html structure for you css with the parameter `cssConfig`.
-   * Decide between a basic `<ul>` list (`'list'`) or a list wrapped by `<div>` elements (`'divWrappedList'`).
+   * As parameter you can pass a **`{string}`** key for configuration presets or an custom configuration
+   * as **`{object}`**.
    *
-   * Bootstrap 3.x and 2.x are supported by these html structures.
-   * Therefore just use the aliases `'bootstrap3'` for `'list'` and `'bootstrap2'` for `'divWrappedList'`.
+   * The generated default structure of the directive is a simple list with links and a ***pagination*** class.
+   * The current page link has an ***active*** class and the previous and next buttons get a ***disabled*** class
+   * for the first or last page.
    *
    * <pre>
-   *    <st-pagination css-config="'bootstrap3'"></st-pagination>
+   *   <ul class="pagination">
+   *     <li class="disabled"><a>&laquo;</a></li>
+   *     <li class="active"><a>1</a></li>
+   *     <li><a>1</a></li>
+   *     <li><a>2</a></li>
+   *     <li><a>3</a></li>
+   *     <li><a>&raquo;</a></li>
+   *   </ul>
+   * </pre>
+   *
+   * The config property `{divWrapped: true}` or the key `'divWrappedList'` wraps the list in a div element.
+   *
+   * <pre>
+   *   <div class="pagination">
+   *     <ul>
+   *       ...
+   *     </ul>
+   *   </div>
+   * </pre>
+   *
+   * The config properties `selectedClass` and `disabledClass` replace the class attributes for the list elements.
+   *
+   * <pre>
+   *    <st-pagination collection="users" css-config="{selectedClass: 'current', disabledClass: 'unavailable'}">
+   *    </st-pagination>
+   * </pre>
+   *
+   * For example `{selectedClass: 'current', disabledClass: 'unavailable'}` will generate the following html structure.
+   *
+   * <pre>
+   *   <ul class="pagination">
+   *     <li class="current"><a>&laquo;</a></li>
+   *     <li class="unavailable"><a>1</a></li>
+   *     <li><a>1</a></li>
+   *     <li><a>2</a></li>
+   *     <li><a>3</a></li>
+   *     <li><a>&raquo;</a></li>
+   *   </ul>
+   * </pre>
+   *
+   * ### Config keys for css frameworks
+   *
+   * To simplify the configuration for popular css framework just use a **`{string}`** key for the configuration.
+   *
+   *   - `'bootstrap3'` generates the default structure
+   *   - `'bootstrap2'` generates a `'divWrappedList'`
+   *   - `'zurbFoundation'` set class attributes necessary for foundation (works with version 3-5)
+   *
+   * <pre>
+   *    <st-pagination collection="users" css-config="'zurbFoundation'"></st-pagination>
    * </pre>
    *
    * @param {Array} collection Array that was initialized by the
    *  {@link stPagination.filter:stPagination `stPagination` filter}
-   * @param {number=} [midRange=3] Range before and after current index
-   * @param {number=} [edgeRange=3]  Range at the start and end of all indices
-   * @param {string=} [cssConfig='list'] Key to defined the html structure.
+   * @param {number=} [midRange=3] Number of page links before and after current index
+   * @param {number=} [edgeRange=3]  Number of page links at the start and end
+   * @param {object|string=} [cssConfig='list'] Custom `{object}` to configure the html structure or `{string}` key
+   *   for a predefined configuration.
+   *
+   *   Config **`{object}`** properties:
+   *   - `divWrapped` - `{boolean}`   - if true the pagination list will be wrapped with a div element
+   *        *(Default: false)*
+   *   - `selectedClass` - `{string}` - set as class attribute for the li element of the selected page
+   *        *(Default: 'active')*
+   *   - `disabledClass` - `{string}` - set as class attribute to disable previous and next elements
+   *        on first and last page *(Default: 'disabled')*
+   *
+   *  Config **`{string}`** keys:
    *   - `'list'`
    *   - `'divWrappedList'`
    *   - `'bootstrap3'` alias for `'list'`
    *   - `'bootstrap2'` alias for `'divWrappedList'`
+   *   - `'zurbFoundation'` - custom configuration for zurb
+   *
    * @example
    *
      <example module="paginationExample">
@@ -108,10 +197,10 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
              |
              Total {{ users | stPageInfo:'total' }}
            </div>
-           <st-pagination collection="users" mid-range="midRange" edge-range="edgeRange" css-config="bootstrap2">
+           <st-pagination collection="users" mid-range="mR" edge-range="mR" css-config="bootstrap2">
            </st-pagination>
            <hr/>
-           <p ng-init="midRange = 1; edgeRange = 1">
+           <p ng-init="mR = 1; eR = 1">
              <span><code>midRange:</code><span>
              <select ng-options="r for r in [1,2,3,4,5]" ng-model="mR" class="input-small"></select>
              <span><code>edgeRange:</code><span>
@@ -145,14 +234,22 @@ angular.module('stPagination').directive('stPagination', function (StPagination)
     },
     template: basePagination,
     compile: function ($element, attributes) {
-      var cssConfig = attributes.cssConfig || DEFAULT_CSS_CONFIG;
-      var transformation = transformationForCssConfig[cssConfig];
-      if (angular.isFunction(transformation)) {
-        transformation($element);
+      var cssConfigObject = parseCssConfig(attributes.cssConfig);
+
+      if (cssConfigObject.divWrapped) {
+        $element.wrap('<div class="pagination"></div>');
       } else {
-        var msg = 'Given css-config attribute "' + attributes.cssConfig + '" is not in allowed values ' + allowedValues;
-        throw new Error(msg);
+        $element.addClass('pagination');
       }
+
+      angular.forEach($element.find('li'), function (liElement) {
+        var $liElement = angular.element(liElement);
+        var ngClass = $liElement.attr('ng-class');
+        ngClass = ngClass.replace('%DISABLED_CLASS%', cssConfigObject.disabledClass);
+        ngClass = ngClass.replace('%SELECTED_CLASS%', cssConfigObject.selectedClass);
+        $liElement.attr('ng-class', ngClass);
+      });
+
     },
     controller: function ($scope, $element, $attrs) {
       // set css to prevent selections
