@@ -2,8 +2,6 @@
 
 > Provides client-side pagination through a simple angular filter.
 
-
-
 [![Build Status](https://img.shields.io/travis/tilmanpotthof/angular-st-pagination.svg)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
 [![Dependency Status](https://img.shields.io/gemnasium/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
@@ -30,7 +28,6 @@ Script path and basic usage.
 
 ## Features
 
-
 ### Complete pagination logic
 
 Just use the pagination filter with an array and the logic is handled by the library. It is as simple as this example: `user in users | pagination`.
@@ -50,6 +47,7 @@ Angular is moving fast, but the compatibility is tested for all stable minor rel
 
 ### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
 
+### [Release Notes](ReleaseNotes)
 
 ## Components
 
