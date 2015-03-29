@@ -1,11 +1,11 @@
 angular.module('stPagination').factory('stPagination', function () {
   'use strict';
 
-  function Pagination(inputCollection) {
-    this._inputCollection = inputCollection;
+  function Pagination(collection) {
+    this._collection = collection;
     this._limit = 10;
     this._page = 0;
-    this._cachedReducedIndices = {};
+    this._cachedIndices = {};
   }
 
   function isNumberOrDefault(number, defaultValue) {
@@ -13,35 +13,32 @@ angular.module('stPagination').factory('stPagination', function () {
   }
 
   angular.extend(Pagination.prototype, {
-    setInputCollection: function (inputCollection) {
-      this._inputCollection = inputCollection;
+    setCollection: function (collection) {
+      this._collection = collection;
       this.checkPageLimits();
     },
-    paginatedInputCollection: function () {
-      return this._inputCollection.slice(this.start(), this.stop());
+    paginatedCollection: function () {
+      return this._collection.slice(this.start(), this.stop());
     },
-    inputCollection: function () {
-      return this._inputCollection;
+    collection: function () {
+      return this._collection;
     },
     start: function () {
       return this.offset();
     },
     stop: function () {
+      var length = this.length();
       var stop = this.offset() + this.getLimit();
-      if (stop < this.length()) {
-        return stop;
-      } else {
-        return this.length();
-      }
+      return stop < length ? stop : length;
     },
     length: function () {
-      return this._inputCollection.length;
+      return this._collection.length;
     },
     setLimit: function (limit) {
       this._limit = limit;
     },
     totalPages: function () {
-      return Math.ceil(this._inputCollection.length / this.getLimit()) || 1;
+      return Math.ceil(this._collection.length / this.getLimit()) || 1;
     },
     offset: function () {
       return this._page * this._limit;
@@ -93,14 +90,13 @@ angular.module('stPagination').factory('stPagination', function () {
       edgeRange = isNumberOrDefault(edgeRange, 3);
 
       var indexCacheKey = this.indexCacheKey(midRange, edgeRange);
-      if (this._cachedReducedIndices[indexCacheKey]) {
-        return this._cachedReducedIndices[indexCacheKey];
+      if (this._cachedIndices[indexCacheKey]) {
+        return this._cachedIndices[indexCacheKey];
       } else {
-        var page = this.page();
-        var total = this.totalPages();
-        var rangeBuilder = new RangeBuilder(total).foldWithMidAndEdgeRangeForIndex(page, midRange, edgeRange);
+        var rangeBuilder = new RangeBuilder(this.totalPages());
+        rangeBuilder.foldForIndex(this.page(), midRange, edgeRange);
         var indices = rangeBuilder.build();
-        this._cachedReducedIndices[indexCacheKey] = indices;
+        this._cachedIndices[indexCacheKey] = indices;
         return indices;
       }
     },
@@ -124,18 +120,6 @@ angular.module('stPagination').factory('stPagination', function () {
     build: function () {
       return this.array;
     },
-    foldGreaterThan: function (offset) {
-      return this.foldRange(offset + 1, this.lastIndex);
-    },
-    foldGreaterEquals: function (offset) {
-      return this.foldRange(offset, this.lastIndex);
-    },
-    foldLessThan: function (limit) {
-      return this.foldRange(0, limit - 1);
-    },
-    foldLessEquals: function (limit) {
-      return this.foldRange(0, limit);
-    },
     foldRange: function (start, stop) {
       var oldArray = this.array;
       var newArray = this.array = [];
@@ -153,10 +137,7 @@ angular.module('stPagination').factory('stPagination', function () {
       });
       return this;
     },
-    foldFixedLengthForIndex: function (index, length) {
-      return this.foldWithMidAndEdgeRangeForIndex(index, length, length);
-    },
-    foldWithMidAndEdgeRangeForIndex: function (index, midRange, edgeRange) {
+    foldForIndex: function (index, midRange, edgeRange) {
       var firstFoldStart = 0 + edgeRange;
       var firstFoldStop = index - midRange;
       var secondFoldStart = index + midRange;

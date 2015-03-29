@@ -31,7 +31,7 @@ describe('Filter: pagination', function () {
   it('should link the created pagination with the collection', function () {
     var someCollection = [];
     $filter('stPagination')(someCollection);
-    expect(someCollection.pagination._inputCollection).toBe(someCollection);
+    expect(someCollection.pagination._collection).toBe(someCollection);
   });
 
   it('should ignore undefined inputs', function () {

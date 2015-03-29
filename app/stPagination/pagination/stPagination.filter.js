@@ -115,7 +115,7 @@ angular.module('stPagination').filter('stPagination', function (stPagination) {
       collectionWithPaginationHandle.pagination = new stPagination.Pagination(inputCollection);
     }
     var pagination = collectionWithPaginationHandle.pagination;
-    pagination.setInputCollection(inputCollection);
-    return pagination.paginatedInputCollection();
+    pagination.setCollection(inputCollection);
+    return pagination.paginatedCollection();
   };
 });
