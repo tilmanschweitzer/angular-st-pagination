@@ -16,13 +16,13 @@ describe('Directive: paginationLimit', function () {
     });
     return optionValueByText;
   }
-  var $scope, $basicPaginationLimit, $directiveScope, $compile, $filter, StPagination;
+  var $scope, $basicPaginationLimit, $directiveScope, $compile, $filter, Pagination;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, _$compile_, _$filter_, _StPagination_) {
+  beforeEach(inject(function ($rootScope, _$compile_, _$filter_, _stPagination_) {
     $compile = _$compile_;
     $filter = _$filter_;
-    StPagination = _StPagination_;
+    Pagination = _stPagination_.Pagination;
     $scope = $rootScope.$new();
     $basicPaginationLimit = $compile('<st-pagination-limit collection="commits"></st-pagination-limit>')($scope);
     $directiveScope = $basicPaginationLimit.isolateScope();
@@ -55,7 +55,7 @@ describe('Directive: paginationLimit', function () {
     $scope.$apply();
 
     expect($directiveScope.pagination).toBe($scope.commits.pagination);
-    expect($directiveScope.pagination).toBeInstanceOf(StPagination);
+    expect($directiveScope.pagination).toBeInstanceOf(Pagination);
   });
 
 
