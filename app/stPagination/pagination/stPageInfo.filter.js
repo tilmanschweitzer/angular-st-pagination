@@ -1,4 +1,4 @@
-angular.module('stPagination').filter('stPageInfo', function (StPagination) {
+angular.module('stPagination').filter('stPageInfo', function (stPagination) {
   'use strict';
 
   var propertyNameToFunctionMapping = {
@@ -114,7 +114,7 @@ angular.module('stPagination').filter('stPageInfo', function (StPagination) {
      </example>
   */
   return function (collection, propertyName) {
-    if (StPagination.hasPagination(collection) && propertyName) {
+    if (stPagination.hasPagination(collection) && propertyName) {
       var fnName = propertyNameToFunctionMapping[propertyName];
       if (!fnName) {
         throw new Error('No display property "' + propertyName + '" defined for the stPageInfo filter');

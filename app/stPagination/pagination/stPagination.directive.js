@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPagination', function (StPagination, $parse) {
+angular.module('stPagination').directive('stPagination', function (stPagination, $parse) {
   'use strict';
 
   var css3UserSelectAliases = [
@@ -15,7 +15,7 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
       '</li>' +
       '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' +
         'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
-        '<a ng-click="pagination.setPage(index)">{{ index | displayPaginationIndex }}</a>' +
+        '<a ng-click="pagination.setPage(index)">{{ displayPaginationIndex(index) }}</a>' +
       '</li>' +
       '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
         '<a ng-click="pagination.next()">&raquo;</a>' +
@@ -60,6 +60,16 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
     } else {
       var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
       throw new Error(msg);
+    }
+  }
+
+  function displayPaginationIndex(index) {
+    if (angular.isNumber(index)) {
+      return index + 1;
+    } else if (angular.isArray(index)) {
+      return '...';
+    } else {
+      return index;
     }
   }
 
@@ -259,9 +269,11 @@ angular.module('stPagination').directive('stPagination', function (StPagination,
 
       var collectionName = $attrs.collection;
 
+      $scope.displayPaginationIndex = displayPaginationIndex;
+
       $scope.$watch('collection', function (collection) {
         if (angular.isArray(collection)) {
-          if (StPagination.hasPagination(collection)) {
+          if (stPagination.hasPagination(collection)) {
             $scope.pagination = collection.pagination;
           } else {
             var msg = 'Collection "' + collectionName + '" in the pagination directive is not used with a neccessary ' +
