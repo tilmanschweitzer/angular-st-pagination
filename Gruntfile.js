@@ -199,7 +199,9 @@ module.exports = function (grunt) {
         options: {
           mangle: false,
           compress: false,
-          enclose: {},
+          enclose: {
+            angular: 'angular'
+          },
           beautify: {
             width: 120,
             beautify: true,
