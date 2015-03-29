@@ -3,11 +3,10 @@ describe('Type: Pagination', function () {
 
   beforeEach(module('stPagination'));
 
-  var stPagination, indexUtil;
+  var stPagination;
 
-  beforeEach(inject(function (_stPagination_, _indexUtil_) {
+  beforeEach(inject(function (_stPagination_) {
     stPagination = _stPagination_;
-    indexUtil = _indexUtil_;
   }));
 
   it('should be initialized with limit of 10', function () {
@@ -115,7 +114,7 @@ describe('Type: Pagination', function () {
   });
 
   it('should set page to middle index', function () {
-    var pagination = new stPagination.Pagination(indexUtil.range(100));
+    var pagination = new stPagination.Pagination(stPagination.range(100));
 
     // check even number of elements
     pagination.setPage([3,4]);
@@ -133,4 +132,144 @@ describe('Type: Pagination', function () {
     pagination.setPage([3,4,5,6,7]);
     expect(pagination.page()).toBe(5);
   });
+
+  describe('indexRangeBuilder', function () {
+
+    it('should generate a range', function () {
+      expect(stPagination.range(0)).toEqual([]);
+      expect(stPagination.range(1)).toEqual([0]);
+      expect(stPagination.range(2)).toEqual([0, 1]);
+      expect(stPagination.range(10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    });
+
+    it('should build a range', function () {
+      expect(stPagination.indexRangeBuilder(0).build()).toEqual([]);
+      expect(stPagination.indexRangeBuilder(1).build()).toEqual([0]);
+      expect(stPagination.indexRangeBuilder(2).build()).toEqual([0, 1]);
+      expect(stPagination.indexRangeBuilder(10).build()).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    });
+
+    it('should generate a folded range around a given index', function () {
+      expect(stPagination.indexRangeBuilder(3).foldRange(0,1).build()).toEqual([[0, 1], 2]);
+      expect(stPagination.indexRangeBuilder(5).foldRange(4,5).build()).toEqual([0, 1, 2, 3, [4]]);
+
+      // edge cases
+      expect(stPagination.indexRangeBuilder(5).foldRange(5,0).build()).toEqual([0, 1, 2, 3, 4]);
+      expect(stPagination.indexRangeBuilder(5).foldRange(-1,100).build()).toEqual([[0, 1, 2, 3, 4]]);
+      expect(stPagination.indexRangeBuilder(0).foldRange(-1,-5).build()).toEqual([]);
+    });
+
+    it('should generate a folded range using greaterThan', function () {
+      expect(stPagination.indexRangeBuilder(10).foldGreaterThan(3).build()).toEqual([0, 1, 2, 3, [4, 5, 6, 7, 8, 9]]);
+      expect(stPagination.indexRangeBuilder(3).foldGreaterThan(3).build()).toEqual([0, 1, 2]);
+      expect(stPagination.indexRangeBuilder(10).foldGreaterThan(-1).build()).toEqual([[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]);
+      expect(stPagination.indexRangeBuilder(10).foldGreaterThan(8).build()).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, [9]]);
+    });
+
+    it('should generate a folded range using foldGreaterEquals', function () {
+      expect(stPagination.indexRangeBuilder(4).foldGreaterEquals(3).build()).toEqual([0, 1, 2, [3]]);
+    });
+
+    it('should generate a folded range using foldLessThan', function () {
+      expect(stPagination.indexRangeBuilder(4).foldLessThan(3).build()).toEqual([[0, 1, 2], 3]);
+    });
+
+    it('should generate a folded range using foldLessEquals', function () {
+      expect(stPagination.indexRangeBuilder(3).foldLessEquals(1).build()).toEqual([[0, 1], 2]);
+    });
+
+    it('should generate a folded range chaining foldLessThan and foldGreaterThan', function () {
+      expect(stPagination.indexRangeBuilder(3).foldLessThan(1).foldGreaterThan(1).build()).toEqual([[0], 1, [2]]);
+      var expected = [[0, 1, 2, 3, 4], 5, 6, 7, 8, [9]];
+      expect(stPagination.indexRangeBuilder(10).foldLessThan(5).foldGreaterThan(8).build()).toEqual(expected);
+    });
+
+    describe('foldFixedLengthForIndex', function () {
+      it('should generate fixed length indices for the index 10', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(10, 3).build();
+        expect(foldedIndices.length).toEqual(13);
+        expect(foldedIndices).toEqual([0,1,2,[3,4,5,6,7],8,9,10,11,12,[13,14,15,16],17,18,19]);
+      });
+
+      it('should generate fixed length indices for the first index (0)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(0, 3).build();
+        expect(foldedIndices.length).toEqual(13);
+        expect(foldedIndices).toEqual([0,1,2,3,4,5,6,7,8,[9,10,11,12,13,14,15,16],17,18,19]);
+      });
+
+      it('should generate fixed length indices for the index before first break (6).', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(6, 3).build();
+        expect(foldedIndices).toEqual([0,1,2,3,4,5,6,7,8,[9,10,11,12,13,14,15,16],17,18,19]);
+      });
+
+      it('should generate fixed length indices for the index after first break (7)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(7, 3).build();
+        expect(foldedIndices.length).toEqual(13);
+        expect(foldedIndices).toEqual([0,1,2,[3,4],5,6,7,8,9,[10,11,12,13,14,15,16],17,18,19]);
+      });
+
+      it('should generate fixed length indices for the last index (19)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(19, 3).build();
+        expect(foldedIndices.length).toEqual(13);
+        expect(foldedIndices).toEqual([0,1,2,[3,4,5,6,7,8,9,10],11,12,13,14,15,16,17,18,19]);
+      });
+
+      it('should generate fixed length indices for the index before second break (13)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(13, 3).build();
+        expect(foldedIndices.length).toEqual(13);
+        expect(foldedIndices).toEqual([0,1,2,[3,4,5,6,7,8,9,10],11,12,13,14,15,16,17,18,19]);
+      });
+
+      it('should generate fixed length indices for the index after second break (12)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldFixedLengthForIndex(12, 3).build();
+        expect(foldedIndices.length).toEqual(13);
+        expect(foldedIndices).toEqual([0,1,2,[3,4,5,6,7,8,9],10,11,12,13,14,[15,16],17,18,19]);
+      });
+    });
+
+    describe('foldWithMidAndEdgeRangeForIndex', function () {
+      it('should generate folded indices for a middle index (10)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(10, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,[2,3,4,5,6,7],8,9,10,11,12,[13,14,15,16,17],18,19]);
+      });
+
+      it('should generate folded indices for the first index (0)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(0, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,2,3,4,5,6,7,[8,9,10,11,12,13,14,15,16,17],18,19]);
+      });
+
+      it('should generate folded indices for the index before first break (5)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(5, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,2,3,4,5,6,7,[8,9,10,11,12,13,14,15,16,17],18,19]);
+      });
+
+      it('should generate folded indices for the index after first break (6)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(6, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,[2,3],4,5,6,7,8,[9,10,11,12,13,14,15,16,17],18,19]);
+      });
+
+      it('should generate folded indices for the last index (19)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(19, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,[2,3,4,5,6,7,8,9,10,11],12,13,14,15,16,17,18,19]);
+      });
+
+      it('should generate folded indices for the index before second break (14)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(14, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,[2,3,4,5,6,7,8,9,10,11],12,13,14,15,16,17,18,19]);
+      });
+
+      it('should generate folded indices for the index after second break (13)', function () {
+        var foldedIndices = stPagination.indexRangeBuilder(20).foldWithMidAndEdgeRangeForIndex(13, 3, 2).build();
+        expect(foldedIndices.length).toEqual(11);
+        expect(foldedIndices).toEqual([0,1,[2,3,4,5,6,7,8,9,10],11,12,13,14,15,[16,17],18,19]);
+      });
+    });
+  });
+
 });

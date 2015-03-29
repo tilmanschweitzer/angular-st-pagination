@@ -1,4 +1,4 @@
-angular.module('stPagination').factory('stPagination', function (indexUtil) {
+angular.module('stPagination').factory('stPagination', function () {
   'use strict';
 
   function Pagination(inputCollection) {
@@ -7,14 +7,6 @@ angular.module('stPagination').factory('stPagination', function (indexUtil) {
     this._page = 0;
     this._cachedReducedIndices = {};
   }
-
-  // exports
-  var stPagination = {
-    hasPagination: function (collection) {
-      return collection && collection.pagination instanceof Pagination;
-    },
-    Pagination: Pagination
-  };
 
   function isNumberOrDefault(number, defaultValue) {
     return angular.isNumber(number) ? number : defaultValue;
@@ -106,7 +98,7 @@ angular.module('stPagination').factory('stPagination', function (indexUtil) {
       } else {
         var page = this.page();
         var total = this.totalPages();
-        var rangeBuilder = indexUtil.rangeBuilder(total).foldWithMidAndEdgeRangeForIndex(page, midRange, edgeRange);
+        var rangeBuilder = new RangeBuilder(total).foldWithMidAndEdgeRangeForIndex(page, midRange, edgeRange);
         var indices = rangeBuilder.build();
         this._cachedReducedIndices[indexCacheKey] = indices;
         return indices;
@@ -122,6 +114,82 @@ angular.module('stPagination').factory('stPagination', function (indexUtil) {
       return this.start() + 1;
     }
   });
+
+  function RangeBuilder(rangeLength) {
+    this.array = range(rangeLength);
+    this.lastIndex = rangeLength - 1;
+  }
+
+  angular.extend(RangeBuilder.prototype, {
+    build: function () {
+      return this.array;
+    },
+    foldGreaterThan: function (offset) {
+      return this.foldRange(offset + 1, this.lastIndex);
+    },
+    foldGreaterEquals: function (offset) {
+      return this.foldRange(offset, this.lastIndex);
+    },
+    foldLessThan: function (limit) {
+      return this.foldRange(0, limit - 1);
+    },
+    foldLessEquals: function (limit) {
+      return this.foldRange(0, limit);
+    },
+    foldRange: function (start, stop) {
+      var oldArray = this.array;
+      var newArray = this.array = [];
+      oldArray.forEach(function (value) {
+        if (value < start || value > stop || angular.isArray(value)) {
+          newArray.push(value);
+        } else {
+          var lastElement = newArray[newArray.length - 1];
+          if (angular.isArray(lastElement)) {
+            lastElement.push(value);
+          } else {
+            newArray.push([value]);
+          }
+        }
+      });
+      return this;
+    },
+    foldFixedLengthForIndex: function (index, length) {
+      return this.foldWithMidAndEdgeRangeForIndex(index, length, length);
+    },
+    foldWithMidAndEdgeRangeForIndex: function (index, midRange, edgeRange) {
+      var firstFoldStart = 0 + edgeRange;
+      var firstFoldStop = index - midRange;
+      var secondFoldStart = index + midRange;
+      var secondFoldStop = this.lastIndex - edgeRange;
+      if (index <= edgeRange + midRange) {
+        firstFoldStart = edgeRange + midRange * 2;
+        return this.foldRange(firstFoldStart, secondFoldStop);
+      } else if (index >= (this.lastIndex - (edgeRange + midRange))) {
+        secondFoldStop = this.lastIndex - (edgeRange + midRange * 2);
+        return this.foldRange(firstFoldStart, secondFoldStop);
+      } else {
+        return this.foldRange(firstFoldStart, firstFoldStop).foldRange(secondFoldStart, secondFoldStop);
+      }
+    }
+  });
+
+  function range(length) {
+    return Array.apply(null, new Array(length)).map(function (_, i) {
+      return i;
+    });
+  }
+
+  // exports
+  var stPagination = {
+    hasPagination: function (collection) {
+      return collection && collection.pagination instanceof Pagination;
+    },
+    Pagination: Pagination,
+    range: range,
+    indexRangeBuilder: function (length) {
+      return new RangeBuilder(length);
+    }
+  };
 
   return stPagination;
 });
