@@ -7,13 +7,13 @@ describe('Filter: pagination', function () {
     this.addMatchers(customJasmineMatchers);
   });
 
-  var $scope, $filter, StPagination, $compile;
+  var $scope, $filter, Pagination, $compile;
 
-  beforeEach(inject(function ($rootScope, _$filter_, _$compile_, _StPagination_) {
+  beforeEach(inject(function ($rootScope, _$filter_, _$compile_, _stPagination_) {
     $scope = $rootScope.$new();
     $filter = _$filter_;
     $compile = _$compile_;
-    StPagination = _StPagination_;
+    Pagination = _stPagination_.Pagination;
   }));
 
   it('should create a pagination property on an collection', function () {
@@ -25,13 +25,13 @@ describe('Filter: pagination', function () {
   it('should create a pagination property with the Pagination type', function () {
     var someCollection = [];
     $filter('stPagination')(someCollection);
-    expect(someCollection.pagination).toBeInstanceOf(StPagination);
+    expect(someCollection.pagination).toBeInstanceOf(Pagination);
   });
 
   it('should link the created pagination with the collection', function () {
     var someCollection = [];
     $filter('stPagination')(someCollection);
-    expect(someCollection.pagination._inputCollection).toBe(someCollection);
+    expect(someCollection.pagination._collection).toBe(someCollection);
   });
 
   it('should ignore undefined inputs', function () {
@@ -50,7 +50,7 @@ describe('Filter: pagination', function () {
     var tmpl = '<li ng-repeat="element in collection | orderBy:\'number\' | stPagination:collection">{{element}}</li>';
     $compile(tmpl)($scope);
     $scope.$apply();
-    expect($scope.collection.pagination).toBeInstanceOf(StPagination);
+    expect($scope.collection.pagination).toBeInstanceOf(Pagination);
   });
 
   it('should use a default limit of 10', function () {
