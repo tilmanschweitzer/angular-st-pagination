@@ -1,13 +1,42 @@
 describe('Type: Pagination', function () {
   'use strict';
 
-  beforeEach(module('stPagination'));
-
+  var stPaginationProvider;
   var stPagination;
+
+  beforeEach(function () {
+    angular.module('mockModule', ['stPagination']).config(function (_stPaginationProvider_) {
+      stPaginationProvider = _stPaginationProvider_;
+    });
+    module('mockModule');
+  });
 
   beforeEach(inject(function (_stPagination_) {
     stPagination = _stPagination_;
   }));
+
+  describe('stPaginationProvider', function () {
+    var INITIAL_DEFAULT_LIMIT;
+
+    beforeEach(function () {
+      INITIAL_DEFAULT_LIMIT = new stPagination.Pagination()._limit;
+    });
+
+    afterEach(function () {
+      // reset to defaultLimit
+      stPaginationProvider.setDefaultLimit(INITIAL_DEFAULT_LIMIT);
+    });
+
+    it('exists', function () {
+      expect(stPaginationProvider).toBeDefined();
+    });
+
+    it('defines the default limit for a new Pagination', function () {
+      stPaginationProvider.setDefaultLimit(20);
+      var pagination = new stPagination.Pagination([]);
+      expect(pagination._limit).toBe(20);
+    });
+  });
 
   it('should be initialized with limit of 10', function () {
     var pagination = new stPagination.Pagination();

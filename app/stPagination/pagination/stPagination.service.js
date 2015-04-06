@@ -1,9 +1,24 @@
-angular.module('stPagination').factory('stPagination', function () {
+(function () {
   'use strict';
+
+  // exports
+  var stPagination;
+  var DEFAULT_LIMIT = 10;
+
+  angular.module('stPagination').provider('stPagination', function () {
+
+    this.setDefaultLimit = function (defaultLimit) {
+      DEFAULT_LIMIT = defaultLimit;
+    };
+
+    this.$get = function() {
+      return stPagination;
+    };
+  });
 
   function Pagination(collection) {
     this._collection = collection;
-    this._limit = 10;
+    this._limit = DEFAULT_LIMIT;
     this._page = 0;
     this._cachedIndices = {};
   }
@@ -161,7 +176,7 @@ angular.module('stPagination').factory('stPagination', function () {
   }
 
   // exports
-  var stPagination = {
+  stPagination = {
     hasPagination: function (collection) {
       return collection && collection.pagination instanceof Pagination;
     },
@@ -171,6 +186,4 @@ angular.module('stPagination').factory('stPagination', function () {
       return new RangeBuilder(length);
     }
   };
-
-  return stPagination;
-});
+}());
