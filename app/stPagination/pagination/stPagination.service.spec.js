@@ -18,7 +18,7 @@ describe('Type: Pagination', function () {
   describe('stPaginationProvider', function () {
     var INITIAL_DEFAULT_LIMIT;
     var testArray;
-    var testArrayPagination
+    var testArrayPagination;
 
     beforeEach(function () {
       INITIAL_DEFAULT_LIMIT = new stPagination.Pagination()._limit;

@@ -7,7 +7,6 @@
   var DEFAULT_EDGE_RANGE = 3;
   var DEFAULT_MID_RANGE = 3;
 
-
   angular.module('stPagination').provider('stPagination', function () {
 
     this.setDefaultLimit = function (defaultLimit) {

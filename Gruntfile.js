@@ -117,7 +117,7 @@ module.exports = function (grunt) {
       },
       docs: {
         options: {
-          open: 'http://localhost:9000/dist/docs/'
+          open: 'http://localhost:9000/dist/docs/#/api/stPagination'
         }
       }
     },
