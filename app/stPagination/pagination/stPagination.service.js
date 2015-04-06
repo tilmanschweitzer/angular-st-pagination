@@ -4,11 +4,22 @@
   // exports
   var stPagination;
   var DEFAULT_LIMIT = 10;
+  var DEFAULT_EDGE_RANGE = 3;
+  var DEFAULT_MID_RANGE = 3;
+
 
   angular.module('stPagination').provider('stPagination', function () {
 
     this.setDefaultLimit = function (defaultLimit) {
       DEFAULT_LIMIT = defaultLimit;
+    };
+
+    this.setDefaultEdgeRange = function (defaultEdgeRange) {
+      DEFAULT_EDGE_RANGE = defaultEdgeRange;
+    };
+
+    this.setDefaultMidRange = function (defaultMidRange) {
+      DEFAULT_MID_RANGE = defaultMidRange;
     };
 
     this.$get = function() {
@@ -101,8 +112,8 @@
       return this.totalPages() - 1;
     },
     reducedIndices: function (midRange, edgeRange) {
-      midRange = isNumberOrDefault(midRange, 3);
-      edgeRange = isNumberOrDefault(edgeRange, 3);
+      midRange = isNumberOrDefault(midRange, DEFAULT_MID_RANGE);
+      edgeRange = isNumberOrDefault(edgeRange, DEFAULT_EDGE_RANGE);
 
       var indexCacheKey = this.indexCacheKey(midRange, edgeRange);
       if (this._cachedIndices[indexCacheKey]) {
