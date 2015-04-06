@@ -4,7 +4,7 @@ angular.module('paginationDemo', [
   'ngRoute',
   'stPagination'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, stPaginationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'demoApp/views/demo.html'
@@ -12,6 +12,10 @@ angular.module('paginationDemo', [
       .otherwise({
         redirectTo: '/'
       });
+
+    stPaginationProvider.setDefaultLimit(10);
+    stPaginationProvider.setDefaultMidRange(3);
+    stPaginationProvider.setDefaultEdgeRange(3);
   });
 angular.module('paginationDemo').controller('demoBaseController', function ($scope, $timeout, $templateCache) {
   $scope.styleResetToggle = true;
