@@ -411,6 +411,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'nice-package',
+    'deps-ok',
     'sync',
     'newer:jshint',
     'newer:jscs',
