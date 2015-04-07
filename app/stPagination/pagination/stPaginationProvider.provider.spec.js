@@ -131,7 +131,7 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "zurbFoundation"', function () {
       beforeEach(function () {
-        var cssConfig = 'zurbFoundation'
+        var cssConfig = 'zurbFoundation';
         stPaginationProvider.setDefaultCssConfig(cssConfig);
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
