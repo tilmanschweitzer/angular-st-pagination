@@ -159,5 +159,38 @@ describe('stPaginationProvider', function() {
         expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('current');
       });
     });
+
+    describe('with css key "bootstrap2"', function () {
+      beforeEach(function () {
+        var cssConfig = 'bootstrap2';
+        stPaginationProvider.setDefaultCssConfig(cssConfig);
+        $configTestPagination = $compile(tmpl)($scope);
+        $scope.$apply();
+      });
+
+      it('renders a div as root element', function () {
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLUListElement);
+        expect($configTestPagination[0].className).not.toContain('pagination');
+
+        expect($configTestPagination.parent()[0]).toBeInstanceOf(HTMLDivElement);
+      });
+
+      it('renders a "pagination" class to the root div element', function () {
+        expect($configTestPagination.parent()[0].className).toContain('pagination');
+      });
+
+      it('renders a "disabled" class for the prev link', function () {
+        expect($configTestPagination.find('li:eq(0)').attr('class')).toBe('disabled');
+      });
+
+      it('renders a "active" class for the link to current (first) page', function () {
+        expect($configTestPagination.find('li:eq(1)').attr('class')).toContain('active');
+      });
+
+      it('renders other page link without "active" class', function () {
+        expect($configTestPagination.find('li:eq(2)').attr('class')).not.toContain('active');
+        expect($configTestPagination.find('li:eq(3)').attr('class')).not.toContain('active');
+      });
+    });
   });
 });
