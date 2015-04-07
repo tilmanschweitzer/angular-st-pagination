@@ -52,18 +52,21 @@ describe('stPaginationProvider', function() {
     it('has a default mid and edge range of 3', function() {
       var expected = [0, 1, 2, [3, 4, 5, 6, 7], 8, 9, 10, 11, 12, [13, 14, 15, 16], 17, 18, 19];
       expect(testArrayPagination.reducedIndices()).toEqual(expected);
+      expect(testArrayPagination.reducedIndices()).toEqual(testArrayPagination.reducedIndices(3, 3));
     });
 
     it('defines a default edge range of 1', function() {
       stPaginationProvider.setDefaultEdgeRange(1);
       var expected = [0, [1, 2, 3, 4, 5, 6, 7], 8, 9, 10, 11, 12, [13, 14, 15, 16, 17, 18], 19];
       expect(testArrayPagination.reducedIndices()).toEqual(expected);
+      expect(testArrayPagination.reducedIndices()).toEqual(testArrayPagination.reducedIndices(3, 1));
     });
 
     it('defines a default mid range of 1', function() {
       stPaginationProvider.setDefaultMidRange(1);
       var expected = [0, 1, 2, [3, 4, 5, 6, 7, 8, 9], 10, [11, 12, 13, 14, 15, 16], 17, 18, 19];
       expect(testArrayPagination.reducedIndices()).toEqual(expected);
+      expect(testArrayPagination.reducedIndices()).toEqual(testArrayPagination.reducedIndices(1, 3));
     });
 
     it('defines a default edge and mid range of 1', function() {
@@ -71,6 +74,7 @@ describe('stPaginationProvider', function() {
       stPaginationProvider.setDefaultMidRange(1);
       var expected = [0, [1, 2, 3, 4, 5, 6, 7, 8, 9], 10, [11, 12, 13, 14, 15, 16, 17, 18], 19];
       expect(testArrayPagination.reducedIndices()).toEqual(expected);
+      expect(testArrayPagination.reducedIndices()).toEqual(testArrayPagination.reducedIndices(1, 1));
     });
   });
 
