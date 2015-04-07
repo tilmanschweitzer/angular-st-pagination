@@ -23,11 +23,17 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
     '</ul>';
 
   function extendDefaults(options) {
-    return angular.extend({
+    var basicDefaults = {
       divWrapped: false,
       selectedClass: 'active',
       disabledClass: 'disabled'
-    }, options);
+    };
+    var defaults = stPagination.cssConfig();
+    if (!angular.isObject(defaults)) {
+      defaults = getCssConfigByKey(defaults);
+    }
+    var combinedDefaults = angular.extend(basicDefaults, defaults);
+    return angular.extend(combinedDefaults, options);
   }
 
   var cssConfigsByKey = {
@@ -45,22 +51,28 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
     }
   };
 
+  function getCssConfigByKey(key) {
+    var configObject = cssConfigsByKey[key];
+    if (configObject !== undefined) {
+      return configObject;
+    } else {
+      var msg = 'Given css-config attribute "' + key + '" is not in allowed values ' + allowedValues;
+      throw new Error(msg);
+    }
+  }
+
   var allowedValues = '"' + Object.keys(cssConfigsByKey).join('", "') + '"';
   var defaultCssConfig = 'list';
 
   function parseCssConfig(cssConfig) {
     var configObject = $parse(cssConfig)({});
     if (angular.isObject(configObject)) {
-      return extendDefaults(configObject);
+      return configObject;
     }
     cssConfig = cssConfig || defaultCssConfig;
-    configObject = cssConfigsByKey[cssConfig];
-    if (configObject !== undefined) {
-      return extendDefaults(configObject);
-    } else {
-      var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
-      throw new Error(msg);
-    }
+    configObject = getCssConfigByKey(cssConfig);
+    return configObject;
+
   }
 
   function displayPaginationIndex(index) {
@@ -244,7 +256,7 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
     },
     template: basePagination,
     compile: function ($element, attributes) {
-      var cssConfigObject = parseCssConfig(attributes.cssConfig);
+      var cssConfigObject = extendDefaults(parseCssConfig(attributes.cssConfig));
 
       if (cssConfigObject.divWrapped) {
         $element.wrap('<div class="pagination"></div>');
