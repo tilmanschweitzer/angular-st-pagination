@@ -32,6 +32,7 @@
     "karma-jasmine": "0.3.5",
     "karma-phantomjs-launcher": "0.1.4",
     "load-grunt-tasks": "3.1.0",
+    "pre-git": "0.2.1",
     "time-grunt": "1.1.0"
   },
   "engines": {
@@ -46,6 +47,9 @@
   "license": "MIT",
   "licenseUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE",
   "main": "dist/angular-st-pagination.js",
+  "pre-commit": [
+    "grunt"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:tilmanpotthof/angular-st-pagination.git"
