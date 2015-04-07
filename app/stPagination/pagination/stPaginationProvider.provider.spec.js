@@ -8,12 +8,11 @@ describe('stPaginationProvider', function() {
   var stPaginationProvider;
   var stPagination;
 
-  beforeEach(function() {
-    angular.module('mockModule', ['stPagination']).config(function(_stPaginationProvider_) {
-      stPaginationProvider = _stPaginationProvider_;
-    });
-    module('mockModule');
-  });
+  beforeEach(module('stPagination'));
+
+  beforeEach(module(function(_stPaginationProvider_) {
+    stPaginationProvider = _stPaginationProvider_;
+  }));
 
   beforeEach(inject(function(_stPagination_) {
     stPagination = _stPagination_;
