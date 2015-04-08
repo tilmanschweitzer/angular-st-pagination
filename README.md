@@ -1,6 +1,6 @@
 # angular-st-pagination ![Bower Version](https://img.shields.io/bower/v/angular-st-pagination.svg)
 
-> Provides client-side pagination through a simple angular filter.
+> Provides complete client-side pagination with a simple angular filter and directive.
 
 [![Build Status](https://img.shields.io/travis/tilmanpotthof/angular-st-pagination.svg)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
