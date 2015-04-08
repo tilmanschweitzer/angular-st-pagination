@@ -1,10 +1,12 @@
 'use strict';
 
+var stPaginationProvider;
+
 angular.module('paginationDemo', [
   'ngRoute',
   'stPagination'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, _stPaginationProvider_) {
     $routeProvider
       .when('/', {
         templateUrl: 'demoApp/views/demo.html'
@@ -12,6 +14,10 @@ angular.module('paginationDemo', [
       .otherwise({
         redirectTo: '/'
       });
+    stPaginationProvider = _stPaginationProvider_;
+    stPaginationProvider.setDefaultLimit(10);
+    stPaginationProvider.setDefaultMidRange(3);
+    stPaginationProvider.setDefaultEdgeRange(3);
   });
 angular.module('paginationDemo').controller('demoBaseController', function ($scope, $timeout, $templateCache) {
   $scope.styleResetToggle = true;
@@ -30,9 +36,9 @@ angular.module('paginationDemo').controller('demoBaseController', function ($sco
   };
 
   $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
-    var tpl = '<st-pagination collection="commits" css-config="CSS" mid-range="midRange" edge-range="edgeRange">' +
+    var tpl = '<st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange">' +
       '</st-pagination>';
-    tpl = tpl.replace('CSS', $scope.GLOBAL_CONFIG.cssConfig);
+    stPaginationProvider.setDefaultCssConfig($scope.GLOBAL_CONFIG.cssConfig);
     $templateCache.put('paginationTemplate.html', tpl);
     toggleStyle();
   });
