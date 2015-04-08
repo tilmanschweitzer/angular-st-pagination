@@ -13,7 +13,7 @@
   "authors": [
     "Tilman Potthof <tilmanpotthof@gmail.com>"
   ],
-  "description": "Client-side and modular pagination for angular.",
+  "description": "Complete client-side pagination with a simple angular filter and directive",
   "license": "MIT",
   "homepage": "http://tilmanpotthof.github.io/angular-st-pagination/#/",
   "keywords": [

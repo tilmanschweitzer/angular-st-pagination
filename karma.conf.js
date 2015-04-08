@@ -15,6 +15,7 @@ module.exports = function(config) {
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/stPagination/**/*.module.js',
+      'app/stPagination/**/*.internal.js',
       'app/stPagination/**/*.service.js',
       'app/stPagination/**/*.directive.js',
       'app/stPagination/**/*.filter.js',

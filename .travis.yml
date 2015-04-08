@@ -5,6 +5,7 @@ node_js:
 
 before_script:
   - 'npm install -g bower grunt-cli'
+  - 'npm install -g codeclimate-test-reporter'
   - 'bower install  --config.interactive=false'
 
 script: grunt
