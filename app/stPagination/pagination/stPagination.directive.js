@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPagination', function (stPagination, $parse) {
+angular.module('stPagination').directive('stPagination', function(stPagination, $parse) {
   'use strict';
 
   var css3UserSelectAliases = [
@@ -10,58 +10,68 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
   ];
 
   var basePagination = '<ul>' +
-      '<li ng-class="{%DISABLED_CLASS%: pagination.onFirstPage()}">' +
-        '<a ng-click="pagination.prev()">&laquo;</a>' +
-      '</li>' +
-      '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' +
-        'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
-        '<a ng-click="pagination.setPage(index)">{{ displayPaginationIndex(index) }}</a>' +
-      '</li>' +
-      '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
-        '<a ng-click="pagination.next()">&raquo;</a>' +
-      '</li>' +
+    '<li ng-class="{%DISABLED_CLASS%: pagination.onFirstPage()}">' +
+    '<a ng-click="pagination.prev()">&laquo;</a>' +
+    '</li>' +
+    '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' +
+    'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
+    '<a ng-click="pagination.setPage(index)">{{ displayPaginationIndex(index) }}</a>' +
+    '</li>' +
+    '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
+    '<a ng-click="pagination.next()">&raquo;</a>' +
+    '</li>' +
     '</ul>';
 
-  function extendDefaults(options) {
-    return angular.extend({
-      divWrapped: false,
-      selectedClass: 'active',
-      disabledClass: 'disabled'
-    }, options);
-  }
-
-  var cssConfigsByKey = {
-    list: {},
-    divWrappedList: {
-      divWrapped: true
+  var cssConfigUtil = {
+    extendDefaults: function(options) {
+      var basicDefaults = {
+        divWrapped: false,
+        selectedClass: 'active',
+        disabledClass: 'disabled'
+      };
+      var defaults = stPagination.cssConfig();
+      if (!angular.isObject(defaults)) {
+        defaults = this.getCssConfigByKey(defaults);
+      }
+      var combinedDefaults = angular.extend(basicDefaults, defaults);
+      return angular.extend(combinedDefaults, options);
     },
-    bootstrap3: {},
-    bootstrap2: {
-      divWrapped: true
+    cssConfigsByKey: {
+      list: {},
+      divWrappedList: {
+        divWrapped: true
+      },
+      bootstrap3: {},
+      bootstrap2: {
+        divWrapped: true
+      },
+      zurbFoundation: {
+        selectedClass: 'current',
+        disabledClass: 'unavailable'
+      }
     },
-    zurbFoundation: {
-      selectedClass: 'current',
-      disabledClass: 'unavailable'
+    getCssConfigByKey: function(key) {
+      var configObject = this.cssConfigsByKey[key];
+      if (configObject !== undefined) {
+        return configObject;
+      } else {
+        var msg = 'Given css-config attribute "' + key + '" is not in allowed values ' + allowedValues;
+        throw new Error(msg);
+      }
+    },
+    parseCssConfig: function(cssConfig) {
+      var configObject = $parse(cssConfig)({});
+      if (angular.isObject(configObject)) {
+        return configObject;
+      }
+      cssConfig = cssConfig || defaultCssConfig;
+      configObject = this.getCssConfigByKey(cssConfig);
+      return configObject;
     }
   };
 
-  var allowedValues = '"' + Object.keys(cssConfigsByKey).join('", "') + '"';
+  var allowedValues = '"' + Object.keys(cssConfigUtil.cssConfigsByKey).join('", "') + '"';
   var defaultCssConfig = 'list';
-
-  function parseCssConfig(cssConfig) {
-    var configObject = $parse(cssConfig)({});
-    if (angular.isObject(configObject)) {
-      return extendDefaults(configObject);
-    }
-    cssConfig = cssConfig || defaultCssConfig;
-    configObject = cssConfigsByKey[cssConfig];
-    if (configObject !== undefined) {
-      return extendDefaults(configObject);
-    } else {
-      var msg = 'Given css-config attribute "' + cssConfig + '" is not in allowed values ' + allowedValues;
-      throw new Error(msg);
-    }
-  }
 
   function displayPaginationIndex(index) {
     if (angular.isNumber(index)) {
@@ -243,8 +253,9 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
       midRange: '='
     },
     template: basePagination,
-    compile: function ($element, attributes) {
-      var cssConfigObject = parseCssConfig(attributes.cssConfig);
+    compile: function($element, attributes) {
+      var cssConfigObject = cssConfigUtil.parseCssConfig(attributes.cssConfig);
+      cssConfigObject = cssConfigUtil.extendDefaults(cssConfigObject);
 
       if (cssConfigObject.divWrapped) {
         $element.wrap('<div class="pagination"></div>');
@@ -252,7 +263,7 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
         $element.addClass('pagination');
       }
 
-      angular.forEach($element.find('li'), function (liElement) {
+      angular.forEach($element.find('li'), function(liElement) {
         var $liElement = angular.element(liElement);
         var ngClass = $liElement.attr('ng-class');
         ngClass = ngClass.replace('%DISABLED_CLASS%', cssConfigObject.disabledClass);
@@ -261,9 +272,9 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
       });
 
     },
-    controller: function ($scope, $element, $attrs) {
+    controller: function($scope, $element, $attrs) {
       // set css to prevent selections
-      angular.forEach(css3UserSelectAliases, function (alias) {
+      angular.forEach(css3UserSelectAliases, function(alias) {
         $element.css(alias, 'none');
       });
 
@@ -271,7 +282,7 @@ angular.module('stPagination').directive('stPagination', function (stPagination,
 
       $scope.displayPaginationIndex = displayPaginationIndex;
 
-      $scope.$watch('collection', function (collection) {
+      $scope.$watch('collection', function(collection) {
         if (angular.isArray(collection)) {
           if (stPagination.hasPagination(collection)) {
             $scope.pagination = collection.pagination;

@@ -24,9 +24,9 @@
   "unused": true, // true instead of false
   "strict": true, // true instead of false
   "maxparams": 5, // 5 instead of 10
-  "maxdepth": 4, // 4 instead of 5
-  "maxstatements": 20, // 20 instead of 40
-  "maxcomplexity": 6, // 6 instead of 10
+  "maxdepth": 2, // 2 instead of 5
+  "maxstatements": 15, // 15 instead of 40
+  "maxcomplexity": 5, // 5 instead of 10
   "maxlen": 120,
 
   "asi": false,
@@ -60,6 +60,8 @@
 
   "globals": {
     "angular": false,
-    "$": false
+    "$": false,
+    "Pagination": false,
+    "RangeBuilder": false
   }
 }

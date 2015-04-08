@@ -1,6 +1,6 @@
 {
   "name": "angular-st-pagination",
-  "description": "Client-side and modular pagination for angular.",
+  "description": "Complete client-side pagination with a simple angular filter and directive",
   "version": "0.3.0-dev",
   "author": "Tilman Potthof <tilmanpotthof@gmail.com>",
   "bugs": "https://github.com/tilmanpotthof/angular-st-pagination/issues",
@@ -15,7 +15,7 @@
     "grunt-contrib-jshint": "0.11.0",
     "grunt-contrib-uglify": "0.8.0",
     "grunt-contrib-watch": "0.6.1",
-    "grunt-deps-ok": "0.5.2",
+    "grunt-deps-ok": "0.6.0",
     "grunt-jscs": "1.5.0",
     "grunt-karma": "0.10.1",
     "grunt-newer": "1.1.0",
@@ -32,6 +32,7 @@
     "karma-jasmine": "0.1.0",
     "karma-phantomjs-launcher": "0.1.4",
     "load-grunt-tasks": "3.1.0",
+    "pre-git": "0.2.1",
     "time-grunt": "1.1.0"
   },
   "engines": {
@@ -46,6 +47,9 @@
   "license": "MIT",
   "licenseUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE",
   "main": "dist/angular-st-pagination.js",
+  "pre-commit": [
+    "grunt"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:tilmanpotthof/angular-st-pagination.git"

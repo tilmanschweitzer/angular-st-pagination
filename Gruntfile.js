@@ -11,8 +11,28 @@
 
 module.exports = function (grunt) {
 
-  var GIT = {};
-  var BUILD = {};
+  var GIT = {
+    isClean: function () {
+      return (/^\s*$/.test(GIT.status));
+    },
+    isReleaseVersion: function () {
+      return (/^\d+\.\d+\.\d+$/.test(PKG.version));
+    },
+    isReleaseBranch: function () {
+      return GIT.branch === '0.x-master';
+    }
+  };
+
+  var BUILD = {
+    version: function () {
+      if (GIT.isReleaseVersion() && GIT.isReleaseBranch() && GIT.isClean()) {
+        return PKG.version;
+      } else {
+        return PKG.version + '-sha.' + GIT.hash;
+      }
+    }
+  };
+
   var PKG = grunt.file.readJSON('package.json');
 
   GIT.bannerHelper = function () {
@@ -117,7 +137,7 @@ module.exports = function (grunt) {
       },
       docs: {
         options: {
-          open: 'http://localhost:9000/dist/docs/'
+          open: 'http://localhost:9000/dist/docs/#/api/stPagination'
         }
       }
     },
@@ -410,6 +430,8 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
+    'nice-package',
+    'deps-ok',
     'sync',
     'newer:jshint',
     'newer:jscs',
@@ -417,28 +439,4 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  GIT.info = function () {
-    var gitVersionComment = 'git-version: ' + GIT.hash;
-    if (this.isClean()) {
-      return gitVersionComment;
-    } else {
-      return gitVersionComment + ' (WARNING: Repo had uncommitted changed while creating the build.)';
-    }
-  };
-  GIT.isClean = function () {
-    return (/^\s*$/.test(GIT.status));
-  };
-  GIT.isReleaseVersion = function () {
-    return (/^\d+\.\d+\.\d+$/.test(PKG.version));
-  };
-  GIT.isReleaseBranch = function () {
-    return GIT.branch === '0.x-master';
-  };
-  BUILD.version = function () {
-    if (GIT.isReleaseVersion() && GIT.isReleaseBranch() && GIT.isClean()) {
-      return PKG.version;
-    } else {
-      return PKG.version + '-sha.' + GIT.hash;
-    }
-  };
 };
