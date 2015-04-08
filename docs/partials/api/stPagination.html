@@ -1,6 +1,31 @@
-<a href="https://github.com/tilmanpotthof/angular-st-pagination/edit/master/app/stPagination/stPagination.module.js#L8" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/tilmanpotthof/angular-st-pagination/blob/c2f4353/app/stPagination/stPagination.module.js#L8" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable=""></code>
+<a href="https://github.com/tilmanpotthof/angular-st-pagination/edit/master/app/stPagination/stPagination.module.js#L40" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/tilmanpotthof/angular-st-pagination/blob/cc556a6/app/stPagination/stPagination.module.js#L40" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable=""></code>
 <div><span class="hint"></span>
 </div>
 </h1>
-<div><div class="stpagination-page"><p>Provides client-side pagination through a simple angular filter.</p>
+<div><div class="stpagination-page"><h2 id="stpagination">stPagination</h2>
+<p>The <code>stPagination</code> module provides a complete client-side pagination with a simple angular filter and directive.</p>
+<p>The two main components are the <a href="#/api/stPagination.filter:stPagination"><code>stPagination</code> filter</a> and
+the <a href="#/api/stPagination.directive:stPagination"><code>stPagination</code> directive</a>.
+A limit for the pagination can be changed with the
+<a href="#/api/stPagination.directive:stPaginationLimit"><code>stPaginationLimit</code> directive</a> and information like current page
+or number total pages can be displayed by the <a href="#/api/stPagination.filter:stPageInfo"><code>stPageInfo</code> filter</a>.</p>
+<h3 id="stpagination_configure-default-values">Configure default values</h3>
+<p>Default values for the pagination can be configured with the <code>stPaginationProvider</code>.</p>
+<pre class="prettyprint linenums">
+  angular.module('myModule', ['stPagination']).config(function (stPaginationProvider) {
+      stPaginationProvider.setDefaultLimit(10); // actual default is 10
+      stPaginationProvider.setDefaultMidRange(3); // actual default is 3
+      stPaginationProvider.setDefaultEdgeRange(3); // actual default is 3
+  });
+</pre>
+<p>Global css configuration is possible with a config object and a config key as described for the
+<a href="#/api/stPagination.directive:stPagination"><code>stPagination</code> directive</a>.</p>
+<pre class="prettyprint linenums">
+    stPaginationProvider.setDefaultCssConfig('bootstrap2'); // actual default is 'list'
+    stPaginationProvider.setDefaultCssConfig({
+        divWrapped: false,
+        selectedClass: 'active',
+        disabledClass: 'disabled'
+    });
+</pre>
 </div></div>
