@@ -9,8 +9,8 @@ NG_DOCS={
       "shortName": "stPagination",
       "type": "overview",
       "moduleName": "stPagination",
-      "shortDescription": "Provides client-side pagination through a simple angular filter.",
-      "keywords": "angular api client-side filter overview pagination simple stpagination"
+      "shortDescription": "stPagination",
+      "keywords": "active actual angular api bootstrap2 changed client-side complete components config configuration configure configured css current default described directive disabled disabledclass displayed divwrapped false filter global key limit list main module mymodule number object overview pagination selectedclass setdefaultcssconfig setdefaultedgerange setdefaultlimit setdefaultmidrange simple stpageinfo stpagination stpaginationlimit stpaginationprovider total values"
     },
     {
       "section": "api",
