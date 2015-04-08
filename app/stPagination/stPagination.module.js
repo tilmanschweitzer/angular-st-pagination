@@ -24,5 +24,17 @@
  *   });
  * </pre>
  *
+ * Global css configuration is possible with a config object and a config key as described for the
+ * {@link stPagination.directive:stPagination `stPagination` directive}.
+ *
+ * <pre>
+ *     stPaginationProvider.setDefaultCssConfig('bootstrap2'); // actual default is 'list'
+ *     stPaginationProvider.setDefaultCssConfig({
+ *         divWrapped: false,
+ *         selectedClass: 'active',
+ *         disabledClass: 'disabled'
+ *     });
+ * </pre>
+ *
  */
 angular.module('stPagination', []);
