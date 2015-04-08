@@ -1,6 +1,6 @@
 {
   "name": "angular-st-pagination",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "dependencies": {
     "angular": "1.3.15",
     "angular-route": "1.3.15",
@@ -13,7 +13,7 @@
   "authors": [
     "Tilman Potthof <tilmanpotthof@gmail.com>"
   ],
-  "description": "Client-side and modular pagination for angular.",
+  "description": "Complete client-side pagination with a simple angular filter and directive",
   "license": "MIT",
   "homepage": "http://tilmanpotthof.github.io/angular-st-pagination/#/",
   "keywords": [
