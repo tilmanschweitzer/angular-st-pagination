@@ -1,7 +1,7 @@
 {
   "name": "angular-st-pagination",
   "description": "Complete client-side pagination with a simple angular filter and directive",
-  "version": "0.3.0-dev",
+  "version": "0.5.0-dev",
   "author": "Tilman Potthof <tilmanpotthof@gmail.com>",
   "bugs": "https://github.com/tilmanpotthof/angular-st-pagination/issues",
   "contributors": [],
