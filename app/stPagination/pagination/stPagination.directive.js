@@ -1,4 +1,4 @@
-angular.module('stPagination').directive('stPagination', function(stPagination, $parse) {
+angular.module('stPagination').directive('stPagination', function(stPagination) {
   'use strict';
 
   var css3UserSelectAliases = [
@@ -23,18 +23,39 @@ angular.module('stPagination').directive('stPagination', function(stPagination, 
     '</ul>';
 
   var cssConfigUtil = {
-    extendDefaults: function(options) {
-      var basicDefaults = {
+    getTemplate: function () {
+      var $element = angular.element(basePagination);
+      var cssConfigObject = this.getConfig();
+
+      if (cssConfigObject.divWrapped) {
+        $element.wrap('<div class="pagination"></div>');
+        $element = $element.parent();
+      } else {
+        $element.addClass('pagination');
+      }
+
+      angular.forEach($element.find('li'), function(liElement) {
+        var $liElement = angular.element(liElement);
+        var ngClass = $liElement.attr('ng-class');
+        ngClass = ngClass.replace('%DISABLED_CLASS%', cssConfigObject.disabledClass);
+        ngClass = ngClass.replace('%SELECTED_CLASS%', cssConfigObject.selectedClass);
+        $liElement.attr('ng-class', ngClass);
+      });
+      var template = $element.wrap('<div></div>').parent().html();
+
+      return template;
+    },
+    getConfig: function() {
+      var defaults = {
         divWrapped: false,
         selectedClass: 'active',
         disabledClass: 'disabled'
       };
-      var defaults = stPagination.cssConfig();
-      if (!angular.isObject(defaults)) {
-        defaults = this.getCssConfigByKey(defaults);
+      var config = stPagination.cssConfig();
+      if (!angular.isObject(config)) {
+        config = this.getCssConfigByKey(config);
       }
-      var combinedDefaults = angular.extend(basicDefaults, defaults);
-      return angular.extend(combinedDefaults, options);
+      return angular.extend(defaults, config);
     },
     cssConfigsByKey: {
       list: {},
@@ -50,28 +71,19 @@ angular.module('stPagination').directive('stPagination', function(stPagination, 
         disabledClass: 'unavailable'
       }
     },
+    allowedValues: function () {
+      return '"' + Object.keys(cssConfigUtil.cssConfigsByKey).join('", "') + '"';
+    },
     getCssConfigByKey: function(key) {
       var configObject = this.cssConfigsByKey[key];
       if (configObject !== undefined) {
         return configObject;
       } else {
-        var msg = 'Given css-config attribute "' + key + '" is not in allowed values ' + allowedValues;
+        var msg = 'Given css-config attribute "' + key + '" is not in allowed values ' + this.allowedValues();
         throw new Error(msg);
       }
-    },
-    parseCssConfig: function(cssConfig) {
-      var configObject = $parse(cssConfig)({});
-      if (angular.isObject(configObject)) {
-        return configObject;
-      }
-      cssConfig = cssConfig || defaultCssConfig;
-      configObject = this.getCssConfigByKey(cssConfig);
-      return configObject;
     }
   };
-
-  var allowedValues = '"' + Object.keys(cssConfigUtil.cssConfigsByKey).join('", "') + '"';
-  var defaultCssConfig = 'list';
 
   function displayPaginationIndex(index) {
     if (angular.isNumber(index)) {
@@ -252,26 +264,7 @@ angular.module('stPagination').directive('stPagination', function(stPagination, 
       edgeRange: '=',
       midRange: '='
     },
-    template: basePagination,
-    compile: function($element, attributes) {
-      var cssConfigObject = cssConfigUtil.parseCssConfig(attributes.cssConfig);
-      cssConfigObject = cssConfigUtil.extendDefaults(cssConfigObject);
-
-      if (cssConfigObject.divWrapped) {
-        $element.wrap('<div class="pagination"></div>');
-      } else {
-        $element.addClass('pagination');
-      }
-
-      angular.forEach($element.find('li'), function(liElement) {
-        var $liElement = angular.element(liElement);
-        var ngClass = $liElement.attr('ng-class');
-        ngClass = ngClass.replace('%DISABLED_CLASS%', cssConfigObject.disabledClass);
-        ngClass = ngClass.replace('%SELECTED_CLASS%', cssConfigObject.selectedClass);
-        $liElement.attr('ng-class', ngClass);
-      });
-
-    },
+    template: cssConfigUtil.getTemplate(),
     controller: function($scope, $element, $attrs) {
       // set css to prevent selections
       angular.forEach(css3UserSelectAliases, function(alias) {
