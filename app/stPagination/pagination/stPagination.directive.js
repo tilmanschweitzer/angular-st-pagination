@@ -13,9 +13,9 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
     '<li ng-class="{%DISABLED_CLASS%: pagination.onFirstPage()}">' +
     '<a ng-click="pagination.prev()">&laquo;</a>' +
     '</li>' +
-    '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(index)}" ' +
-    'ng-repeat="index in pagination.reducedIndices(midRange, edgeRange)">' +
-    '<a ng-click="pagination.setPage(index)">{{ displayPaginationIndex(index) }}</a>' +
+    '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(pageIndex)}" ' +
+    'ng-repeat="pageIndex in pagination.reducedIndices(midRange, edgeRange)">' +
+    '<a ng-click="pagination.setPage(pageIndex)">{{ displayIndex(pageIndex) }}</a>' +
     '</li>' +
     '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
     '<a ng-click="pagination.next()">&raquo;</a>' +
@@ -23,7 +23,18 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
     '</ul>';
 
   var cssConfigUtil = {
+    getTemplateUrl: function () {
+      return stPagination.templateConfig().templateUrl;
+    },
     getTemplate: function () {
+      var templateConfig = stPagination.templateConfig();
+
+      if (templateConfig.template) {
+        return templateConfig.template;
+      }
+      if (templateConfig.templateUrl) {
+        return undefined;
+      }
       var $element = angular.element(basePagination);
       var cssConfigObject = this.getConfig();
 
@@ -86,7 +97,7 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
     }
   };
 
-  function displayPaginationIndex(index) {
+  function displayIndex(index) {
     if (angular.isNumber(index)) {
       return index + 1;
     } else if (angular.isArray(index)) {
@@ -266,6 +277,7 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
       midRange: '='
     },
     template: cssConfigUtil.getTemplate(),
+    templateUrl: cssConfigUtil.getTemplateUrl(),
     controller: function($scope, $element, $attrs) {
       // set css to prevent selections
       angular.forEach(css3UserSelectAliases, function(alias) {
@@ -274,7 +286,11 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
 
       var collectionName = $attrs.collection;
 
-      $scope.displayPaginationIndex = displayPaginationIndex;
+      $scope.displayIndex = displayIndex;
+
+      $scope.pages = function () {
+        return $scope.$eval('pagination.reducedIndices(midRange, edgeRange)');
+      };
 
       $scope.$watch('collection', function(collection) {
         if (angular.isArray(collection)) {

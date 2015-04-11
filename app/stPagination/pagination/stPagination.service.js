@@ -15,8 +15,8 @@ angular.module('stPagination').provider('stPagination', function() {
     Pagination.DEFAULT_MID_RANGE = defaultMidRange;
   };
 
-  function countConfigAttributes(templateConfig) {
-    return (!!templateConfig.config + !!templateConfig.configKey);
+  function countConfigAttributes(tplConfig) {
+    return (!!tplConfig.config + !!tplConfig.configKey + !!tplConfig.template + !!tplConfig.templateUrl);
   }
 
   function checkTemplateConfig(templateConfig) {
@@ -25,11 +25,11 @@ angular.module('stPagination').provider('stPagination', function() {
     }
     var attributesCount = countConfigAttributes(templateConfig);
     if (attributesCount > 1) {
-      throw new Error('Conflicting config attributes: Use only of of: config, configKey');
+      throw new Error('Conflicting config attributes: Use only of of: template, templateUrl, config, configKey');
     }
     if (attributesCount === 0) {
       throw new Error('Missing config attribute for ' + JSON.stringify(templateConfig) + '. ' +
-        'Expected one of: config, configKey');
+        'Expected one of: template, templateUrl, config, configKey');
     }
   }
 

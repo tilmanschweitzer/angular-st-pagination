@@ -49,24 +49,24 @@ describe('Directive: pagination', function () {
     $scope.$apply();
   });
 
-  describe('displayPaginationIndex', function () {
+  describe('displayIndex', function () {
     var $simplePaginationScope;
     beforeEach(function() {
       $simplePaginationScope = $simplePagination.isolateScope();
     });
     it('should increment a index by 1', function () {
-      expect($simplePaginationScope.displayPaginationIndex(0)).toBe(1);
-      expect($simplePaginationScope.displayPaginationIndex(1)).toBe(2);
+      expect($simplePaginationScope.displayIndex(0)).toBe(1);
+      expect($simplePaginationScope.displayIndex(1)).toBe(2);
     });
 
     it('should return "..." for an array', function () {
-      expect($simplePaginationScope.displayPaginationIndex([1,2,3])).toBe('...');
+      expect($simplePaginationScope.displayIndex([1,2,3])).toBe('...');
     });
 
     it('should pass other values', function () {
-      expect($simplePaginationScope.displayPaginationIndex('123')).toBe('123');
-      expect($simplePaginationScope.displayPaginationIndex(undefined)).toBe(undefined);
-      expect($simplePaginationScope.displayPaginationIndex({})).toEqual({});
+      expect($simplePaginationScope.displayIndex('123')).toBe('123');
+      expect($simplePaginationScope.displayIndex(undefined)).toBe(undefined);
+      expect($simplePaginationScope.displayIndex({})).toEqual({});
     });
   });
 
