@@ -136,6 +136,31 @@ describe('stPaginationProvider', function() {
       htmlAssertions({divWrapped: true, disabledClass: 'disabled', selectedClass: 'active'});
     }
 
+    function semanticUiAssertions() {
+      it('renders a div as root element', function() {
+        expect($configTestPagination[0]).toBeInstanceOf(HTMLDivElement);
+      });
+
+      it('renders a "ui", "pagination" and "menu" class to the root div element', function() {
+        expect($configTestPagination[0].className).toContain('ui');
+        expect($configTestPagination[0].className).toContain('pagination');
+        expect($configTestPagination[0].className).toContain('menu');
+      });
+
+      it('renders a "disabled" class for the prev link', function() {
+        expect($configTestPagination.find('a:eq(0)').attr('class')).toContain('disabled');
+      });
+
+      it('renders a "active" class for the link to current (first) page', function() {
+        expect($configTestPagination.find('a:eq(1)').attr('class')).toContain('active');
+      });
+
+      it('renders other page link without "active" class', function() {
+        expect($configTestPagination.find('a:eq(2)').attr('class')).not.toContain('active');
+        expect($configTestPagination.find('a:eq(3)').attr('class')).not.toContain('active');
+      });
+    }
+
     describe('parameter check', function() {
       it('throws an error for undefined', function() {
         expect(function() {
@@ -172,18 +197,17 @@ describe('stPaginationProvider', function() {
         }).toThrow(new Error('Conflicting config attributes: ' +
           'Use only of of: template, templateUrl, config, configKey'));
       });
-    });
 
+      it('throws an error for undefined configurations', function() {
+        stPaginationProvider.setTemplateConfig({configKey: 'bootstrap-1'});
 
-    it('throws an error for undefined configurations', function() {
-      stPaginationProvider.setTemplateConfig({configKey: 'bootstrap-1'});
-
-      var msg = 'Given css-config attribute "bootstrap-1" is not in allowed values ' +
-        '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
-      expect(function() {
-        $configTestPagination = $compile(tmpl)($scope);
-        $scope.$apply();
-      }).toThrow(new Error(msg));
+        var msg = 'Given css-config attribute "bootstrap-1" is not in allowed values ' +
+          '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
+        expect(function() {
+          $configTestPagination = $compile(tmpl)($scope);
+          $scope.$apply();
+        }).toThrow(new Error(msg));
+      });
     });
 
     describe('with default configuration', function() {
@@ -210,37 +234,39 @@ describe('stPaginationProvider', function() {
       htmlAssertions({divWrapped: true, disabledClass: 'inactive', selectedClass: 'selected'});
     });
 
-    describe('with css key "zurbFoundation"', function() {
-      beforeEach(function() {
-        stPaginationProvider.setTemplateConfig({configKey: 'zurbFoundation'});
-        $configTestPagination = $compile(tmpl)($scope);
-        $scope.$apply();
+    describe('with configKey', function () {
+      describe('"zurbFoundation"', function() {
+        beforeEach(function() {
+          stPaginationProvider.setTemplateConfig({configKey: 'zurbFoundation'});
+          $configTestPagination = $compile(tmpl)($scope);
+          $scope.$apply();
+        });
+
+        htmlAssertions({divWrapped: false, disabledClass: 'unavailable', selectedClass: 'current'});
       });
 
-      htmlAssertions({divWrapped: false, disabledClass: 'unavailable', selectedClass: 'current'});
-    });
+      describe('"bootstrap2"', function() {
+        beforeEach(function() {
+          stPaginationProvider.setTemplateConfig({configKey: 'bootstrap2'});
+          $configTestPagination = $compile(tmpl)($scope);
+          $scope.$apply();
+        });
 
-    describe('with css key "bootstrap2"', function() {
-      beforeEach(function() {
-        stPaginationProvider.setTemplateConfig({configKey: 'bootstrap2'});
-        $configTestPagination = $compile(tmpl)($scope);
-        $scope.$apply();
+        bootstrap2Assertions();
       });
 
-      bootstrap2Assertions();
-    });
+      describe('"bootstrap3"', function() {
+        beforeEach(function() {
+          stPaginationProvider.setTemplateConfig({configKey: 'bootstrap3'});
+          $configTestPagination = $compile(tmpl)($scope);
+          $scope.$apply();
+        });
 
-    describe('with css key "bootstrap3"', function() {
-      beforeEach(function() {
-        stPaginationProvider.setTemplateConfig({configKey: 'bootstrap3'});
-        $configTestPagination = $compile(tmpl)($scope);
-        $scope.$apply();
+        defaultAssertions();
       });
-
-      defaultAssertions();
     });
 
-    describe('with bootstrap 2 template', function() {
+    describe('with custom bootstrap2 template', function() {
       var bootstrap2Template = '<div class="pagination">' +
         '<ul>' +
         '<li ng-class="{disabled: pagination.onFirstPage()}"><a ng-click="pagination.prev()">&laquo;</a></li>' +
@@ -295,28 +321,7 @@ describe('stPaginationProvider', function() {
         $scope.$apply();
       });
 
-      it('renders a div as root element', function() {
-        expect($configTestPagination[0]).toBeInstanceOf(HTMLDivElement);
-      });
-
-      it('renders a "ui", "pagination" and "menu" class to the root div element', function() {
-        expect($configTestPagination[0].className).toContain('ui');
-        expect($configTestPagination[0].className).toContain('pagination');
-        expect($configTestPagination[0].className).toContain('menu');
-      });
-
-      it('renders a "disabled" class for the prev link', function() {
-        expect($configTestPagination.find('a:eq(0)').attr('class')).toContain('disabled');
-      });
-
-      it('renders a "active" class for the link to current (first) page', function() {
-        expect($configTestPagination.find('a:eq(1)').attr('class')).toContain('active');
-      });
-
-      it('renders other page link without "active" class', function() {
-        expect($configTestPagination.find('a:eq(2)').attr('class')).not.toContain('active');
-        expect($configTestPagination.find('a:eq(3)').attr('class')).not.toContain('active');
-      });
+      semanticUiAssertions();
     });
 
   });

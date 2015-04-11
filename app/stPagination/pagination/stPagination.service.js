@@ -1,7 +1,7 @@
 angular.module('stPagination').provider('stPagination', function() {
   'use strict';
 
-  var TEMPLATE_CONFIG = {};
+  var TEMPLATE_CONFIG = {configKey:'list'};
 
   this.setDefaultLimit = function(defaultLimit) {
     Pagination.DEFAULT_LIMIT = defaultLimit;
