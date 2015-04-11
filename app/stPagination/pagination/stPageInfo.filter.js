@@ -99,13 +99,16 @@ angular.module('stPagination').filter('stPageInfo', function (stPagination) {
                </tbody>
              </table>
            </div>
-           <st-pagination collection="commits" css-config="bootstrap2"></st-pagination>
+           <st-pagination collection="commits"></st-pagination>
          </div>
        </file>
        <file name="app.js">
          angular.module('paginationExample', ['stPagination', 'exampleData'])
+           .config(function (stPaginationProvider) {
+               stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
+           })
            .controller('ExampleController', function ExampleController($scope, exampleCommits) {
-               $scope.commits = exampleCommits;
+              $scope.commits = exampleCommits;
               $scope.propertyTemplate = function (property) {
                 return '{{ commits | stPageInfo:"' + property + '" }}';
               };

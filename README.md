@@ -84,7 +84,6 @@ Displays the pagination. Array must be initialized with the `stPagination` filte
 * `collection` - Array that was initialized by the `stPagination` filter
 * `midRange` *(optional - default: 3)* - Number of page links before and after current index
 * `edgeRange` *(optional - default: 3)* - Number of page links at the start and end
-* `cssConfig` *(optional - default: 'list')* - Custom **`{object}`** to configure the html structure or **`{string}`** key for a predefined configuration.
 
 #### Basic usage
 
@@ -94,14 +93,39 @@ Displays the pagination. Array must be initialized with the `stPagination` filte
 
     <st-pagination collection="users" mid-range="2" edge-range="2"></st-pagination>
 
-#### Configure css with framework key
+--
 
-    <st-pagination collection="users" css-config="'zurbFoundation'"></st-pagination>
+### [`stPaginationProvider`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination)
 
-#### Configure css with config object
+Provides methods to configure default values and the pagination template.
 
-    <st-pagination collection="users" css-config="{selectedClass: 'current', disabledClass: 'unavailable'}">
-    </st-pagination>
+#### Default values
+
+    angular.module('myModule', ['stPagination']).config(function (stPaginationProvider) {
+        stPaginationProvider.setDefaultLimit(10); // actual default is 10
+        stPaginationProvider.setDefaultMidRange(3); // actual default is 3
+        stPaginationProvider.setDefaultEdgeRange(3); // actual default is 3
+    });
+
+#### Templates
+
+    // predefined template
+    stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
+
+    // custom structure configuration
+    stPaginationProvider.setTemplateConfig({
+        templateConfig: {
+            divWrapped: true,
+            selectedClass: 'active',
+            disabledClass: 'disabled'
+        }
+    });
+    
+    // custom template with templateUrl
+    stPaginationProvider.setTemplateConfig({templateUrl: 'templates/pagination.html'});
+    
+    // custom template template
+    stPaginationProvider.setTemplateConfig({template: '<div></div>'});
 
 --
 

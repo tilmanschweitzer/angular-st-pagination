@@ -272,6 +272,14 @@ module.exports = function (grunt) {
           ]
         }, {
           expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/stPagination/pagination/utils/',
+          dest: '<%= yeoman.dist %>/dempApp/scripts/',
+          src: [
+            'templateConfigUtil.internal.js'
+          ]
+        }, {
+          expand: true,
           cwd: '<%= yeoman.app %>',
           src: [
             'bower_components/es5-shim/es5-shim.js',
@@ -315,7 +323,7 @@ module.exports = function (grunt) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             'dist/angular-st-pagination.min.js',
             'app/customMatchers.js',
-            'app/stPagination/**/*.spec.js'
+            'app/**/*.spec.js'
           ],
           preprocessors : {
             'dist/angular-st-pagination.js': 'coverage'

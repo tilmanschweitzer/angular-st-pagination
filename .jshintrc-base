@@ -62,6 +62,7 @@
     "angular": false,
     "$": false,
     "Pagination": false,
-    "RangeBuilder": false
+    "RangeBuilder": false,
+    "templateConfigUtil": true
   }
 }
