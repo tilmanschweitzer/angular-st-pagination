@@ -3,7 +3,7 @@
 > Provides complete client-side pagination with a simple angular filter and directive.
 
 [![Build Status](https://api.travis-ci.org/tilmanpotthof/angular-st-pagination.svg)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
-[![Test Coverage](https://coveralls.io/repos/tilmanpotthof/angular-st-pagination/badge.svg)]((https://coveralls.io/r/tilmanpotthof/angular-st-pagination)
+[![Test Coverage](https://coveralls.io/repos/tilmanpotthof/angular-st-pagination/badge.svg)](https://coveralls.io/r/tilmanpotthof/angular-st-pagination)
 [![Dependency Status](https://gemnasium.com/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
 [![Code Climate](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
 
