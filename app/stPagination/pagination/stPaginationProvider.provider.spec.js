@@ -181,21 +181,21 @@ describe('stPaginationProvider', function() {
         expect(function() {
           stPaginationProvider.setTemplateConfig({});
         }).toThrow(new Error('Missing config attribute for {}. ' +
-          'Expected one of: template, templateUrl, config, templateKey'));
+          'Expected one of: template, templateUrl, templateConfig, templateKey'));
       });
 
       it('throws an error for wrong config attributes', function() {
         expect(function() {
           stPaginationProvider.setTemplateConfig({nonExistingAttribute: 'x'});
         }).toThrow(new Error('Missing config attribute for {"nonExistingAttribute":"x"}. ' +
-          'Expected one of: template, templateUrl, config, templateKey'));
+          'Expected one of: template, templateUrl, templateConfig, templateKey'));
       });
 
       it('throws an error for conflicting config attributes (more than one)', function() {
         expect(function() {
-          stPaginationProvider.setTemplateConfig({config: {}, templateKey: 'bootstrap3'});
+          stPaginationProvider.setTemplateConfig({templateConfig: {}, templateKey: 'bootstrap3'});
         }).toThrow(new Error('Conflicting config attributes: ' +
-          'Use only of of: template, templateUrl, config, templateKey'));
+          'Use only of of: template, templateUrl, templateConfig, templateKey'));
       });
 
       it('throws an error for undefined configurations', function() {
@@ -226,7 +226,7 @@ describe('stPaginationProvider', function() {
           selectedClass: 'selected',
           disabledClass: 'inactive'
         };
-        stPaginationProvider.setTemplateConfig({config: templateConfig});
+        stPaginationProvider.setTemplateConfig({templateConfig: templateConfig});
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });

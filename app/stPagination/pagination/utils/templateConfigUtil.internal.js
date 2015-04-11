@@ -6,7 +6,7 @@ var templateConfigUtil = {
     '<a ng-click="pagination.prev()">&laquo;</a>' +
     '</li>' +
     '<li ng-class="{%SELECTED_CLASS%: pagination.onPage(pageIndex)}" ' +
-    'ng-repeat="pageIndex in pagination.reducedIndices(midRange, edgeRange)">' +
+    'ng-repeat="pageIndex in pages()">' +
     '<a ng-click="pagination.setPage(pageIndex)">{{ displayIndex(pageIndex) }}</a>' +
     '</li>' +
     '<li ng-class="{%DISABLED_CLASS%: pagination.onLastPage()}">' +
@@ -51,8 +51,8 @@ var templateConfigUtil = {
       return templateConfig.template;
     }
 
-    if (templateConfig.config) {
-      return this.generateTemplate(templateConfig.config);
+    if (templateConfig.templateConfig) {
+      return this.generateTemplate(templateConfig.templateConfig);
     }
   },
   simpleConfigKeys: {
@@ -76,7 +76,7 @@ var templateConfigUtil = {
     var configObject = this.simpleConfigKeys[key];
     if (configObject !== undefined) {
       return {
-        config: configObject
+        templateConfig: configObject
       };
     }
     throw new Error('Given templateKey "' + key + '" is not in allowed values ' + this.allowedValues());

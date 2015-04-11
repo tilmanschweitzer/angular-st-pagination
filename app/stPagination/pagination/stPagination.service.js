@@ -16,7 +16,7 @@ angular.module('stPagination').provider('stPagination', function() {
   };
 
   function countConfigAttributes(tplConfig) {
-    return (!!tplConfig.config + !!tplConfig.templateKey + !!tplConfig.template + !!tplConfig.templateUrl);
+    return (!!tplConfig.templateConfig + !!tplConfig.templateKey + !!tplConfig.template + !!tplConfig.templateUrl);
   }
 
   function checkTemplateConfig(templateConfig) {
@@ -25,11 +25,12 @@ angular.module('stPagination').provider('stPagination', function() {
     }
     var attributesCount = countConfigAttributes(templateConfig);
     if (attributesCount > 1) {
-      throw new Error('Conflicting config attributes: Use only of of: template, templateUrl, config, templateKey');
+      throw new Error('Conflicting config attributes: ' +
+        'Use only of of: template, templateUrl, templateConfig, templateKey');
     }
     if (attributesCount === 0) {
       throw new Error('Missing config attribute for ' + JSON.stringify(templateConfig) + '. ' +
-        'Expected one of: template, templateUrl, config, templateKey');
+        'Expected one of: template, templateUrl, templateConfig, templateKey');
     }
   }
 
