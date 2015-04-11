@@ -42,6 +42,7 @@
  *   - `'bootstrap3'` alias for `'list'` and key for [bootstrap 3.x](http://getbootstrap.com)
  *   - `'bootstrap2'` alias for `'divWrappedList'` [bootstrap 2.x](http://getbootstrap.com/2.3.2/)
  *   - `'zurbFoundation'` - custom configuration for [zurb foundation](http://foundation.zurb.com/)
+ *   - `'semanticUi`' - custom template for [semantic ui](semantic-ui.com/collections/menu.html#pagination)
  *
  * ### Configure base structure and classes - `templateConfig`
  *
