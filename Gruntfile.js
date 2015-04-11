@@ -272,6 +272,14 @@ module.exports = function (grunt) {
           ]
         }, {
           expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/stPagination/pagination/utils/',
+          dest: '<%= yeoman.dist %>/dempApp/scripts/',
+          src: [
+            'templateConfigUtil.internal.js'
+          ]
+        }, {
+          expand: true,
           cwd: '<%= yeoman.app %>',
           src: [
             'bower_components/es5-shim/es5-shim.js',
