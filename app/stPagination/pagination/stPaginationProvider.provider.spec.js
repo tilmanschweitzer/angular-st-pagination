@@ -201,7 +201,7 @@ describe('stPaginationProvider', function() {
       it('throws an error for undefined configurations', function() {
         stPaginationProvider.setTemplateConfig({configKey: 'bootstrap-1'});
 
-        var msg = 'Given css-config attribute "bootstrap-1" is not in allowed values ' +
+        var msg = 'Given configKey "bootstrap-1" is not in allowed values ' +
           '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
         expect(function() {
           $configTestPagination = $compile(tmpl)($scope);
