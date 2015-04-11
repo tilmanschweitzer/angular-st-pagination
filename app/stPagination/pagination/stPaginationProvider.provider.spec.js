@@ -83,7 +83,7 @@ describe('stPaginationProvider', function() {
     });
   });
 
-  describe('setDefaultCssConfig', function() {
+  describe('setTemplateConfig', function() {
     var $configTestPagination;
     var tmpl = '<st-pagination collection="commits"></st-pagination>';
 
@@ -93,7 +93,7 @@ describe('stPaginationProvider', function() {
     });
 
     it('throws an error for undefined configurations', function () {
-      stPaginationProvider.setDefaultCssConfig('bootstrap-1');
+      stPaginationProvider.setTemplateConfig('bootstrap-1');
 
       var msg = 'Given css-config attribute "bootstrap-1" is not in allowed values ' +
         '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
@@ -134,12 +134,12 @@ describe('stPaginationProvider', function() {
 
     describe('with custom object configuration', function () {
       beforeEach(function () {
-        var cssConfig = {
+        var templateConfig = {
           divWrapped: true,
           selectedClass: 'selected',
           disabledClass: 'inactive'
         };
-        stPaginationProvider.setDefaultCssConfig(cssConfig);
+        stPaginationProvider.setTemplateConfig(templateConfig);
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });
@@ -171,8 +171,8 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "zurbFoundation"', function () {
       beforeEach(function () {
-        var cssConfig = 'zurbFoundation';
-        stPaginationProvider.setDefaultCssConfig(cssConfig);
+        var templateConfig = 'zurbFoundation';
+        stPaginationProvider.setTemplateConfig(templateConfig);
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });
@@ -202,8 +202,8 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "bootstrap2"', function () {
       beforeEach(function () {
-        var cssConfig = 'bootstrap2';
-        stPaginationProvider.setDefaultCssConfig(cssConfig);
+        var templateConfig = 'bootstrap2';
+        stPaginationProvider.setTemplateConfig(templateConfig);
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });
@@ -235,8 +235,8 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "bootstrap3"', function () {
       beforeEach(function () {
-        var cssConfig = 'bootstrap3';
-        stPaginationProvider.setDefaultCssConfig(cssConfig);
+        var templateConfig = 'bootstrap3';
+        stPaginationProvider.setTemplateConfig(templateConfig);
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });

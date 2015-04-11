@@ -1,7 +1,7 @@
 angular.module('stPagination').provider('stPagination', function() {
   'use strict';
 
-  var DEFAULT_CSS_CONFG = {};
+  var TEMPLATE_CONFIG = {};
 
   this.setDefaultLimit = function(defaultLimit) {
     Pagination.DEFAULT_LIMIT = defaultLimit;
@@ -15,8 +15,8 @@ angular.module('stPagination').provider('stPagination', function() {
     Pagination.DEFAULT_MID_RANGE = defaultMidRange;
   };
 
-  this.setDefaultCssConfig = function(cssConfig) {
-    DEFAULT_CSS_CONFG = cssConfig;
+  this.setTemplateConfig = function(templateConfig) {
+    TEMPLATE_CONFIG = templateConfig;
   };
 
   this.$get = function() {
@@ -29,8 +29,8 @@ angular.module('stPagination').provider('stPagination', function() {
       indexRangeBuilder: function(length) {
         return new RangeBuilder(length);
       },
-      cssConfig: function () {
-        return DEFAULT_CSS_CONFG;
+      templateConfig: function () {
+        return TEMPLATE_CONFIG;
       }
     };
   };
