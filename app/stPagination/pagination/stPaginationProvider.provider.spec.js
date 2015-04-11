@@ -93,7 +93,7 @@ describe('stPaginationProvider', function() {
     });
 
     it('throws an error for undefined configurations', function () {
-      stPaginationProvider.setTemplateConfig('bootstrap-1');
+      stPaginationProvider.setTemplateConfig({configKey: 'bootstrap-1'});
 
       var msg = 'Given css-config attribute "bootstrap-1" is not in allowed values ' +
         '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
@@ -139,7 +139,7 @@ describe('stPaginationProvider', function() {
           selectedClass: 'selected',
           disabledClass: 'inactive'
         };
-        stPaginationProvider.setTemplateConfig(templateConfig);
+        stPaginationProvider.setTemplateConfig({config: templateConfig});
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });
@@ -171,8 +171,7 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "zurbFoundation"', function () {
       beforeEach(function () {
-        var templateConfig = 'zurbFoundation';
-        stPaginationProvider.setTemplateConfig(templateConfig);
+        stPaginationProvider.setTemplateConfig({configKey: 'zurbFoundation'});
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });
@@ -202,8 +201,7 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "bootstrap2"', function () {
       beforeEach(function () {
-        var templateConfig = 'bootstrap2';
-        stPaginationProvider.setTemplateConfig(templateConfig);
+        stPaginationProvider.setTemplateConfig({configKey: 'bootstrap2'});
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });
@@ -235,8 +233,7 @@ describe('stPaginationProvider', function() {
 
     describe('with css key "bootstrap3"', function () {
       beforeEach(function () {
-        var templateConfig = 'bootstrap3';
-        stPaginationProvider.setTemplateConfig(templateConfig);
+        stPaginationProvider.setTemplateConfig({configKey: 'bootstrap3'});
         $configTestPagination = $compile(tmpl)($scope);
         $scope.$apply();
       });

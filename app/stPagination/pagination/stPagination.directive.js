@@ -52,6 +52,7 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
         disabledClass: 'disabled'
       };
       var config = stPagination.templateConfig();
+      config = config.configKey || config.config || {};
       if (!angular.isObject(config)) {
         config = this.getCssConfigByKey(config);
       }
