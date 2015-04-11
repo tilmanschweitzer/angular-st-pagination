@@ -66,7 +66,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       return '{{ commits | stPageInfo:"' + property + '" }}';
     };
   });
-}).controller('cssConfigController', function ($scope, $compile, $filter, stPagination) {
+}).controller('templateConfigController', function ($scope, $compile, $filter, stPagination) {
   $scope.templateConfigs = [
     {
       label: 'Bootstrap 3.x (ul list)',

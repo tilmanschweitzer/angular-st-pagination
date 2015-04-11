@@ -54,13 +54,14 @@ angular.module('stPagination').directive('stPaginationLimit', function (stPagina
              <st-pagination-limit collection="users" limits="[5,10,20,50,100]" class="input-small">
              </st-pagination-limit>
            </div>
-           <st-pagination collection="users" css-config="bootstrap2">
-           </st-pagination>
-
+           <st-pagination collection="users"></st-pagination>
          </div>
        </file>
        <file name="app.js">
          angular.module('paginationExample', ['stPagination', 'exampleData'])
+           .config(function (stPaginationProvider) {
+               stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
+           })
            .controller('UserController', function UserController($scope, exampleUsers) {
                $scope.users = exampleUsers;
                $scope.$watch('users.pagination', function (pagination) {

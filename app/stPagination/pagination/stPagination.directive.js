@@ -44,90 +44,15 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
    *    <st-pagination collection="users" mid-range="2" edge-range="3"></st-pagination>
    * </pre>
    *
-   * ## Configure structure for css
+   * ## Configure templates
    *
-   * Configure the html structure for you css with the parameter `cssConfig`.
-   * As parameter you can pass a **`{string}`** key for configuration presets or an custom configuration
-   * as **`{object}`**.
+   * Configure template with {@link stPagination `stPaginationProvider.setTemplateConfig()`}.
    *
-   * The generated default structure of the directive is a simple list with links and a ***pagination*** class.
-   * The current page link has an ***active*** class and the previous and next buttons get a ***disabled*** class
-   * for the first or last page.
-   *
-   * <pre>
-   *   <ul class="pagination">
-   *     <li class="disabled"><a>&laquo;</a></li>
-   *     <li class="active"><a>1</a></li>
-   *     <li><a>1</a></li>
-   *     <li><a>2</a></li>
-   *     <li><a>3</a></li>
-   *     <li><a>&raquo;</a></li>
-   *   </ul>
-   * </pre>
-   *
-   * The config property `{divWrapped: true}` or the key `'divWrappedList'` wraps the list in a div element.
-   *
-   * <pre>
-   *   <div class="pagination">
-   *     <ul>
-   *       ...
-   *     </ul>
-   *   </div>
-   * </pre>
-   *
-   * The config properties `selectedClass` and `disabledClass` replace the class attributes for the list elements.
-   *
-   * <pre>
-   *    <st-pagination collection="users" css-config="{selectedClass: 'current', disabledClass: 'unavailable'}">
-   *    </st-pagination>
-   * </pre>
-   *
-   * For example `{selectedClass: 'current', disabledClass: 'unavailable'}` will generate the following html structure.
-   *
-   * <pre>
-   *   <ul class="pagination">
-   *     <li class="current"><a>&laquo;</a></li>
-   *     <li class="unavailable"><a>1</a></li>
-   *     <li><a>1</a></li>
-   *     <li><a>2</a></li>
-   *     <li><a>3</a></li>
-   *     <li><a>&raquo;</a></li>
-   *   </ul>
-   * </pre>
-   *
-   * ### Config keys for css frameworks
-   *
-   * To simplify the configuration for popular css framework just use a **`{string}`** key for the configuration.
-   *
-   *   - `'bootstrap3'` generates the default structure
-   *   - `'bootstrap2'` generates a `'divWrappedList'`
-   *   - `'zurbFoundation'` set class attributes necessary for foundation (works with version 3-5)
-   *
-   * <pre>
-   *    <st-pagination collection="users" css-config="'zurbFoundation'"></st-pagination>
-   * </pre>
    *
    * @param {Array} collection Array that was initialized by the
    *  {@link stPagination.filter:stPagination `stPagination` filter}
    * @param {number=} [midRange=3] Number of page links before and after current index
    * @param {number=} [edgeRange=3]  Number of page links at the start and end
-   * @param {object|string=} [cssConfig='list'] Custom `{object}` to configure the html structure or `{string}` key
-   *   for a predefined configuration.
-   *
-   *   Config **`{object}`** properties:
-   *   - `divWrapped` - `{boolean}`   - if true the pagination list will be wrapped with a div element
-   *        *(Default: false)*
-   *   - `selectedClass` - `{string}` - set as class attribute for the li element of the selected page
-   *        *(Default: 'active')*
-   *   - `disabledClass` - `{string}` - set as class attribute to disable previous and next elements
-   *        on first and last page *(Default: 'disabled')*
-   *
-   *  Config **`{string}`** keys:
-   *   - `'list'`
-   *   - `'divWrappedList'`
-   *   - `'bootstrap3'` alias for `'list'`
-   *   - `'bootstrap2'` alias for `'divWrappedList'`
-   *   - `'zurbFoundation'` - custom configuration for zurb
    *
    * @example
    *
@@ -153,7 +78,7 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
              |
              Total {{ users | stPageInfo:'total' }}
            </div>
-           <st-pagination collection="users" mid-range="mR" edge-range="mR" css-config="bootstrap2">
+           <st-pagination collection="users" mid-range="mR" edge-range="mR">
            </st-pagination>
            <hr/>
            <p ng-init="mR = 1; eR = 1">
@@ -171,10 +96,15 @@ angular.module('stPagination').directive('stPagination', function(stPagination) 
        </file>
        <file name="app.js">
          angular.module('paginationExample', ['stPagination', 'exampleData'])
+           .config(function (stPaginationProvider) {
+               stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
+           })
            .controller('UserController', function UserController($scope, exampleUsers) {
                $scope.users = exampleUsers;
                $scope.$watch('users.pagination', function (pagination) {
-                 pagination.setPage(14)
+                 if(pagination) {
+                   pagination.setPage(14);
+                 }
                });
             });
        </file>

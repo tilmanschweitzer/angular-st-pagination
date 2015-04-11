@@ -84,7 +84,6 @@ Displays the pagination. Array must be initialized with the `stPagination` filte
 * `collection` - Array that was initialized by the `stPagination` filter
 * `midRange` *(optional - default: 3)* - Number of page links before and after current index
 * `edgeRange` *(optional - default: 3)* - Number of page links at the start and end
-* `cssConfig` *(optional - default: 'list')* - Custom **`{object}`** to configure the html structure or **`{string}`** key for a predefined configuration.
 
 #### Basic usage
 
@@ -93,15 +92,6 @@ Displays the pagination. Array must be initialized with the `stPagination` filte
 #### Configure number of displayed page links
 
     <st-pagination collection="users" mid-range="2" edge-range="2"></st-pagination>
-
-#### Configure css with framework key
-
-    <st-pagination collection="users" css-config="'zurbFoundation'"></st-pagination>
-
-#### Configure css with config object
-
-    <st-pagination collection="users" css-config="{selectedClass: 'current', disabledClass: 'unavailable'}">
-    </st-pagination>
 
 --
 
