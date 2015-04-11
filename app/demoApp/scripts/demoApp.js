@@ -1,6 +1,5 @@
 'use strict';
 
-var _stPaginationProvider;
 
 angular.module('paginationDemo', [
   'ngRoute',
@@ -14,11 +13,17 @@ angular.module('paginationDemo', [
       .otherwise({
         redirectTo: '/'
       });
-    _stPaginationProvider = stPaginationProvider;
 
     stPaginationProvider.setDefaultLimit(10);
     stPaginationProvider.setDefaultMidRange(3);
     stPaginationProvider.setDefaultEdgeRange(3);
+    stPaginationProvider.setTemplateConfig({templateUrl: 'paginationTemplate.html'});
+  }).run(function ($templateCache) {
+    $templateCache.put('paginationTemplate.html', templateConfigUtil.getTemplate({configKey: 'list'}));
+
+    var tpl = '<st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange">' +
+      '</st-pagination>';
+    $templateCache.put('paginationWrapper.html', tpl);
   });
 angular.module('paginationDemo').controller('demoBaseController', function ($scope, $timeout, $templateCache) {
   $scope.styleResetToggle = true;
@@ -37,10 +42,8 @@ angular.module('paginationDemo').controller('demoBaseController', function ($sco
   };
 
   $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
-    var tpl = '<st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange">' +
-      '</st-pagination>';
-    _stPaginationProvider.setDefaultCssConfig($scope.GLOBAL_CONFIG.cssConfig);
-    $templateCache.put('paginationTemplate.html', tpl);
+    var template = templateConfigUtil.getTemplate({configKey: $scope.GLOBAL_CONFIG.cssConfig});
+    $templateCache.put('paginationTemplate.html', template);
     toggleStyle();
   });
 });
