@@ -8,7 +8,7 @@ before_script:
   - 'npm install -g codeclimate-test-reporter'
   - 'bower install  --config.interactive=false'
 
-script: grunt
+script: grunt default coveralls
 
 after_script:
   - cat coverage/*/lcov.info | codeclimate
