@@ -176,16 +176,17 @@
     </tr>
   </table>
   <hr/>
-  <h3>CSS configuration</h3>
+  <h3>Template configuration</h3>
   <div ng-controller="cssConfigController">
-    <select ng-model="selectedCssConfig" ng-options="cssConfig.label for cssConfig in cssConfigs"></select>
+    <select ng-model="templateConfig" ng-options="templateConfig.label for templateConfig in templateConfigs"></select>
 
     <div ng-include="'paginationWrapper.html'" ng-if="styleResetToggle"></div>
 
     <p>
-      <code>
-        &lt;st-pagination collection="commits" css-config="{{selectedCssConfig.templateKey}}"&gt;&lt;/st-pagination&gt;
-      </code>
+      <pre><code>angular.module('myModule', ['stPagination'])
+    .config(function (stPaginationProvider) {
+        stPaginationProvider.setTemplateConfig({templateKey: '{{templateConfig.templateKey}}' });
+    })</code></pre>
     </p>
 
     <p>

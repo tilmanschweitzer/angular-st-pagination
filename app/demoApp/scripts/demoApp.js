@@ -38,11 +38,13 @@ angular.module('paginationDemo').controller('demoBaseController', function ($sco
   }
 
   $scope.GLOBAL_CONFIG = {
-    cssConfig: 'bootstrap3'
+    templateConfig: {
+      templateKey: 'bootstrap3'
+    }
   };
 
-  $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
-    var template = templateConfigUtil.getTemplate({templateKey: $scope.GLOBAL_CONFIG.cssConfig});
+  $scope.$watch('GLOBAL_CONFIG.templateConfig', function () {
+    var template = templateConfigUtil.getTemplate($scope.GLOBAL_CONFIG.templateConfig);
     $templateCache.put('paginationTemplate.html', template);
     toggleStyle();
   });
@@ -64,8 +66,8 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       return '{{ commits | stPageInfo:"' + property + '" }}';
     };
   });
-}).controller('cssConfigController', function ($scope, $compile) {
-  $scope.cssConfigs = [
+}).controller('cssConfigController', function ($scope, $compile, $filter, stPagination) {
+  $scope.templateConfigs = [
     {
       label: 'Bootstrap 3.x (ul list)',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
@@ -103,24 +105,24 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     }
   ];
 
-  $scope.selectedCssConfig = $scope.cssConfigs[0];
+  $scope.templateConfig = $scope.templateConfigs[0];
 
   function generateHtml() {
-    var template = '<div><st-pagination  collection="commits" css-config="CSS_CONFIG"></st-pagination></div>';
-    template = template.replace('CSS_CONFIG', $scope.selectedCssConfig.templateKey);
-    return $compile(template)($scope).html().replace(/></g, '>\n<');
+    var template = templateConfigUtil.getTemplate($scope.templateConfig);
+    return $compile(template)($scope).wrap('<div></div>').parent().html().replace(/></g, '>\n<');
   }
 
   $scope.generatedHtml = generateHtml();
 
 
-  $scope.$watch('selectedCssConfig', function (newConfig, oldConfig) {
+  $scope.$watch('templateConfig', function (newConfig, oldConfig) {
     if (!angular.equals(newConfig, oldConfig)) {
       document.querySelector('link[href="' + oldConfig.path + '"]').remove();
       document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
 
+      $scope.GLOBAL_CONFIG.templateConfig = newConfig;
+
       $scope.generatedHtml = generateHtml();
-      $scope.GLOBAL_CONFIG.cssConfig = newConfig.templateKey;
     }
   });
 });
