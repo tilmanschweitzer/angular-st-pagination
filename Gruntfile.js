@@ -315,7 +315,7 @@ module.exports = function (grunt) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             'dist/angular-st-pagination.min.js',
             'app/customMatchers.js',
-            'app/stPagination/**/*.spec.js'
+            'app/**/*.spec.js'
           ],
           preprocessors : {
             'dist/angular-st-pagination.js': 'coverage'
