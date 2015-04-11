@@ -92,6 +92,44 @@ describe('stPaginationProvider', function() {
       $filter('stPagination')($scope.commits);
     });
 
+    describe('parameter check', function () {
+      it('throws an error for undefined', function () {
+        expect(function () {
+          stPaginationProvider.setTemplateConfig(undefined);
+        }).toThrow(new Error('Template config value undefined is not allowed'));
+      });
+
+      it('throws an error for non object parameters', function () {
+        expect(function () {
+          stPaginationProvider.setTemplateConfig(1);
+        }).toThrow(new Error('Template config value 1 is not allowed'));
+        expect(function () {
+          stPaginationProvider.setTemplateConfig('bootstrap3');
+        }).toThrow(new Error('Template config value "bootstrap3" is not allowed'));
+      });
+
+      it('throws an error for an empty object {}', function () {
+        expect(function () {
+          stPaginationProvider.setTemplateConfig({});
+        }).toThrow(new Error('Missing config attribute for {}. Expected one of: config, configKey'));
+      });
+
+      it('throws an error for wrong config attributes', function () {
+        expect(function () {
+          stPaginationProvider.setTemplateConfig({nonExistingAttribute: 'x'});
+        }).toThrow(new Error('Missing config attribute for {"nonExistingAttribute":"x"}. ' +
+          'Expected one of: config, configKey'));
+      });
+
+
+      it('throws an error for conflicting config attributes (more than one)', function () {
+        expect(function () {
+          stPaginationProvider.setTemplateConfig({config: {}, configKey: 'bootstrap3'});
+        }).toThrow(new Error('Conflicting config attributes: Use only of of: config, configKey'));
+      });
+    });
+
+
     it('throws an error for undefined configurations', function () {
       stPaginationProvider.setTemplateConfig({configKey: 'bootstrap-1'});
 
