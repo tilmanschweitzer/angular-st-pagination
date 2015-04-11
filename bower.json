@@ -19,6 +19,9 @@
   "keywords": [
     "angular",
     "pagination",
-    "bootstrap"
+    "bootstrap",
+    "foundation",
+    "ui",
+    "semantic-ui"
   ]
 }

@@ -94,6 +94,11 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       templateKey: 'zurbFoundation'
     },
     {
+      label: 'Semantic UI',
+      path: 'demoApp/styles/semantic-1.11.6.css',
+      templateKey: 'semanticUi'
+    },
+    {
       label: 'ul list',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
       templateKey: 'list'
