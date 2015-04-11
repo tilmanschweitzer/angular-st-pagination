@@ -69,14 +69,37 @@ var templateConfigUtil = {
       disabledClass: 'unavailable'
     }
   },
+  templateKeys: {
+    semanticUi: '<div class="ui pagination menu">' +
+      '<a class="icon item" ng-class="{disabled: pagination.onFirstPage()}" ng-click="pagination.prev()">' +
+      '<i class="left arrow icon"></i>' +
+      '</a>' +
+      '<a class="item" ng-repeat="index in pages()" ' +
+      'ng-click="pagination.setPage(index)" ' +
+      'ng-class="{active: pagination.onPage(index)}">' +
+      '{{ displayIndex(index) }}' +
+      '</a>' +
+      '<a class="icon item" ng-class="{disabled: pagination.onLastPage()}" ng-click="pagination.next()">' +
+      '  <i class="right arrow icon"></i>' +
+      '</a>' +
+      '</div>'
+  },
   allowedValues: function () {
-    return '"' + Object.keys(this.simpleConfigKeys).join('", "') + '"';
+    var keys = Object.keys;
+    var allKeys = keys(this.simpleConfigKeys).concat(keys(this.templateKeys));
+    return '"' + (allKeys.join('", "')) + '"';
   },
   getTemplateConfigForKey: function (key) {
     var configObject = this.simpleConfigKeys[key];
     if (configObject !== undefined) {
       return {
         templateConfig: configObject
+      };
+    }
+    var template = this.templateKeys[key];
+    if (template !== undefined) {
+      return {
+        template: template
       };
     }
     throw new Error('Given templateKey "' + key + '" is not in allowed values ' + this.allowedValues());
