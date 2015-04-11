@@ -43,7 +43,10 @@
   "keywords": [
     "angular",
     "pagination",
-    "bootstrap"
+    "bootstrap",
+    "foundation",
+    "ui",
+    "semantic-ui"
   ],
   "license": "MIT",
   "licenseUrl": "https://raw.githubusercontent.com/tilmanpotthof/angular-st-pagination/master/LICENCE",

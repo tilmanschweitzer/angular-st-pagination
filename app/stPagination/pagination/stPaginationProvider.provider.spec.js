@@ -202,7 +202,7 @@ describe('stPaginationProvider', function() {
         stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap-1'});
 
         var msg = 'Given templateKey "bootstrap-1" is not in allowed values ' +
-          '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
+          '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation", "semanticUi"';
         expect(function() {
           $configTestPagination = $compile(tmpl)($scope);
           $scope.$apply();
@@ -263,6 +263,16 @@ describe('stPaginationProvider', function() {
         });
 
         defaultAssertions();
+      });
+
+      describe('"semanticUi"', function() {
+        beforeEach(function() {
+          stPaginationProvider.setTemplateConfig({templateKey: 'semanticUi'});
+          $configTestPagination = $compile(tmpl)($scope);
+          $scope.$apply();
+        });
+
+        semanticUiAssertions();
       });
     });
 

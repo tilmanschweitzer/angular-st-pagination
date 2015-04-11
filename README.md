@@ -42,7 +42,7 @@ The number of page links never changes and prevents the pagination to cause line
 ### Configurable for CSS frameworks
 
 Configure the html structure of the pagination directive to use it with the popular CSS frameworks
-**Bootstrap** and **Zurb Foundation**.
+**Bootstrap**, **Zurb Foundation** and **Semantic UI**.
 
 ### Angular compatibility (1.3.x, 1.2.x, 1.0.x)
 
@@ -109,7 +109,7 @@ Provides methods to configure default values and the pagination template.
 
 #### Templates
 
-    // predefined template
+    // predefined templates ('list', 'divWrappedList', 'bootstrap3', 'bootstrap2', 'zurbFoundation', 'semanticUi')
     stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
 
     // custom structure configuration
