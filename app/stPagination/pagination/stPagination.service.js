@@ -1,7 +1,7 @@
 angular.module('stPagination').provider('stPagination', function() {
   'use strict';
 
-  var TEMPLATE_CONFIG = {configKey:'list'};
+  var TEMPLATE_CONFIG = {templateKey:'list'};
 
   this.setDefaultLimit = function(defaultLimit) {
     Pagination.DEFAULT_LIMIT = defaultLimit;
@@ -16,7 +16,7 @@ angular.module('stPagination').provider('stPagination', function() {
   };
 
   function countConfigAttributes(tplConfig) {
-    return (!!tplConfig.config + !!tplConfig.configKey + !!tplConfig.template + !!tplConfig.templateUrl);
+    return (!!tplConfig.config + !!tplConfig.templateKey + !!tplConfig.template + !!tplConfig.templateUrl);
   }
 
   function checkTemplateConfig(templateConfig) {
@@ -25,11 +25,11 @@ angular.module('stPagination').provider('stPagination', function() {
     }
     var attributesCount = countConfigAttributes(templateConfig);
     if (attributesCount > 1) {
-      throw new Error('Conflicting config attributes: Use only of of: template, templateUrl, config, configKey');
+      throw new Error('Conflicting config attributes: Use only of of: template, templateUrl, config, templateKey');
     }
     if (attributesCount === 0) {
       throw new Error('Missing config attribute for ' + JSON.stringify(templateConfig) + '. ' +
-        'Expected one of: template, templateUrl, config, configKey');
+        'Expected one of: template, templateUrl, config, templateKey');
     }
   }
 

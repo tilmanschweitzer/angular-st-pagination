@@ -19,7 +19,7 @@ angular.module('paginationDemo', [
     stPaginationProvider.setDefaultEdgeRange(3);
     stPaginationProvider.setTemplateConfig({templateUrl: 'paginationTemplate.html'});
   }).run(function ($templateCache) {
-    $templateCache.put('paginationTemplate.html', templateConfigUtil.getTemplate({configKey: 'list'}));
+    $templateCache.put('paginationTemplate.html', templateConfigUtil.getTemplate({templateKey: 'list'}));
 
     var tpl = '<st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange">' +
       '</st-pagination>';
@@ -42,7 +42,7 @@ angular.module('paginationDemo').controller('demoBaseController', function ($sco
   };
 
   $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
-    var template = templateConfigUtil.getTemplate({configKey: $scope.GLOBAL_CONFIG.cssConfig});
+    var template = templateConfigUtil.getTemplate({templateKey: $scope.GLOBAL_CONFIG.cssConfig});
     $templateCache.put('paginationTemplate.html', template);
     toggleStyle();
   });
@@ -69,37 +69,37 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
     {
       label: 'Bootstrap 3.x (ul list)',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
-      configKey: 'bootstrap3'
+      templateKey: 'bootstrap3'
     },
     {
       label: 'Bootstrap 2.x (div wrapped ul list)',
       path: 'demoApp/styles/bootstrap-2.3.2.css',
-      configKey: 'bootstrap2'
+      templateKey: 'bootstrap2'
     },
     {
       label: 'Zurb Foundation 5',
       path: 'demoApp/styles/foundation-5.5.1.css',
-      configKey: 'zurbFoundation'
+      templateKey: 'zurbFoundation'
     },
     {
       label: 'Zurb Foundation 4',
       path: 'demoApp/styles/foundation-4.3.2.css',
-      configKey: 'zurbFoundation'
+      templateKey: 'zurbFoundation'
     },
     {
       label: 'Zurb Foundation 3',
       path: 'demoApp/styles/foundation-3.2.5.css',
-      configKey: 'zurbFoundation'
+      templateKey: 'zurbFoundation'
     },
     {
       label: 'ul list',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
-      configKey: 'list'
+      templateKey: 'list'
     },
     {
       label: 'div wrapped ul list',
       path: 'demoApp/styles/bootstrap-2.3.2.css',
-      configKey: 'divWrappedList'
+      templateKey: 'divWrappedList'
     }
   ];
 
@@ -107,7 +107,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
 
   function generateHtml() {
     var template = '<div><st-pagination  collection="commits" css-config="CSS_CONFIG"></st-pagination></div>';
-    template = template.replace('CSS_CONFIG', $scope.selectedCssConfig.configKey);
+    template = template.replace('CSS_CONFIG', $scope.selectedCssConfig.templateKey);
     return $compile(template)($scope).html().replace(/></g, '>\n<');
   }
 
@@ -120,7 +120,7 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
 
       $scope.generatedHtml = generateHtml();
-      $scope.GLOBAL_CONFIG.cssConfig = newConfig.configKey;
+      $scope.GLOBAL_CONFIG.cssConfig = newConfig.templateKey;
     }
   });
 });

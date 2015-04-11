@@ -43,8 +43,8 @@ var templateConfigUtil = {
     return templateConfig.templateUrl;
   },
   getTemplate: function (templateConfig) {
-    if (templateConfig.configKey) {
-      templateConfig = this.getTemplateConfigForKey(templateConfig.configKey);
+    if (templateConfig.templateKey) {
+      templateConfig = this.getTemplateConfigForKey(templateConfig.templateKey);
     }
 
     if (templateConfig.template) {
@@ -79,6 +79,6 @@ var templateConfigUtil = {
         config: configObject
       };
     }
-    throw new Error('Given configKey "' + key + '" is not in allowed values ' + this.allowedValues());
+    throw new Error('Given templateKey "' + key + '" is not in allowed values ' + this.allowedValues());
   }
 };

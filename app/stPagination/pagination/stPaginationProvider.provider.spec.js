@@ -181,27 +181,27 @@ describe('stPaginationProvider', function() {
         expect(function() {
           stPaginationProvider.setTemplateConfig({});
         }).toThrow(new Error('Missing config attribute for {}. ' +
-          'Expected one of: template, templateUrl, config, configKey'));
+          'Expected one of: template, templateUrl, config, templateKey'));
       });
 
       it('throws an error for wrong config attributes', function() {
         expect(function() {
           stPaginationProvider.setTemplateConfig({nonExistingAttribute: 'x'});
         }).toThrow(new Error('Missing config attribute for {"nonExistingAttribute":"x"}. ' +
-          'Expected one of: template, templateUrl, config, configKey'));
+          'Expected one of: template, templateUrl, config, templateKey'));
       });
 
       it('throws an error for conflicting config attributes (more than one)', function() {
         expect(function() {
-          stPaginationProvider.setTemplateConfig({config: {}, configKey: 'bootstrap3'});
+          stPaginationProvider.setTemplateConfig({config: {}, templateKey: 'bootstrap3'});
         }).toThrow(new Error('Conflicting config attributes: ' +
-          'Use only of of: template, templateUrl, config, configKey'));
+          'Use only of of: template, templateUrl, config, templateKey'));
       });
 
       it('throws an error for undefined configurations', function() {
-        stPaginationProvider.setTemplateConfig({configKey: 'bootstrap-1'});
+        stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap-1'});
 
-        var msg = 'Given configKey "bootstrap-1" is not in allowed values ' +
+        var msg = 'Given templateKey "bootstrap-1" is not in allowed values ' +
           '"list", "divWrappedList", "bootstrap3", "bootstrap2", "zurbFoundation"';
         expect(function() {
           $configTestPagination = $compile(tmpl)($scope);
@@ -234,10 +234,10 @@ describe('stPaginationProvider', function() {
       htmlAssertions({divWrapped: true, disabledClass: 'inactive', selectedClass: 'selected'});
     });
 
-    describe('with configKey', function () {
+    describe('with templateKey', function () {
       describe('"zurbFoundation"', function() {
         beforeEach(function() {
-          stPaginationProvider.setTemplateConfig({configKey: 'zurbFoundation'});
+          stPaginationProvider.setTemplateConfig({templateKey: 'zurbFoundation'});
           $configTestPagination = $compile(tmpl)($scope);
           $scope.$apply();
         });
@@ -247,7 +247,7 @@ describe('stPaginationProvider', function() {
 
       describe('"bootstrap2"', function() {
         beforeEach(function() {
-          stPaginationProvider.setTemplateConfig({configKey: 'bootstrap2'});
+          stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
           $configTestPagination = $compile(tmpl)($scope);
           $scope.$apply();
         });
@@ -257,7 +257,7 @@ describe('stPaginationProvider', function() {
 
       describe('"bootstrap3"', function() {
         beforeEach(function() {
-          stPaginationProvider.setTemplateConfig({configKey: 'bootstrap3'});
+          stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap3'});
           $configTestPagination = $compile(tmpl)($scope);
           $scope.$apply();
         });
