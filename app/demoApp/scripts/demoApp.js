@@ -1,11 +1,10 @@
 'use strict';
 
-var stPaginationProvider;
 
 angular.module('paginationDemo', [
   'stPagination'
 ])
-  .config(function ($routeProvider, _stPaginationProvider_) {
+  .config(function ($routeProvider, stPaginationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'demoApp/views/demo.html'
@@ -13,10 +12,17 @@ angular.module('paginationDemo', [
       .otherwise({
         redirectTo: '/'
       });
-    stPaginationProvider = _stPaginationProvider_;
+
     stPaginationProvider.setDefaultLimit(10);
     stPaginationProvider.setDefaultMidRange(3);
     stPaginationProvider.setDefaultEdgeRange(3);
+    stPaginationProvider.setTemplateConfig({templateUrl: 'paginationTemplate.html'});
+  }).run(function ($templateCache) {
+    $templateCache.put('paginationTemplate.html', templateConfigUtil.getTemplate({templateKey: 'list'}));
+
+    var tpl = '<st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange">' +
+      '</st-pagination>';
+    $templateCache.put('paginationWrapper.html', tpl);
   });
 angular.module('paginationDemo').controller('demoBaseController', function ($scope, $timeout, $templateCache) {
   $scope.styleResetToggle = true;
@@ -31,14 +37,14 @@ angular.module('paginationDemo').controller('demoBaseController', function ($sco
   }
 
   $scope.GLOBAL_CONFIG = {
-    cssConfig: 'bootstrap3'
+    templateConfig: {
+      templateKey: 'bootstrap3'
+    }
   };
 
-  $scope.$watch('GLOBAL_CONFIG.cssConfig', function () {
-    var tpl = '<st-pagination collection="commits" mid-range="midRange" edge-range="edgeRange">' +
-      '</st-pagination>';
-    stPaginationProvider.setDefaultCssConfig($scope.GLOBAL_CONFIG.cssConfig);
-    $templateCache.put('paginationTemplate.html', tpl);
+  $scope.$watch('GLOBAL_CONFIG.templateConfig', function () {
+    var template = templateConfigUtil.getTemplate($scope.GLOBAL_CONFIG.templateConfig);
+    $templateCache.put('paginationTemplate.html', template);
     toggleStyle();
   });
 });
@@ -59,63 +65,63 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
       return '{{ commits | stPageInfo:"' + property + '" }}';
     };
   });
-}).controller('cssConfigController', function ($scope, $compile) {
-  $scope.cssConfigs = [
+}).controller('templateConfigController', function ($scope, $compile, $filter, stPagination) {
+  $scope.templateConfigs = [
     {
       label: 'Bootstrap 3.x (ul list)',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
-      configKey: 'bootstrap3'
+      templateKey: 'bootstrap3'
     },
     {
       label: 'Bootstrap 2.x (div wrapped ul list)',
       path: 'demoApp/styles/bootstrap-2.3.2.css',
-      configKey: 'bootstrap2'
+      templateKey: 'bootstrap2'
     },
     {
       label: 'Zurb Foundation 5',
       path: 'demoApp/styles/foundation-5.5.1.css',
-      configKey: 'zurbFoundation'
+      templateKey: 'zurbFoundation'
     },
     {
       label: 'Zurb Foundation 4',
       path: 'demoApp/styles/foundation-4.3.2.css',
-      configKey: 'zurbFoundation'
+      templateKey: 'zurbFoundation'
     },
     {
       label: 'Zurb Foundation 3',
       path: 'demoApp/styles/foundation-3.2.5.css',
-      configKey: 'zurbFoundation'
+      templateKey: 'zurbFoundation'
     },
     {
       label: 'ul list',
       path: 'bower_components/bootstrap-css-only/css/bootstrap.css',
-      configKey: 'list'
+      templateKey: 'list'
     },
     {
       label: 'div wrapped ul list',
       path: 'demoApp/styles/bootstrap-2.3.2.css',
-      configKey: 'divWrappedList'
+      templateKey: 'divWrappedList'
     }
   ];
 
-  $scope.selectedCssConfig = $scope.cssConfigs[0];
+  $scope.templateConfig = $scope.templateConfigs[0];
 
   function generateHtml() {
-    var template = '<div><st-pagination  collection="commits" css-config="CSS_CONFIG"></st-pagination></div>';
-    template = template.replace('CSS_CONFIG', $scope.selectedCssConfig.configKey);
-    return $compile(template)($scope).html().replace(/></g, '>\n<');
+    var template = templateConfigUtil.getTemplate($scope.templateConfig);
+    return $compile(template)($scope).wrap('<div></div>').parent().html().replace(/></g, '>\n<');
   }
 
   $scope.generatedHtml = generateHtml();
 
 
-  $scope.$watch('selectedCssConfig', function (newConfig, oldConfig) {
+  $scope.$watch('templateConfig', function (newConfig, oldConfig) {
     if (!angular.equals(newConfig, oldConfig)) {
       document.querySelector('link[href="' + oldConfig.path + '"]').remove();
       document.head.appendChild(angular.element('<link rel="stylesheet" href="' + newConfig.path + '" />')[0]);
 
+      $scope.GLOBAL_CONFIG.templateConfig = newConfig;
+
       $scope.generatedHtml = generateHtml();
-      $scope.GLOBAL_CONFIG.cssConfig = newConfig.configKey;
     }
   });
 });

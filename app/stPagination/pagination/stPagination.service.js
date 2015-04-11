@@ -1,7 +1,7 @@
 angular.module('stPagination').provider('stPagination', function() {
   'use strict';
 
-  var DEFAULT_CSS_CONFG = {};
+  var TEMPLATE_CONFIG = {templateKey:'list'};
 
   this.setDefaultLimit = function(defaultLimit) {
     Pagination.DEFAULT_LIMIT = defaultLimit;
@@ -15,8 +15,28 @@ angular.module('stPagination').provider('stPagination', function() {
     Pagination.DEFAULT_MID_RANGE = defaultMidRange;
   };
 
-  this.setDefaultCssConfig = function(cssConfig) {
-    DEFAULT_CSS_CONFG = cssConfig;
+  function countConfigAttributes(tplConfig) {
+    return (!!tplConfig.templateConfig + !!tplConfig.templateKey + !!tplConfig.template + !!tplConfig.templateUrl);
+  }
+
+  function checkTemplateConfig(templateConfig) {
+    if (!templateConfig || !angular.isObject(templateConfig)) {
+      throw new Error('Template config value ' + JSON.stringify(templateConfig) + ' is not allowed');
+    }
+    var attributesCount = countConfigAttributes(templateConfig);
+    if (attributesCount > 1) {
+      throw new Error('Conflicting config attributes: ' +
+        'Use only of of: template, templateUrl, templateConfig, templateKey');
+    }
+    if (attributesCount === 0) {
+      throw new Error('Missing config attribute for ' + JSON.stringify(templateConfig) + '. ' +
+        'Expected one of: template, templateUrl, templateConfig, templateKey');
+    }
+  }
+
+  this.setTemplateConfig = function(templateConfig) {
+    checkTemplateConfig(templateConfig);
+    TEMPLATE_CONFIG = templateConfig;
   };
 
   this.$get = function() {
@@ -29,8 +49,8 @@ angular.module('stPagination').provider('stPagination', function() {
       indexRangeBuilder: function(length) {
         return new RangeBuilder(length);
       },
-      cssConfig: function () {
-        return DEFAULT_CSS_CONFG;
+      templateConfig: function() {
+        return TEMPLATE_CONFIG;
       }
     };
   };

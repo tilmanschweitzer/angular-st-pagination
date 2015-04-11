@@ -1,5 +1,11 @@
 ## Release notes
 
+## 0.4.0
+
+* global default values for limit, midRange and edgeRange through stPaginationProvider (#29)
+* global css configuration through stPaginationProvider (#26)
+* encapsulate internal services (Pagination, RangeBuilder) (#27)
+
 ### 0.3.0
 
 * css config object to configure css classes (#23)
