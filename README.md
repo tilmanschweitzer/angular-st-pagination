@@ -95,6 +95,40 @@ Displays the pagination. Array must be initialized with the `stPagination` filte
 
 --
 
+### [`stPaginationProvider`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination)
+
+Provides methods to configure default values and the pagination template.
+
+#### Default values
+
+    angular.module('myModule', ['stPagination']).config(function (stPaginationProvider) {
+        stPaginationProvider.setDefaultLimit(10); // actual default is 10
+        stPaginationProvider.setDefaultMidRange(3); // actual default is 3
+        stPaginationProvider.setDefaultEdgeRange(3); // actual default is 3
+    });
+
+#### Templates
+
+    // predefined template
+    stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
+
+    // custom structure configuration
+    stPaginationProvider.setTemplateConfig({
+        templateConfig: {
+            divWrapped: true,
+            selectedClass: 'active',
+            disabledClass: 'disabled'
+        }
+    });
+    
+    // custom template with templateUrl
+    stPaginationProvider.setTemplateConfig({templateUrl: 'templates/pagination.html'});
+    
+    // custom template template
+    stPaginationProvider.setTemplateConfig({template: '<div></div>'});
+
+--
+
 ### [`stPaginationLimit`](http://tilmanpotthof.github.io/angular-st-pagination/docs/#/api/stPagination.directive:stPaginationLimit) directive
 
 Displays a select element to change the number of items per page.
