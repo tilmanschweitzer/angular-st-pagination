@@ -60,7 +60,7 @@ angular.module('stPagination').filter('stPagination', function (stPagination) {
              |
              Total {{ users | stPageInfo:'total' }}
            </div>
-           <st-pagination collection="users" css-config="bootstrap2"></st-pagination>
+           <st-pagination collection="users"></st-pagination>
          </div>
          <hr/>
          <h2>Pagination with chained filters</h2>
@@ -88,11 +88,14 @@ angular.module('stPagination').filter('stPagination', function (stPagination) {
              |
              Total {{ commits | stPageInfo:'total' }}
            </div>
-           <st-pagination collection="commits" css-config="bootstrap2"></st-pagination>
+           <st-pagination collection="commits"></st-pagination>
          </div>
        </file>
        <file name="app.js">
          angular.module('paginationExample', ['stPagination', 'exampleData'])
+           .config(function (stPaginationProvider) {
+               stPaginationProvider.setTemplateConfig({templateKey: 'bootstrap2'});
+           })
            .controller('UserController', function UserController($scope, exampleUsers) {
                $scope.users = exampleUsers;
             }).controller('CommitController', function CommitController($scope, exampleCommits) {
