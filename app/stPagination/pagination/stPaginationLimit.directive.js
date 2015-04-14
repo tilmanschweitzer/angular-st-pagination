@@ -74,7 +74,8 @@ angular.module('stPagination').directive('stPaginationLimit', function (stPagina
   return {
     restrict: 'E',
     replace: true,
-    template: '<select ng-options="limit for limit in limits()" ng-model="pagination._limit"></select>',
+    template: '<select ng-options="limit for limit in limits()" ng-model="limit" ' +
+      'ng-change="pagination.setLimit(limit)"></select>',
     scope: {
       collection: '=',
       getLimits: '&limits'
