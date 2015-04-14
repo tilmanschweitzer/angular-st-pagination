@@ -87,6 +87,7 @@ angular.module('stPagination').directive('stPaginationLimit', function (stPagina
 
       $scope.$watch('collection', function(collection) {
         if (stPagination.hasPagination(collection)) {
+          $scope.limit = collection.pagination.getLimit();
           $scope.pagination = collection.pagination;
         } else {
           delete $scope.pagination;

@@ -39,12 +39,18 @@ angular.module('stPagination').provider('stPagination', function() {
     TEMPLATE_CONFIG = templateConfig;
   };
 
-  this.$get = function() {
+  this.$get = function($http) {
+    ServerPagination.$http = $http;
+
     return {
       hasPagination: function(collection) {
         return collection && collection.pagination instanceof Pagination;
       },
+      hasServerPagination: function(collection) {
+        return collection && collection.pagination instanceof ServerPagination;
+      },
       Pagination: Pagination,
+      ServerPagination: ServerPagination,
       range: RangeBuilder.range,
       indexRangeBuilder: function(length) {
         return new RangeBuilder(length);

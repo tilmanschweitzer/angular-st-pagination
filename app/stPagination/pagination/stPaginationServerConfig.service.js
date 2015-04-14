@@ -1,6 +1,5 @@
-'use strict';
-
-angular.module('stPagination').factory("paginationServerConfig", function () {
+angular.module('stPagination').factory('stPaginationServerConfig', function () {
+  'use strict';
 
   function PaginationServerConfig() {
 
