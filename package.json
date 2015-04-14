@@ -7,6 +7,7 @@
   "contributors": [],
   "dependencies": {},
   "devDependencies": {
+    "connect": "3.3.5",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-concat": "0.5.1",
@@ -33,7 +34,9 @@
     "karma-jasmine": "0.3.5",
     "karma-phantomjs-launcher": "0.1.4",
     "load-grunt-tasks": "3.1.0",
+    "morgan": "1.5.2",
     "pre-git": "0.2.1",
+    "serve-static": "1.9.2",
     "time-grunt": "1.1.0"
   },
   "engines": {

@@ -4,12 +4,12 @@
 var connect = require("connect");
 var http = require("http");
 var fs = require("fs");
+var morgan = require('morgan')
+var serveStatic = require('serve-static')
 
-var lines = fs.readFileSync('src/demoApp/data/angular-commits.txt').toString().split("\n");
-var commits = lines.filter(filterEmptyLine).map(createCommit);
+var commits = require('./app/demoApp/data/commits.json');
 
-
-function commitResult (start, end) {
+function commitResult(start, end) {
   var result = commits.slice(start, end);
 
   return {
@@ -22,8 +22,8 @@ function commitResult (start, end) {
 }
 
 var app = connect()
-    .use(connect.logger('dev'))
-    .use(connect.static('src/'))
+    .use(morgan('combined'))
+    .use(serveStatic(__dirname + '/app'))
     .use(function(req, res) {
       console.log(req);
       console.log(res);
@@ -42,15 +42,3 @@ var app = connect()
 
 
 http.createServer(app).listen(3000);
-
-function createCommit(line) {
-  var lineTokens = line.split(" ");
-  return {
-    hash: lineTokens[0],
-    comment: lineTokens.slice(1).join(" ")
-  };
-}
-
-function filterEmptyLine(line) {
-  return !/(^\s*$)/.test(line);
-}
