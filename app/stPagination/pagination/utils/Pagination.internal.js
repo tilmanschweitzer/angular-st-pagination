@@ -41,7 +41,7 @@ angular.extend(Pagination.prototype, {
     this._limit = limit;
   },
   totalPages: function () {
-    return Math.ceil(this._collection.length / this.getLimit()) || 1;
+    return Math.ceil(this.length() / this.getLimit()) || 1;
   },
   offset: function () {
     return this._page * this._limit;
