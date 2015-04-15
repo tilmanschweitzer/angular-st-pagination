@@ -23,7 +23,7 @@ angular.extend(ServerPagination.prototype, {
       collection: this.config.get.collection(data),
       total: this.config.get.total(data)
     };
-    this._collection.length = this.limit();
+    this._collection.length = this.getLimit();
     angular.extend(this._collection, this._serverResult.collection);
   },
   length: function() {

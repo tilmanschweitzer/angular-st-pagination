@@ -111,16 +111,16 @@
     <ul class="list-unstyled commits">
       <li ng-show="!serverCommits">Loading commits...</li>
 
-      <li ng-repeat="commit in serverCommits | serverPagination:paginationConfig">
+      <li ng-repeat="commit in serverCommits | stServerPagination:paginationConfig">
         <code>{{ commit.hash }}</code>
         <span style="text-wrap: none">{{ commit.comment }}</span>
       </li>
     </ul>
     <st-pagination collection="serverCommits"></st-pagination>
     <div>
-      Commits {{ serverCommits | pageInfo:'startIndex' }} - {{ serverCommits | pageInfo:'stopIndex' }}
+      Commits {{ serverCommits | stPageInfo:'startIndex' }} - {{ serverCommits | stPageInfo:'stopIndex' }}
       |
-      Total {{ serverCommits | pageInfo:'total' }}
+      Total {{ serverCommits | stPageInfo:'total' }}
       |
       Commits per page
       <st-pagination-limit collection="serverCommits" limits="[5,10,20,50,100]"></st-pagination-limit>
