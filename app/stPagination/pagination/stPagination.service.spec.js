@@ -11,6 +11,44 @@ describe('stPagination', function() {
     stPagination = _stPagination_;
   }));
 
+  function dummyCollection(Constructor) {
+    var collection = [];
+    collection.pagination = new Constructor([], {url:''});
+    return collection;
+  }
+
+  describe('stPagination.hasPagination()', function () {
+
+    it('returns false for a simple collection without a pagination', function () {
+      expect(stPagination.hasPagination([])).toBe(false);
+    });
+    it('returns false for a collection with an anonymous function instance', function () {
+      expect(stPagination.hasPagination(dummyCollection(function () {}))).toBe(false);
+    });
+    it('returns true for a collection with a Pagination instance', function () {
+      expect(stPagination.hasPagination(dummyCollection(stPagination.Pagination))).toBe(true);
+    });
+    it('returns true for a collection with a ServerPagination  instance', function () {
+      expect(stPagination.hasPagination(dummyCollection(stPagination.ServerPagination))).toBe(true);
+    });
+  });
+
+  describe('stPagination.hasServerPagination()', function () {
+
+    it('returns false for a simple collection without a pagination', function () {
+      expect(stPagination.hasServerPagination([])).toBe(false);
+    });
+    it('returns false for a collection with an anonymous function instance', function () {
+      expect(stPagination.hasServerPagination(dummyCollection(function () {}))).toBe(false);
+    });
+    it('returns false for a collection with a Pagination instance', function () {
+      expect(stPagination.hasServerPagination(dummyCollection(stPagination.Pagination))).toBe(false);
+    });
+    it('returns true for a collection with a ServerPagination  instance', function () {
+      expect(stPagination.hasServerPagination(dummyCollection(stPagination.ServerPagination))).toBe(true);
+    });
+  });
+
   describe('stPagination.Pagination', function() {
 
     describe('new instance', function() {

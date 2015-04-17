@@ -49,6 +49,6 @@ angular.extend(ServerPagination.prototype, {
     var url = this.config.url;
     url = url.replace(':start', this.start());
     url = url.replace(':end', this.stop());
-    ServerPagination.$http.get(url).success(this.setServerResult.bind(this));
+    ServerPagination.$http.get(url).success(angular.bind(this, this.setServerResult));
   }
 });
