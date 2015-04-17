@@ -133,9 +133,9 @@ angular.module('paginationDemo').controller('demoController', function ($scope, 
 });
 
 angular.module('paginationDemo').controller('serverPaginationController',
-  function($scope, $http, stPaginationServerConfig) {
+  function($scope, $http, stPagination) {
     $scope.serverCommits = [];
-    $scope.paginationConfig = stPaginationServerConfig({
+    $scope.paginationConfig = stPagination.paginationServerConfig({
       url: 'commits/:start/:end'
     });
   });

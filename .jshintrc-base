@@ -63,6 +63,7 @@
     "$": false,
     "Pagination": false,
     "ServerPagination": false,
+    "PaginationServerConfig": false,
     "RangeBuilder": false,
     "templateConfigUtil": true
   }

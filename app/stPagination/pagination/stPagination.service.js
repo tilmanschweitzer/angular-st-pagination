@@ -49,6 +49,11 @@ angular.module('stPagination').provider('stPagination', function() {
       hasServerPagination: function(collection) {
         return collection && collection.pagination instanceof ServerPagination;
       },
+      paginationServerConfig: function(configOptions) {
+        var config = new PaginationServerConfig();
+        angular.extend(config, configOptions);
+        return config;
+      },
       Pagination: Pagination,
       ServerPagination: ServerPagination,
       range: RangeBuilder.range,

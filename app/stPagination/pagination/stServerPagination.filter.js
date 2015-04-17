@@ -11,7 +11,7 @@ angular.module('stPagination').filter('stServerPagination', function(stPaginatio
 
     collectionWithPaginationHandle = inputCollection;
 
-    if (!stPagination.hasPagination(collectionWithPaginationHandle)) {
+    if (!stPagination.hasServerPagination(collectionWithPaginationHandle)) {
       collectionWithPaginationHandle.pagination = new stPagination.ServerPagination(inputCollection, config);
     }
     var pagination = collectionWithPaginationHandle.pagination;
