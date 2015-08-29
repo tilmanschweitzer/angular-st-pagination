@@ -326,7 +326,7 @@ module.exports = function (grunt) {
             'app/**/*.spec.js'
           ],
           preprocessors : {
-            'dist/angular-st-pagination.js': 'coverage'
+            'dist/angular-st-pagination.min.js': 'coverage'
           },
           coverageReporter : {
             reporters: [
