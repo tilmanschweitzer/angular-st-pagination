@@ -2,9 +2,7 @@
   "name": "angular-st-pagination",
   "version": "0.5.0-dev",
   "dependencies": {
-    "angular": "1.4.4",
-    "angular-route": "1.4.4",
-    "bootstrap-css-only": "3.3.5"
+    "angular": "1.4.4"
   },
   "devDependencies": {
     "jquery": "2.1.4",
