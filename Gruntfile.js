@@ -23,6 +23,7 @@ module.exports = function (grunt) {
     'eslint:dev',
     'test',
     'build',
+    'minify',
     'configureProxies:server',
     'connect:server',
     'watch'
@@ -33,7 +34,6 @@ module.exports = function (grunt) {
     'connect:docs',
     'watch:docs'
   ]);
-
 
   grunt.registerTask('minify', [
     'ngAnnotate',

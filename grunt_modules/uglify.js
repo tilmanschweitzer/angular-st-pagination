@@ -30,7 +30,6 @@ module.exports = function () {
 
     uglify[moduleName].files[module.dest] = [module.dest];
 
-
     uglify[moduleName + 'Min'] = {
       options: {
         mangle: true,
@@ -39,6 +38,7 @@ module.exports = function () {
       },
       files: {}
     };
+
     uglify[moduleName + 'Min'].files[module.minDest] = [module.dest];
   });
 

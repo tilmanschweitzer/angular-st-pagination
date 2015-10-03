@@ -4,17 +4,14 @@ module.exports = function() {
   var _ = require('underscore');
   var config = require('./config/config.js');
 
-  function getAllConfig() {
-    var files = {};
-    _.each(_.keys(config.modules), function(moduleName) {
-      files['generated/dist/js/' + moduleName + '.js'] = ['generated/dist/js/' + moduleName + '.js'];
-    });
-    return {
-      files: files
-    };
-  }
+  var ngAnnotate = {};
 
-  return {
-    all: getAllConfig()
-  };
+  config.eachModule(function (module, moduleName) {
+    ngAnnotate[moduleName] = {
+      files: {}
+    };
+    ngAnnotate[moduleName].files[module.dest] = [module.dest];
+  });
+
+  return ngAnnotate;
 };

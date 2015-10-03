@@ -12,7 +12,7 @@ module.exports = {
     ],
     editExample: false,
     sourceLink: true,
-    navTemplate: 'example-pages/views/docsNav.html'
+    navTemplate: 'demos/stPagination/views/docsNav.html'
   },
   all: ['src/**/*.js']
 };

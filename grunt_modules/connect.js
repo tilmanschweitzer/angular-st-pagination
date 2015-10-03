@@ -2,7 +2,7 @@ module.exports = {
 	server: {
     options: {
       port: 8181,
-      open: 'http://localhost:8181/example-pages/',
+      open: 'http://localhost:8181/demos/stPagination/',
       middleware: function (connect, options) {
         'use strict';
 
@@ -28,7 +28,7 @@ module.exports = {
   docs: {
     options: {
       port: 8181,
-      open: 'http://localhost:8181/generated/docs/#'
+      open: 'http://localhost:8181/generated/docs/#/api/stPagination'
     }
   }
 };

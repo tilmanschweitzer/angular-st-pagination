@@ -11,7 +11,7 @@ module.exports = (function() {
     },
     html: {
       files: [
-        'example-pages/*'
+        'demos/stPagination/*'
       ]
     },
     docs: {
@@ -36,16 +36,21 @@ module.exports = (function() {
   var moduleWatchTasks = {};
 
   _.each(config.modules, function (module, moduleName) {
+    var buildTasks = [
+      'concat:' + moduleName,
+      'ngAnnotate:' + moduleName,
+      'uglify:' + moduleName,
+      'uglify:' + moduleName + 'Min',
+      'karma:' + moduleName
+    ];
+
     moduleWatchTasks['js-' + moduleName] = {
-      files: module.getSources(),
+      files: module.src,
       tasks: [
-        'eslint:' + moduleName + 'Dev',
-        'concat:' + moduleName,
-        'uglify:' + moduleName,
-        'uglify:' + moduleName + 'Min',
-        'karma:' + moduleName
-      ]
+        'eslint:' + moduleName + 'Dev'
+      ].concat(buildTasks)
     };
+
     moduleWatchTasks['tests-' + moduleName] = {
       files: module.spec,
       tasks: [
@@ -62,7 +67,7 @@ module.exports = (function() {
       files: module.templates.src,
       tasks: [
         'ngtemplates:' + moduleName
-      ]
+      ].concat(buildTasks)
     };
   });
 
