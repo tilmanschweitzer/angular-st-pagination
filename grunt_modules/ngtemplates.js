@@ -6,7 +6,7 @@ module.exports = function () {
 
   var ngtemplates = {};
 
-  _.each(config.modules, function (module, moduleName) {
+  config.eachModule(function (module, moduleName) {
     if (!module.hasTemplates()) {
       return;
     }
@@ -15,7 +15,6 @@ module.exports = function () {
       src: module.templates.src.replace(/^src\//, ''),
       dest: module.templates.dest
     };
-
   });
 
   return ngtemplates;

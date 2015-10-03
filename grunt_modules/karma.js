@@ -25,7 +25,7 @@ module.exports = (function() {
   var karmaTasks = {
   };
 
-  _.each(config.modules, function (module, moduleName) {
+  config.eachModule(function (module, moduleName) {
     karmaTasks[moduleName] = {
       options: {
         configFile: 'karma.conf.js',

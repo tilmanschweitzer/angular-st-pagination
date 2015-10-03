@@ -24,7 +24,7 @@ module.exports = (function () {
     }
   };
 
-  _.each(config.modules, function (modulePaths, moduleName) {
+  config.eachModule(function (modulePaths, moduleName) {
     eslintConfig[moduleName] = {
       src: modulePaths.anyJs,
       options: {

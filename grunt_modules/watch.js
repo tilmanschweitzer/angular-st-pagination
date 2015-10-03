@@ -35,7 +35,7 @@ module.exports = (function() {
 
   var moduleWatchTasks = {};
 
-  _.each(config.modules, function (module, moduleName) {
+  config.eachModule(function (module, moduleName) {
     var buildTasks = [
       'concat:' + moduleName,
       'ngAnnotate:' + moduleName,

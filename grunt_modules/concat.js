@@ -15,7 +15,7 @@ module.exports = function() {
     }
   };
 
-  _.each(config.modules, function(module, moduleName) {
+  config.eachModule(function(module, moduleName) {
     concatOptions[moduleName] = {
       src: module.getSourcesWithDependencies(),
       dest: module.dest
