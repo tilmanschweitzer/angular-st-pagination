@@ -11,7 +11,7 @@ before_script:
 script: grunt default coveralls
 
 after_script:
-  - cat coverage/*/lcov.info | codeclimate
+  - cat generated/reports/coverage/lcov/*/lcov.info | codeclimate
 
 addons:
   code_climate:
