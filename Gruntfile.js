@@ -14,7 +14,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build', [
-    'clean',
     'ngtemplates',
     'concat',
     'ngdocs'
@@ -48,6 +47,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test-min', config.mapModulesWithTemplate('karma:<%= moduleName %>Min'));
 
   grunt.registerTask('default', [
+    'clean',
     'deps-ok',
     'nice-package',
     'eslint:prod',
