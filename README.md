@@ -1,11 +1,14 @@
 # angular-st-pagination ![Bower Version](https://img.shields.io/bower/v/angular-st-pagination.svg)
 
-> Provides complete client-side pagination with a simple angular filter and directive.
+> Deprecated: Client-side pagination with a simple AngularJS (1.x) filter and directive.
 
 [![Build Status](https://api.travis-ci.org/tilmanpotthof/angular-st-pagination.svg)](https://travis-ci.org/tilmanpotthof/angular-st-pagination)
 [![Test Coverage](https://coveralls.io/repos/tilmanpotthof/angular-st-pagination/badge.svg)](https://coveralls.io/r/tilmanpotthof/angular-st-pagination)
-[![Dependency Status](https://gemnasium.com/tilmanpotthof/angular-st-pagination.svg)](https://gemnasium.com/tilmanpotthof/angular-st-pagination)
 [![Code Climate](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination.svg)](https://codeclimate.com/github/tilmanpotthof/angular-st-pagination)
+
+[Check the example page!](http://tilmanschweitzer.github.io/angular-st-pagination/#/)
+
+## Installation and usage
 
     bower install angular-st-pagination --save-dev
 
@@ -24,8 +27,6 @@ Script path and basic usage.
     </ul>
     <st-pagination collection="users"></st-pagination>
     <st-pagination-limit collection="commits" limits="[5,10,20,50,100]"></st-pagination-limit>
-
-#### [Check the example page!](http://tilmanpotthof.github.io/angular-st-pagination/#/)
 
 #### [Release Notes](ReleaseNotes.md)
 
